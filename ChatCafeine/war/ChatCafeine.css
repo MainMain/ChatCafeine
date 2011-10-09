@@ -28,6 +28,15 @@ h1 {
   color: red;
 }
 
+.accueilPanel{
+    border-top: thin node navy;
+	border-right: thin;
+	border-bottom: thin;
+	border-left: thin;
+  	margin: 5px;
+  	background-color:: #CCCCCC;
+}
+
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;

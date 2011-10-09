@@ -1,16 +1,25 @@
 package sources.client.vue;
 
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class AccueilPanel extends LayoutPanel{
+public class AccueilPanel extends DockPanel{
 
 	public AccueilPanel(){
-		Label lblGhjhjk = new Label("GHJHJK");
-		add(lblGhjhjk);
-		setSize("639px", "587px");
-		setWidgetLeftWidth(lblGhjhjk, 202.0, Unit.PX, 65.0, Unit.PX);
-		setWidgetTopHeight(lblGhjhjk, 134.0, Unit.PX, 17.0, Unit.PX);
+		Label test = new Label("Coucou !");
+		add(test);
+		setSize("1400px", "587px");
+		setStyleName("accueilPanel");
+		
+		/*
+		Image cafeImg = new Image("img/Accueil.gif");
+		VerticalPanel panelLeft = new VerticalPanel();
+		panelLeft.setSpacing(10);
+		add(panelLeft, DockPanel.WEST);
+		panelLeft.add(cafeImg);
+		*/
 	}
 }
