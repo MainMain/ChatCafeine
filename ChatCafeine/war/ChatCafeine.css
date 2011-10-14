@@ -29,14 +29,32 @@ h1 {
 }
 
 .accueilPanel{
-    border-top: thin node navy;
-	border-right: thin;
-	border-bottom: thin;
-	border-left: thin;
   	margin: 5px;
-  	background-color:: #CCCCCC;
+  	background-color: black;
 }
 
+.bodyPanel{
+  	margin: 5px;
+  	background-color: green;
+}
+
+.test{
+  	margin: 5px;
+  	background-color: #DDDDDD;
+}
+
+.mainPanelIHM{
+  	margin: 5px;
+  	background-color: cyan;
+}
+.headPanel{
+  	margin: 5px;
+  	background-color: red;
+}
+
+.menu{
+  	margin: 5px;
+}
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
