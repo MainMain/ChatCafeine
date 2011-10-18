@@ -1,0 +1,2 @@
+# Module chatcafeine
+# RPC service class, partial path of RPC policy file
