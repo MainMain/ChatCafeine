@@ -1,5 +1,7 @@
 package sources.client.vue;
 
+import sources.client.model.User;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -7,6 +9,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+
+import sources.client.service.Connexion;
 
 public class AccueilPanel extends VerticalPanel{
 	public AbsolutePanel headPanel;
@@ -64,12 +68,29 @@ public class AccueilPanel extends VerticalPanel{
 		Label mdpLabel = new Label();
 		mdpLabel.setText("Mot de passe");
 		mdpLabel.setStyleName("labelHeadPanel");
-
+		final HTML errorHTML = new HTML();
+		errorHTML.setHTML("");
 		Button connexButton = new Button(
 				"Fermer", new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
-							Window.alert("Demande de connexion!");
+							Connexion.Util.getInstance().isIdentifie(loginBox.getText(), loginBox.getText(), new AsyncCallback<User>(){
+								@Override
+								public void onFailure(Throwable caught) {
+									Window.alert("Erreur de communication avec le serveur Web ou la base de données");
+								}
+								@Override
+								public void onSuccess(User result) {
+									if (result==null)
+										errorHTML.setHTML("<font color=\"red\"><em><small>Identifiant et/ou mot de passe incorrect(s)</small></em></font>");
+									else {
+										Window.alert("Bienvenue "+result.getPrenom()+" "+result.getNom());
+										//userConnected=result;
+										//ecran.majAdmin();
+										//dialogBox.hide();
+									}
+								}
+							});
 						}else Window.alert("Erreur : Vous devez renseigner tout les champs !");
 					}
 					private boolean casesRemplies() {
@@ -81,6 +102,7 @@ public class AccueilPanel extends VerticalPanel{
 
 		headPanel.add(loginLabel, 700, 12);
 		headPanel.add(mdpLabel, 900, 12);
+		headPanel.add(errorHTML, 900, 55);
 		headPanel.add(loginBox, 700, 30);
 		headPanel.add(mdpBox, 900, 30);
 		headPanel.add(connexButton, 1100, 30);
@@ -134,40 +156,40 @@ public class AccueilPanel extends VerticalPanel{
 		bodyPanel.add(rightBodyPanel);
 
 
-		 // Create a table to layout the form options
-	    FlexTable layout = new FlexTable();
-	    layout.setCellSpacing(6);
-	    layout.setWidth("350px");
-	    layout.setHeight("450px");
-	    FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
+		// Create a table to layout the form options
+		FlexTable layout = new FlexTable();
+		layout.setCellSpacing(6);
+		layout.setWidth("350px");
+		layout.setHeight("450px");
+		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
-	    // Add a title to the form
-	    layout.setHTML(0, 0, "<strong><h1>Inscription</h1></strong><br><i>Il nous vous suffira que de remplir ses infos pour vous inscrire !<hr>");
-	    cellFormatter.setColSpan(0, 0, 2);
-	    cellFormatter.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		// Add a title to the form
+		layout.setHTML(0, 0, "<strong><h1>Inscription</h1></strong><br><i>Il nous vous suffira que de remplir ces infos pour vous inscrire !<hr>");
+		cellFormatter.setColSpan(0, 0, 2);
+		cellFormatter.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
-	    // Add some standard form options
-	    layout.setHTML(1, 0, "Login:");
-	    layout.setWidget(1, 1, new TextBox());
-	    layout.setHTML(2, 0, "Mot de<br>pass:");
-	    layout.setWidget(2, 1, new TextBox());
-	    layout.setHTML(3, 0, "Confirmer<br>pass:");
-	    layout.setWidget(3, 1, new TextBox());
-	    layout.setHTML(4, 0, "Age:");
-	    layout.setWidget(4, 1, new TextBox());
-	    layout.setHTML(5, 0, "Sexe:");
-	    layout.setWidget(5, 1, new RadioButton("Sexe", "Homme"));
-	    layout.setWidget(6, 1, new RadioButton("Sexe", "Femme"));
-	    layout.setHTML(7, 0, "Email:");
-	    layout.setWidget(7, 1, new TextBox());
-	    layout.setHTML(8, 0, "Confirmer<br>email:");
-	    layout.setWidget(8, 1, new TextBox());
-	    layout.setWidget(9, 1, new Button("S'inscrire"));
+		// Add some standard form options
+		layout.setHTML(1, 0, "Login:");
+		layout.setWidget(1, 1, new TextBox());
+		layout.setHTML(2, 0, "Mot de<br>pass:");
+		layout.setWidget(2, 1, new TextBox());
+		layout.setHTML(3, 0, "Confirmer<br>pass:");
+		layout.setWidget(3, 1, new TextBox());
+		layout.setHTML(4, 0, "Age:");
+		layout.setWidget(4, 1, new TextBox());
+		layout.setHTML(5, 0, "Sexe:");
+		layout.setWidget(5, 1, new RadioButton("Sexe", "Homme"));
+		layout.setWidget(6, 1, new RadioButton("Sexe", "Femme"));
+		layout.setHTML(7, 0, "Email:");
+		layout.setWidget(7, 1, new TextBox());
+		layout.setHTML(8, 0, "Confirmer<br>email:");
+		layout.setWidget(8, 1, new TextBox());
+		layout.setWidget(9, 1, new Button("S'inscrire"));
 
-	    // Wrap the contents in a DecoratorPanel
-	    DecoratorPanel decPanel = new DecoratorPanel();
-	    decPanel.setWidget(layout);
-	    rightBodyPanel.add(decPanel, 20, 20);
+		// Wrap the contents in a DecoratorPanel
+		DecoratorPanel decPanel = new DecoratorPanel();
+		decPanel.setWidget(layout);
+		rightBodyPanel.add(decPanel, 20, 20);
 	}
 
 

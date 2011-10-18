@@ -1,6 +1,3 @@
-/**
- * 
- */
 package sources.client.service;
 
 import com.google.gwt.core.client.GWT;
