@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.*;
 
 public class IHM implements EntryPoint {
 	public Panel panelEnCours = null;
+	public static final int HEIGHT = 604;
+	
 	public void onModuleLoad() {
 		/*
 		 * Création des commandes
@@ -26,23 +28,26 @@ public class IHM implements EntryPoint {
 
 		//dockPanel.setHorizontalAlignment(dockPanel.ALIGN_CENTER);
 		dockPanel.setWidth("99%");
-		dockPanel.setHeight("599px");
+		dockPanel.setHeight(IHM.HEIGHT+"px");
 		dockPanel.setStyleName("mainPanelIHM");
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.add(dockPanel);
+		
+		
+
+		AccueilPanel accPan = new AccueilPanel();
+		panelEnCours = accPan;
+		panelEnCours.setStyleName("accueilPanel");
 		
 		MenuBar menu = new MenuBar();
 		menu.addItem("Fichier", cmd);
 		menu.addItem("Application", cmd);
 		menu.addItem("Aide", cmd);
 		menu.addItem("A propos", cmd);
-		menu.addItem("Se déconnecter", cmd);
+		if (panelEnCours != accPan) menu.addItem("Se déconnecter", cmd);
 		menu.setWidth("99%");
 		menu.addStyleName("menu");
-
-		AccueilPanel accPan = new AccueilPanel();
-		panelEnCours = accPan;
-		panelEnCours.setStyleName("test");
+		
 		/*
 		 * Ajouts à au RootPanel
 		 */

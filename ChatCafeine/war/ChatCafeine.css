@@ -1,12 +1,26 @@
 /** Add css rules here for your application. */
 
+.gwt-Button {
+	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial, sans-serif;
+}
+.gwt-TextBox {
+	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial, sans-serif;
+	height : 13px;
+}
+
+.gwt-Label {
+	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial, sans-serif;
+}
+.gwt-HTML {
+	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial, sans-serif;
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;
   font-weight: bold;
   color: #777777;
-  margin: 40px 0px 70px;
+  margin: 5px 0px 5px;
   text-align: center;
 }
 
@@ -28,33 +42,56 @@ h1 {
   color: red;
 }
 
-.accueilPanel{
-  	margin: 5px;
-  	background-color: black;
-}
-
-.bodyPanel{
-  	margin: 5px;
-  	background-color: green;
-}
-
-.test{
-  	margin: 5px;
-  	background-color: #DDDDDD;
-}
-
+	/**** IHM *****/
 .mainPanelIHM{
   	margin: 5px;
-  	background-color: cyan;
-}
-.headPanel{
-  	margin: 5px;
-  	background-color: red;
+  	background-color: #CCCCCC;
 }
 
 .menu{
   	margin: 5px;
 }
+
+	/**** AccueilPanel ****/
+.accueilPanel{
+  	margin: 5px;
+  	background-color: black;
+}
+
+.headPanel{
+  	background-color: #4D9ACD;
+}
+
+.bodyPanel{
+  	background-color: #DDDDDD;
+}
+
+.leftBodyPanel{
+  	<!-- background-color: red; -->
+}
+.accImg {
+	margin-left: 100px;
+}
+.presentLabel {
+		color : black;
+		text-align : center;
+		margin-left: 100px;
+		font-family : Comic Sans MS;
+		font-size: 15px;
+}
+.rightBodyPanel{
+}
+
+.labelHeadPanel{
+	color : white;	
+}
+
+.connexButton {
+	height : 25px;
+	color : #FFFFFF;
+	background-color: #4D9ACD;
+}
+
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
