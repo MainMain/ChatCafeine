@@ -1,16 +1,26 @@
 package sources.client.vue;
 
 import sources.client.model.User;
+import sources.client.service.ConnexionService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-
-import sources.client.service.Connexion;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AccueilPanel extends VerticalPanel{
 	public AbsolutePanel headPanel;
@@ -74,7 +84,7 @@ public class AccueilPanel extends VerticalPanel{
 				"Fermer", new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
-							Connexion.Util.getInstance().isIdentifie(loginBox.getText(), loginBox.getText(), new AsyncCallback<User>(){
+							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), loginBox.getText(), new AsyncCallback<User>(){
 								@Override
 								public void onFailure(Throwable caught) {
 									Window.alert("Erreur de communication avec le serveur Web ou la base de données");
@@ -84,7 +94,7 @@ public class AccueilPanel extends VerticalPanel{
 									if (result==null)
 										errorHTML.setHTML("<font color=\"red\"><em><small>Identifiant et/ou mot de passe incorrect(s)</small></em></font>");
 									else {
-										Window.alert("Bienvenue "+result.getPrenom()+" "+result.getNom());
+										Window.alert("Bienvenue "+result.getLogin());
 										//userConnected=result;
 										//ecran.majAdmin();
 										//dialogBox.hide();

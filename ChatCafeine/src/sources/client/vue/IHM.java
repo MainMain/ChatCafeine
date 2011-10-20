@@ -1,9 +1,11 @@
 package sources.client.vue;
-import com.google.gwt.user.client.Command;
-
-import com.google.gwt.user.client.Window; 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class IHM implements EntryPoint {
 	public Panel panelEnCours = null;
@@ -52,8 +54,8 @@ public class IHM implements EntryPoint {
 		 * Ajouts à au RootPanel
 		 */
 		RootPanel.get().add(dockPanel);
-		dockPanel.add(menu, dockPanel.NORTH);
-		dockPanel.add(panelEnCours, dockPanel.CENTER);
+		dockPanel.add(menu, DockPanel.NORTH);
+		dockPanel.add(panelEnCours, DockPanel.CENTER);
 		//RootPanel.get().add(panelEnCours);
 
 	}

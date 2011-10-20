@@ -11,5 +11,13 @@
   <welcome-file-list>
     <welcome-file>ChatCafeine.html</welcome-file>
   </welcome-file-list>
-
+  
+<servlet>
+  <servlet-name>connexionServiceImpl</servlet-name>
+  <servlet-class>sources.server.ConnexionServiceImpl</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>connexionServiceImpl</servlet-name>
+  <url-pattern>/chatcafeine/server</url-pattern>
+</servlet-mapping>
 </web-app>
