@@ -41,17 +41,15 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 			e.printStackTrace();
 			return null;
 		}*/
-		/*
+		
 		if (login.equals("mainmain") && mdp.equals("azer")){
-			Window.alert(login);
 			User p = new User();
 			p.setId("a");
 			p.setLogin("MainMain");
 			return p;
 		}
 		return null;
-		*/
-		Window.alert(login);
-		return null;
+		
+		//Window.alert(login); <- Fait planter le prog
 	}
 }

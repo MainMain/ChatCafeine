@@ -6,7 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("Connexion")
+@RemoteServiceRelativePath("ConnexionService")
 public interface ConnexionService extends RemoteService {
 	/**
 	 * Utility class for simplifying access to the instance of async service.

@@ -84,10 +84,10 @@ public class AccueilPanel extends VerticalPanel{
 				"Fermer", new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
-							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), loginBox.getText(), new AsyncCallback<User>(){
+							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), new AsyncCallback<User>(){
 								@Override
 								public void onFailure(Throwable caught) {
-									Window.alert("Erreur de communication avec le serveur Web ou la base de données");
+									Window.alert("Erreur : "+ caught.getMessage());
 								}
 								@Override
 								public void onSuccess(User result) {
