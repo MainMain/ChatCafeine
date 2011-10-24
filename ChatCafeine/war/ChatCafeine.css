@@ -47,7 +47,7 @@ h1 {
 	color: red;
 }
 
-/**** IHM *****/
+/************************************************** Core **************************************************/
 .mainPanelIHM {
 	margin: 5px;
 	background-color: #CCCCCC;
@@ -57,7 +57,29 @@ h1 {
 	margin: 5px;
 }
 
-/**** AccueilPanel ****/
+/************************************************** ApplicationPanel **************************************************/
+.applicationPanel {
+	margin: 5px;
+	margin-left: 6px;
+	background-color: #FF0000;
+}
+
+.tabApplication {
+	background-color: #0000FF;
+}
+
+.coffeRoomPanel {
+	background-color: #FF00FF;
+}
+
+.adminPanel {
+	background-color: #FFFF00;
+}
+
+.profilPanel {
+	background-color: #00FFFF;
+}
+/************************************************** AccueilPanel **************************************************/
 .accueilPanel {
 	margin: 5px;
 	background-color: black;

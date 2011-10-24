@@ -4,17 +4,19 @@ import sources.client.model.User;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.dom.client.Style.Unit;
 
 public class Core implements EntryPoint {
 	public static final int HEIGHT = 604;
-	public static boolean connecte = false;
 	public static User userEnCours = null;
 	private static AccueilPanel accPan = new AccueilPanel();
-	private static ApplicationPanel appPan = new ApplicationPanel(2.5, Unit.PX);
+	private static ApplicationPanel appPan = new ApplicationPanel();
 	private static DockPanel dockPanel = new DockPanel();
 	
 	public void onModuleLoad() {
@@ -35,7 +37,7 @@ public class Core implements EntryPoint {
 		 * Ajouts à au RootPanel
 		 */
 		RootPanel.get().add(dockPanel);
-		modeDeconnecte(); // Normalement on es en mode deconnecté mais pour développer la suite de l'application il est mieux de rester en mode co. 
+		modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
 	}
 		public static MenuBar createMenuBar(){
 			Command cmd = new Command() {
@@ -46,7 +48,7 @@ public class Core implements EntryPoint {
 			menu.addItem("Application", cmd);
 			menu.addItem("Aide", cmd); // On peut mettre que F5 = rafraichissement de tout l'appli -> A ne pas utiliser
 			menu.addItem("A propos", cmd);
-			if (connecte) menu.addItem("Se déconnecter", cmd);
+			if (userEnCours != null) menu.addItem("Se déconnecter", cmd);
 			menu.setWidth("99%");
 			menu.addStyleName("menu");
 			
@@ -58,15 +60,6 @@ public class Core implements EntryPoint {
 			dockPanel.clear();
 			dockPanel.add(createMenuBar(), DockPanel.NORTH);
 			dockPanel.add(appPan, DockPanel.CENTER);
-			connecte = true;
-	}
-		
-		public static void modeDeconnecte(){
-			dockPanel.remove(appPan);
-			dockPanel.clear();
-			dockPanel.add(createMenuBar(), DockPanel.NORTH);
-			dockPanel.add(accPan, DockPanel.CENTER);
-			connecte = false;
 	}
 
 } 

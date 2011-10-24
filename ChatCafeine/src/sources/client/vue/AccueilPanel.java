@@ -32,14 +32,6 @@ public class AccueilPanel extends VerticalPanel{
 	public VerticalPanel leftBodyPanel;
 	public AbsolutePanel rightBodyPanel;
 
-	/*
-	 * Création des commandes
-	 */
-	Command connexionCmd = new Command() {
-		public void execute() {
-		}
-	};
-
 	public AccueilPanel(){
 		configPanel();
 		createHeadPanel();
