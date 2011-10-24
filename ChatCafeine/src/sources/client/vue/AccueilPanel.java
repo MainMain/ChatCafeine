@@ -4,8 +4,6 @@ import sources.client.model.User;
 import sources.client.service.CompteService;
 import sources.client.service.ConnexionService;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -91,7 +89,7 @@ public class AccueilPanel extends VerticalPanel{
 		final HTML errorHTML = new HTML();
 		errorHTML.setHTML("");
 		Button connexButton = new Button(
-				"Fermer", new ClickHandler() {
+				"Fermer", new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
 							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), 
@@ -106,8 +104,8 @@ public class AccueilPanel extends VerticalPanel{
 										errorHTML.setHTML("<font color=\"#FF0000\"><em><small>Identifiant et/ou " +
 										"mot de passe incorrect(s)</small></em></font>");
 									else {
-										Window.alert("Bienvenue "+result.getLogin());
 										Core.userEnCours = result;
+										Core.modeConnecte();
 										//userConnected=result;
 										//ecran.majAdmin();
 										//dialogBox.hide();
@@ -130,7 +128,7 @@ public class AccueilPanel extends VerticalPanel{
 		headPanel.add(errorHTML, 900, 55);
 		headPanel.add(loginBox, 700, 30);
 		headPanel.add(mdpBox, 900, 30);
-		headPanel.add(connexButton, 1100, 30);
+		headPanel.add(connexButton, 1116, 30);
 
 		Image logoImg = new Image("images/fon-40_2.png");
 		headPanel.add(logoImg, 90, 10);
@@ -211,9 +209,6 @@ public class AccueilPanel extends VerticalPanel{
 			ageBox.addItem(""+i+" ans");
 		}
 		
-		// Add some conditions
-		boolean passIdentiques = false;
-		
 		// Add some standard form options
 		layout.setHTML(1, 0, "Login:");
 		layout.setWidget(1, 1, login2Box);
@@ -239,7 +234,6 @@ public class AccueilPanel extends VerticalPanel{
 								if (passIdentiques()){
 									if (mailIdentiques()){
 										int age = Integer.parseInt(ageBox.getItemText(ageBox.getSelectedIndex()).substring(0,2));
-										Window.alert(""+age);
 										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription en cours !</small></em></font>");
 										CompteService.Util.getInstance().addCompte(login2Box.getText(),
 												pass2Box.getText(), age, hRadio.getValue(), mailBox.getText(), 
