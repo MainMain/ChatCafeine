@@ -1,8 +1,11 @@
 package sources.client.vue;
 
 import sources.client.model.User;
+import sources.client.service.CompteService;
 import sources.client.service.ConnexionService;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -18,9 +21,12 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class AccueilPanel extends VerticalPanel{
 	public AbsolutePanel headPanel;
@@ -50,7 +56,7 @@ public class AccueilPanel extends VerticalPanel{
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.setBorderWidth(1);
 		this.setWidth("99%");
-		this.setHeight(IHM.HEIGHT+10+"px");
+		this.setHeight(Core.HEIGHT+10+"px");
 	}
 
 	/*
@@ -69,8 +75,12 @@ public class AccueilPanel extends VerticalPanel{
 		// 2 text box, 2 label, un bouton
 		final TextBox loginBox = new TextBox();
 		loginBox.setText("");
-		final TextBox mdpBox = new TextBox();
-		mdpBox.setText("****");
+		loginBox.setMaxLength(20);
+		loginBox.setHeight("15px");
+		final PasswordTextBox mdpBox = new PasswordTextBox();
+		mdpBox.setText("");
+		mdpBox.setHeight("15px");
+		mdpBox.setMaxLength(20);
 
 		Label loginLabel = new Label();
 		loginLabel.setText("Login");
@@ -84,7 +94,8 @@ public class AccueilPanel extends VerticalPanel{
 				"Fermer", new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
-							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), new AsyncCallback<User>(){
+							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), 
+									new AsyncCallback<User>(){
 								@Override
 								public void onFailure(Throwable caught) {
 									Window.alert("Erreur : "+ caught.getMessage());
@@ -92,22 +103,26 @@ public class AccueilPanel extends VerticalPanel{
 								@Override
 								public void onSuccess(User result) {
 									if (result==null)
-										errorHTML.setHTML("<font color=\"red\"><em><small>Identifiant et/ou mot de passe incorrect(s)</small></em></font>");
+										errorHTML.setHTML("<font color=\"#FF0000\"><em><small>Identifiant et/ou " +
+										"mot de passe incorrect(s)</small></em></font>");
 									else {
 										Window.alert("Bienvenue "+result.getLogin());
+										Core.userEnCours = result;
 										//userConnected=result;
 										//ecran.majAdmin();
 										//dialogBox.hide();
 									}
 								}
 							});
-						}else Window.alert("Erreur : Vous devez renseigner tout les champs !");
+						}else errorHTML.setHTML("<font color=\"#FFCC00\"><em><small>Erreur : Vous devez remplir " +
+						"tout les champs !</small></em></font>");
 					}
 					private boolean casesRemplies() {
 						return (loginBox.getText().length()!=0 && mdpBox.getText().length()!=0);
 					}
 				});
 		connexButton.setText("Connexion");
+		connexButton.setHeight("28px");
 		connexButton.setStyleName("connexButton");
 
 		headPanel.add(loginLabel, 700, 12);
@@ -117,7 +132,7 @@ public class AccueilPanel extends VerticalPanel{
 		headPanel.add(mdpBox, 900, 30);
 		headPanel.add(connexButton, 1100, 30);
 
-		Image logoImg = new Image("images/fon-40.png");
+		Image logoImg = new Image("images/fon-40_2.png");
 		headPanel.add(logoImg, 90, 10);
 		//headPanel.add(logoImg);
 	}
@@ -174,32 +189,107 @@ public class AccueilPanel extends VerticalPanel{
 		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
 		// Add a title to the form
-		layout.setHTML(0, 0, "<strong><h1>Inscription</h1></strong><br><i>Il nous vous suffira que de remplir ces infos pour vous inscrire !<hr>");
+		layout.setHTML(0, 0, "<strong><h1>Inscription</h1></strong><br><i>Il nous vous suffira que de remplir " +
+		"ces infos pour vous inscrire !<hr>");
 		cellFormatter.setColSpan(0, 0, 2);
 		cellFormatter.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
+		// Create TextBox
+		final TextBox login2Box = new TextBox();
+		final TextBox pass2Box = new TextBox();
+		final TextBox pass2VerifBox = new TextBox();
+		final TextBox mailBox = new TextBox();
+		final TextBox mailVerifBox = new TextBox();
+		final RadioButton hRadio = new RadioButton("Sexe", "Homme");
+		final RadioButton fRadio = new RadioButton("Sexe", "Femme");
+		final HTML error2HTML = new HTML("");
+		error2HTML.setHTML("<font color=\"#000000\"><em><small>Le login et le mot de passe doivent faire au moins 4 caractères.</small></em></font>");
+		
+		// Add a drop box with the list types
+		final ListBox ageBox = new ListBox(false);
+		for (int i = 10; i <= 99; i++) {
+			ageBox.addItem(""+i+" ans");
+		}
+		
+		// Add some conditions
+		boolean passIdentiques = false;
+		
 		// Add some standard form options
 		layout.setHTML(1, 0, "Login:");
-		layout.setWidget(1, 1, new TextBox());
-		layout.setHTML(2, 0, "Mot de<br>pass:");
-		layout.setWidget(2, 1, new TextBox());
-		layout.setHTML(3, 0, "Confirmer<br>pass:");
-		layout.setWidget(3, 1, new TextBox());
+		layout.setWidget(1, 1, login2Box);
+		layout.setHTML(2, 0, "Mot de<br>passe:");
+		layout.setWidget(2, 1, pass2Box);
+		layout.setHTML(3, 0, "Confirmer<br>passe:");
+		layout.setWidget(3, 1, pass2VerifBox); // RAJOUTER EVENEMENT QUI CONTROLE LE PASS EN DIRECT ?
 		layout.setHTML(4, 0, "Age:");
-		layout.setWidget(4, 1, new TextBox());
+		layout.setWidget(4, 1, (Widget) ageBox);
 		layout.setHTML(5, 0, "Sexe:");
-		layout.setWidget(5, 1, new RadioButton("Sexe", "Homme"));
-		layout.setWidget(6, 1, new RadioButton("Sexe", "Femme"));
+		layout.setWidget(5, 1, hRadio);
+		layout.setWidget(6, 1, fRadio);
 		layout.setHTML(7, 0, "Email:");
-		layout.setWidget(7, 1, new TextBox());
+		layout.setWidget(7, 1, mailBox);
 		layout.setHTML(8, 0, "Confirmer<br>email:");
-		layout.setWidget(8, 1, new TextBox());
-		layout.setWidget(9, 1, new Button("S'inscrire"));
+		layout.setWidget(8, 1, mailVerifBox);
+		layout.setWidget(9,1, error2HTML);
+		layout.setWidget(10, 1, new Button(
+				"S'inscrire", new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						if (casesRemplies()){
+							if (mailValide()){
+								if (passIdentiques()){
+									if (mailIdentiques()){
+										int age = Integer.parseInt(ageBox.getItemText(ageBox.getSelectedIndex()).substring(0,2));
+										Window.alert(""+age);
+										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription en cours !</small></em></font>");
+										CompteService.Util.getInstance().addCompte(login2Box.getText(),
+												pass2Box.getText(), age, hRadio.getValue(), mailBox.getText(), 
+												new AsyncCallback<Boolean>(){
+											public void onFailure(Throwable caught) {
+												Window.alert("Erreur : "+ caught.getMessage());
+											}
+											public void onSuccess(Boolean result) {
+												if (result)
+													Window.alert("Inscription réalisé avec succès ! Vous pouvez maintenant vous connecter !");
+												else Window.alert("Erreur lors de l'inscription !");
+											}
+										});
+									}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
+									"mails de sont pas identiques !</small></em></font>");
+								}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les mot de passes" +
+								" ne sont pas identiques !</small></em></font>");
+							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Adresse mail invalide" +
+							" !</small></em></font>");
+						}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Vous devez correctement remplir tout les " +
+						"champs Le login et mot de passe doivent faire au moins 4 caractères !</small></em></font>");
+					}
 
+					private boolean casesRemplies() {
+						return (login2Box.getText().length()>=4 && 
+								pass2Box.getText().length()>=4 && 
+								pass2VerifBox.getText().length()!=0 && 
+								mailBox.getText().length()!=0 && 
+								mailVerifBox.getText().length()!=0 &&
+								(hRadio.getValue() || hRadio.getValue())
+						);
+					}
+
+					private boolean mailValide(){
+						return (mailBox.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"));
+					}
+					private boolean passIdentiques(){
+						return ((pass2Box.getText()).equals(pass2VerifBox.getText()));
+					}
+
+					private boolean mailIdentiques(){
+						return ((mailBox.getText()).equals(mailVerifBox.getText()));
+					}
+				}));
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel decPanel = new DecoratorPanel();
 		decPanel.setWidget(layout);
 		rightBodyPanel.add(decPanel, 20, 20);
+
+
 	}
 
 

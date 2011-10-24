@@ -1,5 +1,6 @@
 package sources.server;
 
+import sources.client.model.User;
 import sources.client.service.CompteService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -14,26 +15,26 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	 * 
 	 */
 	private static final long serialVersionUID = -3597453029675338488L;
-	public void addCompte(String login, String mdp, String email) {
-		
+
+	@Override
+	public boolean addCompte(String login, String mdp, int age, boolean sexe,
+			String email) {
+// A CODER ! 		
+/*
+ *  Note : si sexe = 1, alors sexe = homme
+ *  10 =< age =< 99 (controle déja fait, tu n'as plus qu'a traiter les données
+ */
+		return true;
 	}
-	/* (non-Javadoc)
-	 * @see sources.client.service.CompteService#delCompte(int)
-	 */
 	
 	@Override
-	public void delCompte(int id) {
-		// TODO Auto-generated method stub
-		
+	public boolean delCompte(int id) {
+		return false;
 	}
-
-	/* (non-Javadoc)
-	 * @see sources.client.service.CompteService#recupInfoCompte(java.lang.String)
-	 */
+	
 	@Override
-	public String recupInfoCompte(String info) {
-		if (info.equals("nom"))
-				return "nom";
+	public User recupInfoCompte(String info) {
 		return null;
 	}
+
 }

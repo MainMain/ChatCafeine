@@ -9,12 +9,18 @@
 		<servlet-name>connexionUser</servlet-name>
 		<servlet-class>sources.server.ConnexionServiceImpl</servlet-class>
 	</servlet>
-	<listener>
-		<listener-class>sources.server.ConnexionServiceImpl</listener-class>
-	</listener>
 	<servlet-mapping>
 		<servlet-name>connexionUser</servlet-name>
 		<url-pattern>/chatcafeine/ConnexionService</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>compteUser</servlet-name> <!-- Mettre nom au hasard -->
+		<servlet-class>sources.server.CompteServiceImpl</servlet-class><!-- Mettre chemin du servlet -->
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>compteUser</servlet-name> <!--Remettre le meme nom au hasard -->
+		<url-pattern>/chatcafeine/CompteService</url-pattern> <!-- Mettre /chatcafeine/cheminRelatif -->
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

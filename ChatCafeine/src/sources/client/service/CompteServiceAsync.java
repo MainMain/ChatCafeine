@@ -3,6 +3,8 @@
  */
 package sources.client.service;
 
+import sources.client.model.User;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -11,10 +13,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface CompteServiceAsync {
 
-	void addCompte(String login, String mdp, String email, AsyncCallback<Void> callback);
+	void addCompte(String login, String mdp, int age, boolean sexe,
+			String email, AsyncCallback<Boolean> callback);
+	
+	void delCompte(int id, AsyncCallback<Boolean> callback);
 
-	void delCompte(int id, AsyncCallback<Void> callback);
+	void recupInfoCompte(String info, AsyncCallback<User> callback);
 
-	void recupInfoCompte(String info, AsyncCallback<String> callback);
 
 }
