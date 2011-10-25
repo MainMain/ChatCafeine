@@ -64,34 +64,31 @@ h1 {
 	background-color: #FF0000;
 }
 
-.tabApplication {
-	background-color: #0000FF;
-}
+.tabApplication {background-color: #4D9ACD;}
 
-.coffeRoomPanel {
-	background-color: #FF00FF;
-}
+.coffeRoomPanel {background-color: #CCCCCC;}
+.sallePan {background-color: #4D9ACD;}
+.infosSallePan {background-color: #4D9ACD;}
+.eventsSallePan {background-color: #4D9ACD;}
+.chatboxPan {background-color: #4D9ACD;}
 
-.adminPanel {
-	background-color: #FFFF00;
-}
+.profilPanel {background-color: #CCCCCC;}
+.fichePan {background-color: #4D9ACD;}
+.modifPan {background-color: #4D9ACD;}
+.supprPan {background-color: #4D9ACD;}
 
-.profilPanel {
-	background-color: #00FFFF;
-}
+.adminPanel {background-color: #CCCCCC;}
+
+
 /************************************************** AccueilPanel **************************************************/
 .accueilPanel {
 	margin: 5px;
 	background-color: black;
 }
 
-.headPanel {
-	background-color: #4D9ACD;
-}
+.headPanel {background-color: #4D9ACD;}
 
-.bodyPanel {
-	background-color: #DDDDDD;
-}
+.bodyPanel {background-color: #DDDDDD;}
 
 .leftBodyPanel {<!--
 	background-color: red;

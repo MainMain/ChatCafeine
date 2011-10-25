@@ -1,10 +1,7 @@
 package sources.client.vue;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.LayoutPanel;
 
 public class CoffeeRoomPanel extends AbsolutePanel{
 	private static final AbsolutePanel sallePan = new AbsolutePanel();
@@ -30,6 +27,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	private void configSallePan() {
 		sallePan.setHeight("300px");
 		sallePan.setWidth("900px");
+		sallePan.setStyleName("sallePan");
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec1Panel = new DecoratorPanel();
 		dec1Panel.setWidget(sallePan);
@@ -41,6 +39,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	private void configInfosSallePan() {
 		infosSallePan.setHeight("200px");
 		infosSallePan.setWidth("355px");
+		infosSallePan.setStyleName("infosSallePan");
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec2Panel = new DecoratorPanel();
 		dec2Panel.setWidget(infosSallePan);
@@ -52,6 +51,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	private void configEventsSallePan() {
 		eventsSallePan.setHeight("365px");
 		eventsSallePan.setWidth("355px");
+		eventsSallePan.setStyleName("eventsSallePan");
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec3Panel = new DecoratorPanel();
 		dec3Panel.setWidget(eventsSallePan);
@@ -63,6 +63,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	private void configChatBoxPan() {
 		chatboxPan.setHeight("265px");
 		chatboxPan.setWidth("900px");
+		chatboxPan.setStyleName("chatboxPan");
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec4Panel = new DecoratorPanel();
 		dec4Panel.setWidget(chatboxPan);

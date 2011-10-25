@@ -4,13 +4,9 @@ import sources.client.model.User;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.dom.client.Style.Unit;
 
 public class Core implements EntryPoint {
 	public static final int HEIGHT = 604;
@@ -37,6 +33,8 @@ public class Core implements EntryPoint {
 		 * Ajouts à au RootPanel
 		 */
 		RootPanel.get().add(dockPanel);
+		dockPanel.add(createMenuBar(), DockPanel.NORTH);
+		dockPanel.add(accPan, DockPanel.CENTER);
 		modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
 	}
 		public static MenuBar createMenuBar(){
