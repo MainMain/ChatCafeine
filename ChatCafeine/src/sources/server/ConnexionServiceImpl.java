@@ -18,7 +18,9 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 	 * 
 	 */
 	private static final long serialVersionUID = -1942157650673416454L;
-
+    private String mess;
+    private int cpt = 0;
+    
 	@Override
 	public User authentifier(String login, String mdp) {
 		/*String requete="SELECT id,mdp,nom,prenom,admin FROM User WHERE id LIKE '"+id+"' AND mdp LIKE '"+mdp+"'";
@@ -52,4 +54,22 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 		
 		//Window.alert(login); <- Fait planter le prog
 	}
+
+	@Override
+    public void envoiMessage(String message, String loginUser) {
+        mess = loginUser+" : "+message;
+        cpt++;
+    }
+
+    @Override
+    public String getNewMessage(int num) {
+        while (cpt != num)
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        return mess;
+    }
 }

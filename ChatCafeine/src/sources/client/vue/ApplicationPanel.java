@@ -25,7 +25,7 @@ public class ApplicationPanel extends DockPanel{
 	 */
 	private void configPanel() {
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		setBorderWidth(1);
+		//setBorderWidth(1);
 		setWidth("99%");
 		setHeight(Core.HEIGHT+10+"px");
 		

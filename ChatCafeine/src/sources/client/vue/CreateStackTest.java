@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -40,7 +39,7 @@ public class CreateStackTest {
 
 		// Add the chatBox.
 		Widget chatBoxPanelHeader = createHeaderWidget("TchatBox");
-		stackPanel.add(createChatBoxPanel(), chatBoxPanelHeader, 4);
+		stackPanel.add(new ChatBoxPanel(), chatBoxPanelHeader, 4);
 
 		// Return the stack panel.
 		stackPanel.ensureDebugId("cwStackLayoutPanel");
@@ -70,14 +69,6 @@ public class CreateStackTest {
 	}
 	
 	
-	/**
-	 * @return
-	 */
-	private static Widget createChatBoxPanel() {
-		// TODO Auto-generated method stub
-		return new SimplePanel();
-	}
-
 	/**
 	 * @return
 	 */

@@ -67,10 +67,10 @@ h1 {
 .tabApplication {background-color: #4D9ACD;}
 
 .coffeRoomPanel {background-color: #CCCCCC;}
-.sallePan {background-color: #4D9ACD;}
-.infosSallePan {background-color: #4D9ACD;}
-.eventsSallePan {background-color: #4D9ACD;}
-.chatboxPan {background-color: #4D9ACD;}
+.sallePan {background-color: #f1f3f9	;}
+.infosSallePan {background-color: #f1f3f9;}
+.eventsSallePan {background-color: #f1f3f9;}
+.chatboxPan {background-color: #f1f3f9;}
 
 .profilPanel {background-color: #CCCCCC;}
 .fichePan {background-color: #4D9ACD;}

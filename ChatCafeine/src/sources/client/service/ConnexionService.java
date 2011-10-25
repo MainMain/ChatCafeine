@@ -23,4 +23,6 @@ public interface ConnexionService extends RemoteService {
 	}
 
 	User authentifier(String id, String mdp);
+	String getNewMessage(int cpt);
+	void envoiMessage(String text, String login);
 }
