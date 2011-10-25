@@ -13,8 +13,6 @@ public class User implements Comparable<User>, Serializable {
 	 */
 	private String id;
 	private String prenom, nom, login;
-
-
 	private boolean modo;
 	private boolean admin;
 	/*

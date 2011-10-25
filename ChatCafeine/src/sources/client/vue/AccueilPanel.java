@@ -153,7 +153,7 @@ public class AccueilPanel extends VerticalPanel{
 		presentLabel.setStyleName("presentLabel");
 		leftBodyPanel.add(presentLabel);
 
-		Image cafeImg = new Image("images/test.gif");
+		Image cafeImg = new Image("images/test2.gif");
 		cafeImg.setSize("640px", "480px");
 		cafeImg.setStylePrimaryName("accImg");
 		leftBodyPanel.add(cafeImg);
@@ -178,7 +178,7 @@ public class AccueilPanel extends VerticalPanel{
 		FlexCellFormatter cellFormatter = layout.getFlexCellFormatter();
 
 		// Add a title to the form
-		layout.setHTML(0, 0, "<strong><h1>Inscription</h1></strong><br><i>Il nous vous suffira que de remplir " +
+		layout.setHTML(0, 0, "<strong><h1>Inscription</h1></strong><br><i>Il ne vous suffira que de remplir " +
 		"ces infos pour vous inscrire !<hr>");
 		cellFormatter.setColSpan(0, 0, 2);
 		cellFormatter.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
@@ -271,6 +271,7 @@ public class AccueilPanel extends VerticalPanel{
 				}));
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel decPanel = new DecoratorPanel();
+		layout.setStyleName("formInscription");
 		decPanel.setWidget(layout);
 		rightBodyPanel.add(decPanel, 20, 20);
 

@@ -3,6 +3,8 @@
  */
 package sources.client.vue;
 
+import sources.client.model.Salle;
+
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -15,6 +17,7 @@ public class ApplicationPanel extends DockPanel{
 
 	public ApplicationPanel() {
 		configPanel();
+		
 	}
 	
 	/**
