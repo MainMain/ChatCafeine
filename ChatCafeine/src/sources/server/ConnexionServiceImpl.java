@@ -6,6 +6,9 @@ package sources.server;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import sources.client.model.User;
 import sources.client.service.ConnexionService;
 
@@ -23,34 +26,30 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
     
 	@Override
 	public User authentifier(String login, String mdp) {
-		/*String requete="SELECT id,mdp,nom,prenom,admin FROM User WHERE id LIKE '"+id+"' AND mdp LIKE '"+mdp+"'";
+		String requete="SELECT LOGIN,MDP FROM UTILISATEUR WHERE LOGIN LIKE '"+login+"' AND MDP LIKE '"+mdp+"'";
 		ConBDD connexion=new ConBDD();
 		ResultSet resultat=connexion.getData(requete);
-		if (resultat==null)
+		if (resultat==null || resultat.equals("Error"))
 			return null;
-		try {
-			while (resultat.next()){
-				User p=new User();
-				p.setId(resultat.getString("id"));
-				p.setNom(resultat.getString("nom"));
-				p.setPrenom(resultat.getString("prenom"));
-				p.setAdmin(resultat.getBoolean("admin"));
-				connexion.fermer();
-				return p;//String[]{"OK",resultat.getString("id")};
+		else {
+			try {
+				while (resultat.next()){
+					User p=new User();
+					p.setIdUser(resultat.getString("ID_UTILISATEUR"));
+					p.setLogin(resultat.getString("LOGIN"));
+					p.setMdp(resultat.getString("MDP"));
+					p.setDroit(resultat.getString("DROIT"));
+					connexion.fermer();
+					return p;//String[]{"OK",resultat.getString("id")};
+				}
+				return null;
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return null;
 			}
-			return null;
-		}catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}*/
-		
-		if (login.equals("mainmain") && mdp.equals("azer")){
-			User p = new User();
-			p.setId("a");
-			p.setLogin("MainMain");
-			return p;
 		}
-		return null;
+		
+		
 		
 		//Window.alert(login); <- Fait planter le prog
 	}
@@ -72,4 +71,25 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 
         return mess;
     }
+
+	/* (non-Javadoc)
+	 * @see sources.client.service.ConnexionService#inscription(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public User inscription(String login, String mdp, int age, String sexe,
+			String email) {
+		try {
+		String requete="INSERT INTO `db1691085-main`.`UTILISATEUR` (`ID_UTILISATEUR`, `ID_SALLE`, `LOGIN`, `MDP`, `EMAIL`, `GENRE`, `AGE`, `ACTIVITE`, `AIME`, `AIME_PAS`, `DROIT`, `DATE_INSCRIPTION`, `DATE_LAST_CONNEXION`) VALUES ('1000', NULL, '"+login+"'"+", '"+mdp+"'"+", '"+email+"'"+", '"+sexe+"'"+", '"+age+"'"+", NULL, NULL, NULL, 'utilisateur', 'truc qui affiche la date', 'truc qui affiche la date');";
+		ConBDD connexion=new ConBDD();
+		String resultat=connexion.setData(requete);
+		if (resultat == null || resultat.equals("Error") ) {
+			return null;
+		}
+		connexion.fermer();
+		}
+		catch (Exception e){
+			return null;
+		}
+		return null;
+	}
 }

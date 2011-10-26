@@ -28,33 +28,6 @@ public class ConBDD {
 	}
 
 	private boolean connectToDB(){
-		/*Properties prop = new Properties();
-		// fichier de config 'config.myproperties'
-		FileInputStream in;
-		try {
-			//in = new FileInputStream("config/config.myproperties");
-			//prop.load(in);
-			prop.load(ConBDD.class.getResourceAsStream("config.myproperties"));
-			//in.close();
-		} catch (FileNotFoundException e1) {
-			Window.alert("Fichier de configuration JDBC non trouve cote serveur");
-			e1.printStackTrace();
-			System.exit(1);
-		} catch (IOException e) {
-			Window.alert("Probleme lecture du fichier de configuration JDBC cote serveur");
-			e.printStackTrace();
-			System.exit(1);
-		}
-		//System.out.println(ConBDD.class.);
-
-		// Extraction des propriétés
-		String url = prop.getProperty("jdbcurl");
-		String user = prop.getProperty("jdbcuser");
-		String password = prop.getProperty("jdbcpassword"); 
-		if (password==null)
-			password="";*/
-		//setConnexionData("jdbc:mysql://localhost:3306/Enigme2", "root", "");
-		//setConnexionData(url, user, password);
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (InstantiationException e) {
@@ -65,7 +38,7 @@ public class ConBDD {
 			e.printStackTrace();
 		}
 		try {
-			connOjbect = DriverManager.getConnection("http://www11.subdomain.com/phpMyAdmin/index.php?lang=fr-utf-8&convcharset=iso-8859-1&collation_connection=utf8_unicode_ci&token=18b2cf9712220b4c5b3a1580790445b8", "user1687730", "yuI3zNVz");
+			connOjbect = DriverManager.getConnection("http://www5.subdomain.com/phpMyAdmin/index.php?lang=fr-utf-8&token=ec4ebda0534fba09bdd282869dfc620d", "user1691085", "yuI3zNVz");
 			return true;
 		} catch (SQLException e) {
 			System.err.println("Mysql Connection Error: ");

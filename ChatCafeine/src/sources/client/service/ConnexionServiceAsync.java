@@ -15,4 +15,7 @@ public interface ConnexionServiceAsync {
 
 	public void envoiMessage(String text, String login,
 			AsyncCallback<Void> asyncCallback);
+
+	public void inscription(String login, String mdp, int age, String sexe,
+			String email, AsyncCallback<User> callback);
 }
