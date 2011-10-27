@@ -35,7 +35,7 @@ public class CreateStackTest {
 
 		// Add the chat.
 		Widget sallePanelHeader = createHeaderWidget("Tchat");
-		stackPanel.add(createSallePanel(),sallePanelHeader, 4);
+		stackPanel.add(new VisualisationSallePanel(), sallePanelHeader, 4);
 
 		// Add the chatBox.
 		Widget chatBoxPanelHeader = createHeaderWidget("TchatBox");
@@ -59,7 +59,8 @@ public class CreateStackTest {
 		hPanel.add(headerText);
 		return new SimplePanel(hPanel);
 	}
-	
+
+	/*
 	private void addItem(TreeItem root, ImageResource image, String label) {
 		SafeHtmlBuilder sb = new SafeHtmlBuilder();
 		sb.append(SafeHtmlUtils.fromTrustedString(AbstractImagePrototype.create(
@@ -68,17 +69,6 @@ public class CreateStackTest {
 		root.addItem(sb.toSafeHtml());
 	}
 	
-	
-	/**
-	 * @return
-	 */
-	private static Widget createSallePanel() {
-		// TODO Auto-generated method stub
-		return new SimplePanel();
-	}
-
-	
-	/*
 	private Widget createContactsItem(Images images) {
 		// Create a popup to show the contact info when a contact is clicked
 		HorizontalPanel contactPopupContainer = new HorizontalPanel();

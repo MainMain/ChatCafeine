@@ -233,6 +233,7 @@ public class AccueilPanel extends VerticalPanel{
 												Window.alert("Erreur : "+ caught.getMessage());
 											}
 											public void onSuccess(Boolean result) {
+												//// ??????
 												if (result){
 													ConnexionService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), ageBox.getTabIndex(), hRadio.getText(), mailBox.getText(), 
 															new AsyncCallback<User>(){
@@ -242,6 +243,7 @@ public class AccueilPanel extends VerticalPanel{
 														}
 														@Override
 														public void onSuccess(User result) {
+												//// ??????
 															if (result==null)
 																Window.alert("Erreur lors de l'inscription !");
 															else {

@@ -13,6 +13,7 @@ import sources.client.model.User;
 import sources.client.service.ConnexionService;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ConnexionServiceImpl extends RemoteServiceServlet implements ConnexionService {
@@ -40,7 +41,7 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 					p.setMdp(resultat.getString("MDP"));
 					p.setDroit(resultat.getString("DROIT"));
 					connexion.fermer();
-					return p;//String[]{"OK",resultat.getString("id")};
+					return p; //String[]{"OK",resultat.getString("id")};
 				}
 				return null;
 			}catch (SQLException e) {
@@ -48,10 +49,6 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 				return null;
 			}
 		}
-		
-		
-		
-		//Window.alert(login); <- Fait planter le prog
 	}
 
 	@Override
@@ -61,7 +58,7 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
     }
 
     @Override
-    public String getNewMessage(int num) {
+    public String getNewMessage(int num) { // Que se passe t-il si dans le lap des 100 ms deux messages sont envoyés?
         while (cpt != num)
             try {
                 Thread.sleep(100);
@@ -72,9 +69,6 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
         return mess;
     }
 
-	/* (non-Javadoc)
-	 * @see sources.client.service.ConnexionService#inscription(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public User inscription(String login, String mdp, int age, String sexe,
 			String email) {

@@ -71,6 +71,17 @@ h1 {
 .infosSallePan {background-color: #f1f3f9;}
 .eventsSallePan {background-color: #f1f3f9;}
 .chatboxPan {background-color: #f1f3f9;}
+.envoiButton {
+	height: 25px;
+	color: #FFFFFF;
+	background-color: #4D9ACD;
+}
+.messBox {
+	margin-left: 25px;
+	margin-right: 25px;
+	}
+.test3 {background-color: #CCCCCC;}
+
 
 .profilPanel {background-color: #CCCCCC;}
 .fichePan {background-color: #4D9ACD;}
