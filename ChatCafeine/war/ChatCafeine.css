@@ -79,9 +79,7 @@ h1 {
 .messBox {
 	margin-left: 25px;
 	margin-right: 25px;
-	}
-.test3 {background-color: #CCCCCC;}
-
+}
 
 .profilPanel {background-color: #CCCCCC;}
 .fichePan {background-color: #4D9ACD;}
@@ -132,6 +130,8 @@ h1 {
 	color: #FFFFFF;
 	background-color: #4D9ACD;
 }
+
+.test3 {background-color: #AAAAAA;}
 
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {

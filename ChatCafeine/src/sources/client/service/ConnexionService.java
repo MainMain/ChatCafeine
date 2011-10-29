@@ -21,9 +21,5 @@ public interface ConnexionService extends RemoteService {
 			return instance;
 		}
 	}
-
-	User authentifier(String id, String mdp);
-	String getNewMessage(int cpt);
-	void envoiMessage(String text, String login);
-	User inscription(String login, String mdp, int age, String sexe, String email );
+	public User authentifier(String id, String mdp);
 }

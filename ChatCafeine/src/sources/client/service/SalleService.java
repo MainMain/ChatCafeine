@@ -21,7 +21,7 @@ public interface SalleService extends RemoteService {
 		
 		public static SalleServiceAsync getInstance(){
 			if (instance == null) {
-				instance = GWT.create(CompteService.class);
+				instance = GWT.create(SalleService.class);
 			}
 			return instance;
 		}

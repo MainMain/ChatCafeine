@@ -42,7 +42,7 @@ public class EventsPanel extends VerticalPanel{
 		SalleService.Util.getInstance().getNewEvent(cpt , new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Erreur lors de la récupération des messages ! \n Récupération stoppée !");
+				//Window.alert("Erreur lors de la récupération des messages ! \n Récupération stoppée !");
 				erreurRecup = true;
 			}
 			@Override

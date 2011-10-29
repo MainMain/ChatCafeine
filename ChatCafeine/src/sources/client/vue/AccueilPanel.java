@@ -193,13 +193,13 @@ public class AccueilPanel extends VerticalPanel{
 		final RadioButton fRadio = new RadioButton("Sexe", "Femme");
 		final HTML error2HTML = new HTML("");
 		error2HTML.setHTML("<font color=\"#000000\"><em><small>Le login et le mot de passe doivent faire au moins 4 caractères.</small></em></font>");
-		
+
 		// Add a drop box with the list types
 		final ListBox ageBox = new ListBox(false);
 		for (int i = 10; i <= 99; i++) {
 			ageBox.addItem(""+i+" ans");
 		}
-		
+
 		// Add some standard form options
 		layout.setHTML(1, 0, "Login:");
 		layout.setWidget(1, 1, login2Box);
@@ -226,66 +226,53 @@ public class AccueilPanel extends VerticalPanel{
 									if (mailIdentiques()){
 										int age = Integer.parseInt(ageBox.getItemText(ageBox.getSelectedIndex()).substring(0,2));
 										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription en cours !</small></em></font>");
-										CompteService.Util.getInstance().addCompte(login2Box.getText(),
-												pass2Box.getText(), age, hRadio.getValue(), mailBox.getText(), 
-												new AsyncCallback<Boolean>(){
+										CompteService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), age,
+												hRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
+											@Override
 											public void onFailure(Throwable caught) {
 												Window.alert("Erreur : "+ caught.getMessage());
 											}
+											@Override
 											public void onSuccess(Boolean result) {
-												//// ??????
-												if (result){
-													ConnexionService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), ageBox.getTabIndex(), hRadio.getText(), mailBox.getText(), 
-															new AsyncCallback<User>(){
-														@Override
-														public void onFailure(Throwable caught) {
-															Window.alert("Erreur : "+ caught.getMessage());
-														}
-														@Override
-														public void onSuccess(User result) {
-												//// ??????
-															if (result==null)
-																Window.alert("Erreur lors de l'inscription !");
-															else {
-																Window.alert("Inscription réalisé avec succès ! Vous pouvez maintenant vous connecter !");
-															}
-														}
-													});
-													
+												if (result==null)
+													Window.alert("Erreur lors de l'inscription !");
+												else {
+													Window.alert("Inscription réalisé avec succès ! Vous pouvez maintenant vous connecter !");
 												}
 											}
+
 										});
-									}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
-									"mails de sont pas identiques !</small></em></font>");
-								}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les mot de passes" +
-								" ne sont pas identiques !</small></em></font>");
-							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Adresse mail invalide" +
-							" !</small></em></font>");
-						}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Vous devez correctement remplir tout les " +
-						"champs Le login et mot de passe doivent faire au moins 4 caractères !</small></em></font>");
-					}
+							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
+							"mails de sont pas identiques !</small></em></font>");
+						}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les mot de passes" +
+						" ne sont pas identiques !</small></em></font>");
+					}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Adresse mail invalide" +
+					" !</small></em></font>");
+				}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Vous devez correctement remplir tout les " +
+				"champs Le login et mot de passe doivent faire au moins 4 caractères !</small></em></font>");
+	}
 
-					private boolean casesRemplies() {
-						return (login2Box.getText().length()>=4 && 
-								pass2Box.getText().length()>=4 && 
-								pass2VerifBox.getText().length()!=0 && 
-								mailBox.getText().length()!=0 && 
-								mailVerifBox.getText().length()!=0 &&
-								(hRadio.getValue() || hRadio.getValue())
-						);
-					}
+	private boolean casesRemplies() {
+		return (login2Box.getText().length()>=4 && 
+				pass2Box.getText().length()>=4 && 
+				pass2VerifBox.getText().length()!=0 && 
+				mailBox.getText().length()!=0 && 
+				mailVerifBox.getText().length()!=0 &&
+				(hRadio.getValue() || hRadio.getValue())
+		);
+	}
 
-					private boolean mailValide(){
-						return (mailBox.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"));
-					}
-					private boolean passIdentiques(){
-						return ((pass2Box.getText()).equals(pass2VerifBox.getText()));
-					}
+	private boolean mailValide(){
+		return (mailBox.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"));
+	}
+	private boolean passIdentiques(){
+		return ((pass2Box.getText()).equals(pass2VerifBox.getText()));
+	}
 
-					private boolean mailIdentiques(){
-						return ((mailBox.getText()).equals(mailVerifBox.getText()));
-					}
-				}));
+	private boolean mailIdentiques(){
+		return ((mailBox.getText()).equals(mailVerifBox.getText()));
+	}
+}));
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel decPanel = new DecoratorPanel();
 		layout.setStyleName("formInscription");

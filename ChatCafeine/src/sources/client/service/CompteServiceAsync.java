@@ -13,8 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface CompteServiceAsync {
 
-	public void addCompte(String login, String mdp, int age, boolean sexe, String email, AsyncCallback<Boolean> callback);
-	public void delCompte(int id, AsyncCallback<Boolean> callback);
-	public void recupInfoCompte(String info, AsyncCallback<User> callback);
-
+	public void desincription(int id, AsyncCallback<Boolean> callback);
+	public void inscription(String login, String mdp, int age, String sexe,
+			String email, AsyncCallback<Boolean> asyncCallback);
 }

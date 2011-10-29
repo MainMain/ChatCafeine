@@ -42,10 +42,10 @@ public class Core implements EntryPoint {
 				public void execute() {	Window.alert("You selected a menu item!"); }
 			};
 			MenuBar menu = new MenuBar();
-			menu.addItem("Fichier", cmd);
+			//menu.addItem("Fichier", cmd);
 			menu.addItem("Application", cmd);
-			menu.addItem("Aide", cmd); // On peut mettre que F5 = rafraichissement de tout l'appli -> A ne pas utiliser
-			menu.addItem("A propos", cmd);
+			menu.addItem("Aide", cmd); // "FAQ", "Compatibilite", On peut mettre que F5 = rafraichissement de tout l'appli -> A ne pas utiliser
+			menu.addItem("A propos", cmd); // Créateurs (groupe5), copyright(iut Laval)
 			if (userEnCours != null) menu.addItem("Se déconnecter", cmd);
 			menu.setWidth("99%");
 			menu.addStyleName("menu");

@@ -1,0 +1,2 @@
+serviceClass: sources.client.service.ChatService
+path: B2C3181B4FF6840525735DF2FC511968.gwt.rpc

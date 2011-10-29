@@ -28,7 +28,7 @@ public interface CompteService extends RemoteService {
 			return instance;
 		}
 	}
-	public boolean addCompte(String login, String mdp, int age, boolean sexe, String email); 
-	public User recupInfoCompte(String info);
-	public boolean delCompte(int id);
+	public boolean desincription(int id);
+	boolean inscription(String login, String mdp, int age, String sexe,
+			String email);
 }

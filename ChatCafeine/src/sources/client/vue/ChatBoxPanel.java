@@ -3,9 +3,7 @@
  */
 package sources.client.vue;
 
-import java.util.ArrayList;
-
-import sources.client.service.ConnexionService;
+import sources.client.service.ChatService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,7 +17,7 @@ import com.google.gwt.user.client.ui.*;
  */
 public class ChatBoxPanel extends AbsolutePanel{
 	TextBox zone2Text;
-	private int cpt = 1;
+	private int cpt;
 	boolean erreurRecup = false;
 	String[] historique = new String[100];
 	final VerticalPanel messPanel = new VerticalPanel();
@@ -46,14 +44,13 @@ public class ChatBoxPanel extends AbsolutePanel{
 		bouton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(!zone2Text.getText().isEmpty()){
-					ConnexionService.Util.getInstance().envoiMessage(zone2Text.getText(), "login", new AsyncCallback<Void>(){
+					ChatService.Util.getInstance().envoiMessage(zone2Text.getText(), Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
 						@Override
 						public void onFailure(Throwable caught) {
 							// TODO Auto-generated method stub
 						}
 						@Override
 						public void onSuccess(Void result) {
-							//conversationLab.setText(conversationLab.getText()+"\n"+zone2Text.getText());
 							zone2Text.setText("");
 						}
 					});
@@ -62,12 +59,9 @@ public class ChatBoxPanel extends AbsolutePanel{
 		});
 		messPanel.setWidth("100");
 		messPanel.setHeight("350px");
-		messPanel.setStyleName("test3");
 		messPanel.setSpacing(2);
 		messPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		//conversationLab.setHeight("400px");
-		//conversationLab.setStyleName("test2");
-		//messPanel.add(conversationLab, 5, 300);
+		//messPanel.setStyleName("test3");
 		add(messPanel);
 		add(new HTML("<hr>"));
 
@@ -76,11 +70,23 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 		bouton.setStyleName("envoiButton");
 		add(bouton);
+		
+		ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+			@Override
+			public void onSuccess(Integer result) {
+				//Window.alert("MAJ cpt");
+				cpt = result; // !!!!!!!!! PB <- Répétition du 1er mess
+			}
+		});
+		
 		if (!erreurRecup) refresh();
 	}
 
 	private void refresh() {
-		ConnexionService.Util.getInstance().getNewMessage(cpt , new AsyncCallback<String>() {
+		ChatService.Util.getInstance().getNewMessage(cpt , new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Erreur lors de la récupération des messages ! \n Récupération stoppée !");
@@ -88,7 +94,6 @@ public class ChatBoxPanel extends AbsolutePanel{
 			}
 			@Override
 			public void onSuccess(String result) {
-				//conversationLab.setHTML(conversationLab.getText()+"<br>"+result); // A optimiser : mettre messages dans un tableau de 100 emplacements
 				if (result != historique[99]) majHistorique(result); // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
 				cpt++;
 				refresh();
