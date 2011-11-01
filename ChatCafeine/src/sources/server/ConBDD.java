@@ -1,10 +1,12 @@
 package sources.server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.*;
+import java.util.Properties;
+
+import com.google.gwt.user.client.Window;
 
 public class ConBDD {
 
@@ -13,7 +15,7 @@ public class ConBDD {
 	private static String URL      = "";
 	private static String userName = "";
 	private static String userPWD  = "";
-
+	public static boolean DEBUG = true;
 
 
 	public ConBDD() {
@@ -30,15 +32,13 @@ public class ConBDD {
 	private boolean connectToDB(){
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 		try {
-			connOjbect = DriverManager.getConnection("http://www5.subdomain.com/phpMyAdmin/index.php?lang=fr-utf-8&token=ec4ebda0534fba09bdd282869dfc620d", "user1691085", "yuI3zNVz");
+			if(DEBUG)System.out.println("begin connecttodb");
+			connOjbect = DriverManager.getConnection("jdbc:mysql://http://www5.subdomain.com/phpMyAdmin/index.php?db=db1691085-main", "user1691085", "yuI3zNVz");
+			if(DEBUG)System.out.println("end connecttodb");
 			return true;
 		} catch (SQLException e) {
 			System.err.println("Mysql Connection Error: ");
@@ -114,4 +114,3 @@ public class ConBDD {
 
 
 }
-

@@ -1,12 +1,18 @@
 package sources.client.vue;
 
+
 import sources.client.model.User;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
+
+
+import sources.client.GreetingService;
+import sources.client.GreetingServiceAsync;
 
 public class Core implements EntryPoint {
 	public static final int HEIGHT = 604;
@@ -35,7 +41,7 @@ public class Core implements EntryPoint {
 		RootPanel.get().add(dockPanel);
 		dockPanel.add(createMenuBar(), DockPanel.NORTH);
 		dockPanel.add(accPan, DockPanel.CENTER);
-		modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
+		//modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
 	}
 		public static MenuBar createMenuBar(){
 			Command cmd = new Command() {
@@ -59,5 +65,7 @@ public class Core implements EntryPoint {
 			dockPanel.add(createMenuBar(), DockPanel.NORTH);
 			dockPanel.add(appPan, DockPanel.CENTER);
 	}
+		
+
 
 } 

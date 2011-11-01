@@ -2,7 +2,7 @@
 <module rename-to='chatcafeine'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
-  <inherits name="com.google.gwt.uibinder.UiBinder"/>
+  
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
@@ -12,6 +12,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
+  <inherits name='com.google.gwt.uibinder.UiBinder'/> 
 
   <!-- Specify the app entry point class.                         -->
 	<entry-point class='sources.client.vue.Core'/>

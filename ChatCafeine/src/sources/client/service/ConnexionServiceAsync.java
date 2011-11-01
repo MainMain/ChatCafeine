@@ -7,7 +7,17 @@ import sources.client.model.User;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
+/**
+ * @author Johan
+ *
+ */
 public interface ConnexionServiceAsync {
-	public void authentifier(String id,String mdp, AsyncCallback<User> callback);
+
+	/**
+	 * @param login
+	 * @param mdp
+	 * @param asyncCallback
+	 */
+	public void authentifier(String login, String mdp,
+			AsyncCallback<User> asyncCallback);
 }

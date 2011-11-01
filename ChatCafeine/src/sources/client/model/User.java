@@ -2,10 +2,8 @@ package sources.client.model;
 
 import java.io.Serializable;
 
-import sources.client.vue.ContactDatabase.ContactInfo;
-
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.ProvidesKey;
+
 
 
 public class User implements Comparable<User>, Serializable {
@@ -27,16 +25,16 @@ public class User implements Comparable<User>, Serializable {
 	/* 
 	 * Méthodes de classe
 	 */
-	public static final ProvidesKey<User> KEY_PROVIDER = new ProvidesKey<User>() {
-		public Object getKey(User item) {
-			return item == null ? null : item.getIdUser();
-		}
-	};
+
 
 	/**
-	 * The provider that holds the list of contacts in the database.
-	 */
-	private ListDataProvider<User> dataProvider = new ListDataProvider<User>();
+     * The key provider that provides the unique ID of a user.
+     */
+   public static final ProvidesKey<User> KEY_PROVIDER = new ProvidesKey<User>() {
+      public Object getKey(User item) {
+        return item == null ? null : item.getIdUser();
+      }
+    };
 
 	public int compareTo(User u) {
 		return (u == null || u.idUser == null) ? -1	: -u.idUser.compareTo(idUser);
@@ -139,9 +137,6 @@ public class User implements Comparable<User>, Serializable {
 		this.dateLastConnexion = dateLastConnexion;
 	}
 
-	public ListDataProvider<User> getDataProvider() {
-		return dataProvider;
-	}
 
 
 }

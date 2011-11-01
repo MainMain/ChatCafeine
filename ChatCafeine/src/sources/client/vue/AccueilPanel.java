@@ -1,8 +1,10 @@
 package sources.client.vue;
 
 import sources.client.model.User;
+import sources.client.service.ChatService;
 import sources.client.service.CompteService;
 import sources.client.service.ConnexionService;
+import sources.client.service.SalleService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,6 +32,8 @@ public class AccueilPanel extends VerticalPanel{
 	public HorizontalPanel bodyPanel;
 	public VerticalPanel leftBodyPanel;
 	public AbsolutePanel rightBodyPanel;
+	private static User userConnected=null;
+	public static boolean DEBUG = true;
 
 	public AccueilPanel(){
 		configPanel();
@@ -80,8 +84,9 @@ public class AccueilPanel extends VerticalPanel{
 		final HTML errorHTML = new HTML();
 		errorHTML.setHTML("");
 		Button connexButton = new Button(
-				"Fermer", new ClickHandler(){
+				"Connexion", new ClickHandler(){
 					public void onClick(ClickEvent event) {
+						if(DEBUG)System.out.println("bouton OK");
 						if(casesRemplies()){
 							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), 
 									new AsyncCallback<User>(){
@@ -102,7 +107,7 @@ public class AccueilPanel extends VerticalPanel{
 										//dialogBox.hide();
 									}
 								}
-							});
+							});						
 						}else errorHTML.setHTML("<font color=\"#FFCC00\"><em><small>Erreur : Vous devez remplir " +
 						"tout les champs !</small></em></font>");
 					}
@@ -110,7 +115,7 @@ public class AccueilPanel extends VerticalPanel{
 						return (loginBox.getText().length()!=0 && mdpBox.getText().length()!=0);
 					}
 				});
-		connexButton.setText("Connexion");
+		//connexButton.setText("Connexion");
 		connexButton.setHeight("28px");
 		connexButton.setStyleName("connexButton");
 
@@ -126,6 +131,7 @@ public class AccueilPanel extends VerticalPanel{
 		//headPanel.add(logoImg);
 	}
 
+	
 	private void createBodyPanel() {
 		bodyPanel = new HorizontalPanel();
 		bodyPanel.setWidth("100%");

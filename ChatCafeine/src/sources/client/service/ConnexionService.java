@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package sources.client.service;
 
 import sources.client.model.User;
@@ -6,6 +9,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * @author Johan
+ *
+ */
 @RemoteServiceRelativePath("ConnexionService")
 public interface ConnexionService extends RemoteService {
 	/**
@@ -21,5 +28,6 @@ public interface ConnexionService extends RemoteService {
 			return instance;
 		}
 	}
-	public User authentifier(String id, String mdp);
+	
+	public User authentifier(String text, String text2);
 }
