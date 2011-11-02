@@ -82,12 +82,13 @@ h1 {
 }
 
 .profilPanel {background-color: #CCCCCC;}
-.fichePan {background-color: #4D9ACD;}
-.modifPan {background-color: #4D9ACD;}
-.supprPan {background-color: #4D9ACD;}
-
-.adminPanel {background-color: #CCCCCC;}
-
+.fichePan {background-color: #f1f3f9;}
+.modifPan {background-color: #f1f3f9;}
+.supprPan {background-color: #f1f3f9;}
+.avatarPan {background-color: #DDDDDD;}
+.adminPanel {background-color: #f1f3f9;}
+.headerProfilPan {background-color: #4D9ACD;}
+.textHeaderProfilPan {color: #f1f3f9;}
 
 /************************************************** AccueilPanel **************************************************/
 .accueilPanel {

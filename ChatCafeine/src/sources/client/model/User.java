@@ -13,7 +13,7 @@ public class User implements Comparable<User>, Serializable {
 	 * The key provider that provides the unique ID of a user.
 	 */
 	private String idUser;
-	private String login, mdp, email, genre, age, activite, droit, dateInscription, dateLastConnexion;
+	private String login, mdp, email, genre, age, activite, droit, dateInscription, dateLastConnexion, aime, aimePas;
 
 	/*
 	 * Constructeur 
@@ -136,6 +136,25 @@ public class User implements Comparable<User>, Serializable {
 	public void setDateLastConnexion(String dateLastConnexion) {
 		this.dateLastConnexion = dateLastConnexion;
 	}
+	
+	// audrey
+	public void setAime(String aime) {
+		this.aime = aime;
+	}
+	
+	public String getAime() {
+		return aime;
+	}
+	
+	public void setAimePas(String aimePas) {
+		this.aimePas = aimePas;
+	}
+	
+	public String getAimePas() {
+		return aimePas;
+	}
+
+	//fin audrey
 
 
 

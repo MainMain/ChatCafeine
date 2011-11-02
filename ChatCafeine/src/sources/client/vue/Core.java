@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import sources.client.GreetingService;
 import sources.client.GreetingServiceAsync;
 
+/**
+ * @author : Johan
+ *
+ */
 public class Core implements EntryPoint {
 	public static final int HEIGHT = 604;
 	public static User userEnCours = null;
@@ -41,7 +45,7 @@ public class Core implements EntryPoint {
 		RootPanel.get().add(dockPanel);
 		dockPanel.add(createMenuBar(), DockPanel.NORTH);
 		dockPanel.add(accPan, DockPanel.CENTER);
-		//modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
+		modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
 	}
 		public static MenuBar createMenuBar(){
 			Command cmd = new Command() {

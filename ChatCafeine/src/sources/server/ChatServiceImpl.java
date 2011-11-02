@@ -6,6 +6,7 @@ package sources.server;
 import sources.client.service.ChatService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 /**
  * @author : Johan
@@ -18,6 +19,8 @@ public class ChatServiceImpl  extends RemoteServiceServlet implements ChatServic
 	private static final long serialVersionUID = -3724431790214379509L;
 	private String mess;
     private int cpt = 0;
+    //private GestConv = new GestConv;
+    //private Hashtable gest = new Hashtable();
 
 	@Override
     public void envoiMessage(String message, String loginUser) {
