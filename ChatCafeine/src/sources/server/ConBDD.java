@@ -37,7 +37,7 @@ public class ConBDD {
 		} 
 		try {
 			if(DEBUG)System.out.println("begin connecttodb");
-			connOjbect = DriverManager.getConnection("jdbc:mysql://http://www5.subdomain.com/phpMyAdmin/index.php?db=db1691085-main", "user1691085", "yuI3zNVz");
+			connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ChatCafeine", "root", "");
 			if(DEBUG)System.out.println("end connecttodb");
 			return true;
 		} catch (SQLException e) {
