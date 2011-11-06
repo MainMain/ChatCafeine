@@ -19,5 +19,5 @@ public interface ConnexionServiceAsync {
 	 * @param asyncCallback
 	 */
 	public void authentifier(String login, String mdp,
-			AsyncCallback<User> asyncCallback);
+			AsyncCallback<User> callback);
 }
