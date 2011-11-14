@@ -86,7 +86,6 @@ public class AccueilPanel extends VerticalPanel{
 		Button connexButton = new Button(
 				"Connexion", new ClickHandler(){
 					public void onClick(ClickEvent event) {
-						if(DEBUG)System.out.println("bouton OK");
 						if(casesRemplies()){
 							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), 
 									new AsyncCallback<User>(){
