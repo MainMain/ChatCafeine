@@ -58,7 +58,7 @@ public class ApplicationPanel extends DockPanel{
 	    if (Core.userEnCours.getDroit().equals("administrateur")) tab.add(new AdminPanel(), tabTitles[2]);
 	    add(tab, DockPanel.NORTH);
 	    
-	    tab.selectTab(1); // Normalement défini sur 0
+	    tab.selectTab(0); // Normalement défini sur 0
 	}
 
 }

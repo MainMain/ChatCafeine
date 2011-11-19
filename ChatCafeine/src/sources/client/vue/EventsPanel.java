@@ -24,8 +24,8 @@ public class EventsPanel extends VerticalPanel{
 	
 	public EventsPanel(){
 		// Config panel eventsSallePan
-		setHeight("365px");
-		setWidth("355px");
+		setHeight("200px");
+		setWidth("900px");
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setStyleName("eventsSallePan");
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);

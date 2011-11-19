@@ -34,7 +34,7 @@ public class ConBDD {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		} /*
 		try {
 			if(DEBUG)System.out.println("begin connecttodb");
 <<<<<<< HEAD
@@ -42,14 +42,15 @@ public class ConBDD {
 =======
 			connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ChatCafeine", "root", "");
 >>>>>>> c1e5eb687876ae77af9fbe1705b3d329e32b070d
-			if(DEBUG)System.out.println("end connecttodb");
+			if(DEBUG)System.out.println("end connecttodb")
 			return true;
 		} catch (SQLException e) {
 			System.err.println("Mysql Connection Error: ");
 			e.printStackTrace();
 			return false;
 		}
-		
+		;*/
+		return true;
 	}
 
 	public Connection getConnectionObject(){

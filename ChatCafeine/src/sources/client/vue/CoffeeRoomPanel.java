@@ -8,7 +8,6 @@ import sources.client.model.Salle;
 import com.google.gwt.user.client.ui.*;
 
 public class CoffeeRoomPanel extends AbsolutePanel{
-	private static final DockPanel infosSallePan = new DockPanel();
 	private static StackLayoutPanel stackPanel;
 	public static Salle salleEnCours = null;
 
@@ -16,9 +15,41 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		creerSalleDeTest();
 
 		configPanel();
+		configChatBox();
 		configInfosSallePan();
 		configEventsSallePan();
-		configStackPan(); // Panels visualisationSalle + chatBox
+		//configFlashPan();
+		
+		//configStackPan(); // Panels visualisationSalle + chatBox
+	}
+	/**
+	 * 
+	 */
+	private void configChatBox() {
+		// Wrap the contents in a DecoratorPanel
+		DecoratorPanel dec1Panel = new DecoratorPanel();
+		dec1Panel.setWidget(new ChatBoxPanel());
+		add(dec1Panel, 10+900+10+10, 230);
+	}
+	/**
+	 * 
+	 */
+
+	private void configEventsSallePan() {
+		// Wrap the contents in a DecoratorPanel
+		DecoratorPanel dec3Panel = new DecoratorPanel();
+		dec3Panel.setWidget(new EventsPanel());
+		add(dec3Panel, 385, 10);
+	}
+	/**
+	 * 
+	 */
+	private void configFlashPan() {
+		// Wrap the contents in a DecoratorPanel
+		DecoratorPanel dec3Panel = new DecoratorPanel();
+		dec3Panel.setWidget(new VisualisationSallePanel());
+		dec3Panel.setPixelSize(900, 575);
+		add(dec3Panel, 10, 10);
 	}
 	/**
 	 * 
@@ -32,13 +63,14 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	 */
 	private void configPanel() {
 		setWidth("100%");
-		setHeight(Core.HEIGHT+10+"px");
+		setHeight(Core.HEIGHT+300+"px");
 		setStyleName("coffeRoomPanel");
 	}
 	/**
 	 * 
 	 */
 	private void configInfosSallePan() {
+		DockPanel infosSallePan = new DockPanel();
 		// Config panel infoSallePan
 		infosSallePan.setHeight("200px");
 		infosSallePan.setWidth("355px");
@@ -52,16 +84,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec2Panel = new DecoratorPanel();
 		dec2Panel.setWidget(infosSallePan);
-		add(dec2Panel, (10+900+10+10), 10);
-	}
-	/**
-	 * 
-	 */
-	private void configEventsSallePan() {
-		// Wrap the contents in a DecoratorPanel
-		DecoratorPanel dec3Panel = new DecoratorPanel();
-		dec3Panel.setWidget(new EventsPanel());
-		add(dec3Panel, (10+900+10+10), 10+200+10+10);
+		add(dec2Panel, 10, 10);
 	}
 	/**
 	 * 

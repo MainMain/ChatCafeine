@@ -24,8 +24,8 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 	public ChatBoxPanel(){
 		// Config panel chatBoxPan
-		setHeight("98%");
-		setWidth("100%");
+		setHeight("655px");
+		setWidth("355px");
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setStyleName("chatboxPan");
 		// Add elements
@@ -57,8 +57,8 @@ public class ChatBoxPanel extends AbsolutePanel{
 				}
 			}
 		});
-		messPanel.setWidth("100");
-		messPanel.setHeight("350px");
+		messPanel.setWidth("350px");
+		messPanel.setHeight("500px");
 		messPanel.setSpacing(2);
 		messPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		//messPanel.setStyleName("test3");
