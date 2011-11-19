@@ -21,7 +21,7 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 			String email) { // Tu me retourne true si ca fonctionne, false sinon. C'est pas lors de l'inscription que j'identifie l'user, mais quand il se connecte.
 
 		ConBDD connexion=new ConBDD();
-		String requete="INSERT INTO `db1691085-main`.`UTILISATEUR` (`ID_UTILISATEUR`, `ID_SALLE`, `LOGIN`, `MDP`, `EMAIL`, `GENRE`, `AGE`, `ACTIVITE`, `AIME`, `AIME_PAS`, `DROIT`, `DATE_INSCRIPTION`, `DATE_LAST_CONNEXION`) VALUES ('1000', NULL, '"+login+"'"+", '"+mdp+"'"+", '"+email+"'"+", '"+sexe+"'"+", '"+age+"'"+", NULL, NULL, NULL, 'utilisateur', 'truc qui affiche la date', 'truc qui affiche la date');";
+		String requete="INSERT INTO `ChatCafeine`.`Utilisateur` (`ID_user`, `ID_salle`, `Login`, `Pass`, `Age`, `Sexe`, `Email`,`Aime`, `AimePas`, `Droit`, `Avatar`, `NbBannissements`, `DateInscription`, `DateLastConnexion`) VALUES ('','', '"+login+"'"+", '"+mdp+"'"+", '"+age+"'"+", '"+sexe+"'"+", '"+email+"'"+", '', '','utilisateur','',0, '','');";
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
@@ -35,7 +35,7 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	@Override
 	public boolean desincription(int id) {
 		ConBDD connexion=new ConBDD();
-		String requete="DELETE FROM UTILISATEUR WHERE ID_UTILISATEUR LIKE '"+id+"'";
+		String requete="DELETE FROM Utilisateur WHERE ID_user LIKE '"+id+"'";
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))

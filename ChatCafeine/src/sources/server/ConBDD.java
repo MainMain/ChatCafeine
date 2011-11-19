@@ -37,7 +37,11 @@ public class ConBDD {
 		} 
 		try {
 			if(DEBUG)System.out.println("begin connecttodb");
+<<<<<<< HEAD
 			connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1/azer", "root", "");
+=======
+			connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ChatCafeine", "root", "");
+>>>>>>> c1e5eb687876ae77af9fbe1705b3d329e32b070d
 			if(DEBUG)System.out.println("end connecttodb");
 			return true;
 		} catch (SQLException e) {

@@ -29,5 +29,5 @@ public interface ConnexionService extends RemoteService {
 		}
 	}
 	
-	public User authentifier(String text, String text2);
+	User authentifier(String login, String mdp);
 }

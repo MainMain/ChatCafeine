@@ -37,9 +37,10 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 				p.setLogin(resultat.getString("LOGIN"));
 				p.setMdp(resultat.getString("MDP"));
 
-				connexion.fermer();
+				
 				return p;//String[]{"OK",resultat.getString("id")};
 			}
+			connexion.fermer();
 			return null;
 		}catch (SQLException e) {
 			e.printStackTrace();
