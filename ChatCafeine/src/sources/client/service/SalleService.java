@@ -3,6 +3,11 @@
  */
 package sources.client.service;
 
+import java.util.ArrayList;
+
+import sources.client.model.Salle;
+import sources.client.model.User;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -28,4 +33,6 @@ public interface SalleService extends RemoteService {
 	}
 	void envoiEvenement(String event, String login);
 	String getNewEvent(int cpt);
+	ArrayList<User> entre1User(User u, Salle s);
+	void ouvertureSalle(Salle s);
 }

@@ -3,6 +3,8 @@
  */
 package sources.client.vue;
 
+import sources.client.model.Salle;
+
 import com.google.gwt.user.client.ui.*;
 
 /**
@@ -10,15 +12,25 @@ import com.google.gwt.user.client.ui.*;
  *
  */
 public class VisualisationSallePanel extends AbsolutePanel {
-	
-	public VisualisationSallePanel(){
-		// Config panel chatBoxPan
+	private ListUserPanel listUser;
+	private VueSalle vueSalle;
+
+	public VisualisationSallePanel(Salle salleEnCours){
 		setHeight("560px");
 		setWidth("900px");
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		
+
 		// Add elements
-		add(new ListUserPanel());
-		add(new VueSalle(), 226, 0);
+		listUser = new ListUserPanel();
+		vueSalle = new VueSalle();
+		add(listUser);
+		add(vueSalle, 226, 0);
+	}
+	
+	public ListUserPanel getListUser(){
+		return listUser;
+	}
+	public VueSalle getVueSalle(){
+		return vueSalle;
 	}
 }

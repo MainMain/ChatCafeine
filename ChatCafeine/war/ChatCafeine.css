@@ -68,10 +68,10 @@ h1 {
 
 .coffeRoomPanel {background-color: #CCCCCC;}
 .sallePan {background-color: #f1f3f9	;}
-.infosSallePan {background-color: #f1f3f9;}
 .listUserPanel {background-color: #DDDDDD;}
 .chatboxPan {background-color: #f1f3f9;}
 .vueSalle {background-color: #000000;}
+.infosSalle{background-color: #f1f3f9;}
 .envoiButton {
 	height: 25px;
 	color: #FFFFFF;

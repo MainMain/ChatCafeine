@@ -1,13 +1,20 @@
 package sources.client.vue;
 
-import sources.client.model.Salle;
+import java.util.ArrayList;
 
+import sources.client.model.Salle;
+import sources.client.model.User;
+import sources.client.service.SalleService;
+
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
 public class CoffeeRoomPanel extends AbsolutePanel{
-	private static StackLayoutPanel stackPanel;
-	public static Salle salleEnCours = null;
-
+	private static Salle salleEnCours = null;
+	private static ChatBoxPanel chatBox;
+	private static VisualisationSallePanel visualSalle;
+	
 	public CoffeeRoomPanel(){
 		creerSalleDeTest();
 
@@ -23,6 +30,17 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		setWidth("100%");
 		setHeight(Core.HEIGHT-20+"px");
 		setStyleName("coffeRoomPanel");
+		// Informer d'un nouvel arrivant***************************************************************************************************
+		/*SalleService.Util.getInstance().entre1User(Core.userEnCours, salleEnCours, new AsyncCallback<ArrayList<User>>(){
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+			@Override
+			public void onSuccess(ArrayList<User> result) {
+				visualSalle.getListUser().maj(result);
+			}
+		})*/;
 	}
 	/**
 	 * 
@@ -30,49 +48,29 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	private void configChatBox() {
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec1Panel = new DecoratorPanel();
-		dec1Panel.setWidget(new ChatBoxPanel());
+		chatBox = new ChatBoxPanel();
+		dec1Panel.setWidget(chatBox);
 		add(dec1Panel, 900+10+10+10, 10);
 	}
 	/**
 	 * 
 	 */
-
 	private void configVisualisationSalle() {
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec3Panel = new DecoratorPanel();
-		dec3Panel.setWidget(new VisualisationSallePanel());
+		visualSalle = new VisualisationSallePanel(salleEnCours);
+		dec3Panel.setWidget(visualSalle);
 		add(dec3Panel, 10, 10);
 	}
-	/**
-	 * 
-	 */
-	private void configListUserPan() {
-		// Wrap the contents in a DecoratorPanel
-		DecoratorPanel dec1Panel = new DecoratorPanel();
-		dec1Panel.setWidget(new ListUserPanel());
-		add(dec1Panel, 10, 10);
-	}
-	/**
-	 * 
-	 */
-
-	private void configEventsSallePan() {
-		// Wrap the contents in a DecoratorPanel
-		DecoratorPanel dec3Panel = new DecoratorPanel();
-		dec3Panel.setWidget(new EventsPanel());
-		add(dec3Panel, 385, 10);
-	}
-
 	/**
 	 * 
 	 */
 	private void creerSalleDeTest() {
 		Salle mySalle = new Salle ("0o0o°° Salle de test °°o0o0", "Développement", "Une superbe salle pour super tester le super développement ! Admirez donc la gestion de projet exceptionnelle par cet exceptionnel MainMain ! ", 40);
 		salleEnCours = mySalle;
+		//*******************************************************************
+		//SalleService.Util.getInstance().ouvertureSalle(mySalle, null);
 	}
-	/**
-	 * 
-	 */
 
 	/**
 	 * 

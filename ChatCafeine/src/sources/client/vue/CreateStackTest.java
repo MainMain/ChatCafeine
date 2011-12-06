@@ -19,10 +19,7 @@ public class CreateStackTest {
 	public CreateStackTest(){
 		
 	}
-
-	/**
-	 * Initialize this example.
-	 */
+/*
 	public static Widget onInitialize() {
 		// Create a new stack layout panel.
 		StackLayoutPanel stackPanel = new StackLayoutPanel(Unit.EM);
@@ -129,5 +126,6 @@ public class CreateStackTest {
 		return mailPanel;
 	}
 */
+	
 
 }

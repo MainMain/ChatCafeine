@@ -32,7 +32,6 @@ public class AccueilPanel extends VerticalPanel{
 	public HorizontalPanel bodyPanel;
 	public VerticalPanel leftBodyPanel;
 	public AbsolutePanel rightBodyPanel;
-	private static User userConnected=null;
 	public static boolean DEBUG = true;
 
 	public AccueilPanel(){
@@ -100,6 +99,7 @@ public class AccueilPanel extends VerticalPanel{
 										"mot de passe incorrect(s)</small></em></font>");
 									else {
 										Core.userEnCours = result;
+										Core.creerApplicationPanel();
 										Core.modeConnecte();
 										errorHTML.setHTML("<font color=\"#FFFFFF\"><em><small>Ok !</small></em></font>");
 										//userConnected=result;

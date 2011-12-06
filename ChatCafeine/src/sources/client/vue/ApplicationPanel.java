@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 public class ApplicationPanel extends DockPanel{
 
 	public ApplicationPanel() {
-		creerUtilisateurDeTest();
+		//creerUtilisateurDeTest();
 		configPanel();
 		
 	}
@@ -26,6 +26,7 @@ public class ApplicationPanel extends DockPanel{
 	 * 
 	 */
 	private void creerUtilisateurDeTest() {
+		System.out.println("Création user par défaut");
 		User u = new User();
 		u.setActivite("Etudiant");
 		u.setAge("19");

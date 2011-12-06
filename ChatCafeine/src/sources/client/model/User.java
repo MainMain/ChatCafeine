@@ -14,7 +14,7 @@ public class User implements Comparable<User>, Serializable {
 	 */
 	private String idUser;
 	private String login, mdp, email, genre, age, activite, droit, dateInscription, dateLastConnexion, aime, aimePas;
-	private int compteurChat = 0;
+	private int compteurChat = 900, nbrCafe = 0;
 	private boolean installe = false; // Savoir s'il est assis dans une salle (pour recevoir messages).
 	/*
 	 * Constructeur 
@@ -29,13 +29,13 @@ public class User implements Comparable<User>, Serializable {
 
 
 	/**
-     * The key provider that provides the unique ID of a user.
-     */
-   public static final ProvidesKey<User> KEY_PROVIDER = new ProvidesKey<User>() {
-      public Object getKey(User item) {
-        return item == null ? null : item.getIdUser();
-      }
-    };
+	 * The key provider that provides the unique ID of a user.
+	 */
+	public static final ProvidesKey<User> KEY_PROVIDER = new ProvidesKey<User>() {
+		public Object getKey(User item) {
+			return item == null ? null : item.getIdUser();
+		}
+	};
 
 	public int compareTo(User u) {
 		return (u == null || u.idUser == null) ? -1	: -u.idUser.compareTo(idUser);
@@ -150,21 +150,35 @@ public class User implements Comparable<User>, Serializable {
 	public void setAime(String aime) {
 		this.aime = aime;
 	}
-	
+
 	public String getAime() {
 		return aime;
 	}
-	
+
 	public void setAimePas(String aimePas) {
 		this.aimePas = aimePas;
 	}
-	
+
 	public String getAimePas() {
 		return aimePas;
 	}
 
 	//fin audrey
 
-
+	public int getCompteurChat(){
+		return compteurChat;
+	}
+	
+	public boolean prendreCafe(){
+		if (compteurChat < 100){
+			compteurChat += 900;
+			nbrCafe++;
+			return true;
+		}else
+			return false;
+	}
+	public int getNbrCafePris(){
+		return nbrCafe;
+	}
 
 }

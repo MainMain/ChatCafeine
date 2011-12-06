@@ -38,12 +38,12 @@ public class Core implements EntryPoint {
 	public static final int HEIGHT = 604;
 	public static User userEnCours = null;
 	private static AccueilPanel accPan = new AccueilPanel();
-	private static ApplicationPanel appPan = new ApplicationPanel();
+	private static ApplicationPanel appPan;
 	private static DockPanel dockPanel = new DockPanel();
 	
 	public void onModuleLoad() {
 		Window.setMargin("0px");
-		appPan.setStyleName("applicationPanel");
+
 		accPan.setStyleName("accueilPanel");
 		
 		/*
@@ -61,18 +61,21 @@ public class Core implements EntryPoint {
 		RootPanel.get().add(dockPanel);
 		dockPanel.add(createMenuBar(), DockPanel.NORTH);
 		dockPanel.add(accPan, DockPanel.CENTER);
-		//modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
+		//modeConnecte(); // A ne plus appeler !
 	}
 		public static MenuBar createMenuBar(){
 			Command cmd = new Command() {
 				public void execute() {	Window.alert("You selected a menu item!"); }
+			};
+			Command cmdDeco = new Command() {
+				public void execute() {	 }
 			};
 			MenuBar menu = new MenuBar();
 			//menu.addItem("Fichier", cmd);
 			menu.addItem("Application", cmd);
 			menu.addItem("Aide", cmd); // "FAQ", "Compatibilite", On peut mettre que F5 = rafraichissement de tout l'appli -> A ne pas utiliser
 			menu.addItem("A propos", cmd); // Créateurs (groupe5), copyright(iut Laval)
-			if (userEnCours != null) menu.addItem("Se déconnecter", cmd);
+			if (userEnCours != null) menu.addItem("Se déconnecter", cmdDeco);
 			menu.setWidth("99%");
 			menu.addStyleName("menu");
 			
@@ -85,6 +88,11 @@ public class Core implements EntryPoint {
 			dockPanel.add(createMenuBar(), DockPanel.NORTH);
 			dockPanel.add(appPan, DockPanel.CENTER);
 	}
+		
+		public static void creerApplicationPanel(){
+			appPan = new ApplicationPanel();
+			appPan.setStyleName("applicationPanel");
+		}
 		
 
 
