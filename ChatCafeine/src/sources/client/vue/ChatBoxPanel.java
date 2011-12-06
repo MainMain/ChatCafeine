@@ -21,6 +21,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 	boolean erreurRecup = false;
 	String[] historique = new String[100];
 	final VerticalPanel messPanel = new VerticalPanel();
+	static Button bouton;
 
 	public ChatBoxPanel(){
 		// Config panel chatBoxPan
@@ -41,11 +42,13 @@ public class ChatBoxPanel extends AbsolutePanel{
 		/*
 		 * CONFIG DU BOUTON 
 		 */
-		Button bouton = new Button("Envoyer");
+
+		bouton = new Button("Envoyer");
 		bouton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(!zone2Text.getText().isEmpty()){
-					ChatService.Util.getInstance().envoiMessage(zone2Text.getText(), Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
+					ChatService.Util.getInstance().envoiMessage(zone2Text.getText(), 
+							Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
 						@Override
 						public void onFailure(Throwable caught) {
 							// TODO Auto-generated method stub
@@ -58,7 +61,8 @@ public class ChatBoxPanel extends AbsolutePanel{
 				}
 			}
 		});
-		
+
+
 		messPanel.setWidth("350px");
 		messPanel.setHeight("420px");
 		messPanel.setSpacing(2);
@@ -71,7 +75,8 @@ public class ChatBoxPanel extends AbsolutePanel{
 		add(zone2Text);
 
 		bouton.setStyleName("envoiButton");
-		add(bouton);
+		//if (Core.userEnCours.isInstalle())		// PREVENIR QUAND L'UTILISATEUR S'INTALLE
+			add(bouton);
 
 		ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
 			@Override
@@ -87,6 +92,12 @@ public class ChatBoxPanel extends AbsolutePanel{
 		if (!erreurRecup) refresh();
 	}
 
+	public static void activerBoutonEnvoi(){
+		bouton.setEnabled(true);
+	}
+	public static void desactiverBoutonEnvoi(){
+		bouton.setEnabled(false);
+	}
 	private void refresh() {
 		ChatService.Util.getInstance().getNewMessage(cpt , new AsyncCallback<String>() {
 			@Override

@@ -19,6 +19,6 @@ public class VisualisationSallePanel extends AbsolutePanel {
 		
 		// Add elements
 		add(new ListUserPanel());
-		add(new VueSalle(), 200, 0);
+		add(new VueSalle(), 226, 0);
 	}
 }

@@ -1,6 +1,8 @@
 package sources.client.vue;
 
 
+import sources.client.GreetingService;
+import sources.client.GreetingServiceAsync;
 import sources.client.model.User;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -11,14 +13,28 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
-import sources.client.GreetingService;
-import sources.client.GreetingServiceAsync;
 
 /**
  * @author : Johan
  *
  */
 public class Core implements EntryPoint {
+	/**
+	 * The message displayed to the user when the server cannot be reached or
+	 * returns an error.
+	 */
+	private static final String SERVER_ERROR = "An error occurred while "
+		+ "attempting to contact the server. Please check your network "
+		+ "connection and try again.";
+
+
+	/**
+	 * Create a remote service proxy to talk to the server-side Greeting service.
+	 */
+	private final GreetingServiceAsync greetingService = 
+		GWT.create(GreetingService.class);
+	
+	
 	public static final int HEIGHT = 604;
 	public static User userEnCours = null;
 	private static AccueilPanel accPan = new AccueilPanel();
@@ -45,7 +61,7 @@ public class Core implements EntryPoint {
 		RootPanel.get().add(dockPanel);
 		dockPanel.add(createMenuBar(), DockPanel.NORTH);
 		dockPanel.add(accPan, DockPanel.CENTER);
-		modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
+		//modeConnecte(); // Normalement elle n'est pas appellé ici mais pour développer la suite de l'application, c'est mieux
 	}
 		public static MenuBar createMenuBar(){
 			Command cmd = new Command() {

@@ -14,7 +14,8 @@ public class User implements Comparable<User>, Serializable {
 	 */
 	private String idUser;
 	private String login, mdp, email, genre, age, activite, droit, dateInscription, dateLastConnexion, aime, aimePas;
-
+	private int compteurChat = 0;
+	private boolean installe = false; // Savoir s'il est assis dans une salle (pour recevoir messages).
 	/*
 	 * Constructeur 
 	 */
@@ -136,7 +137,15 @@ public class User implements Comparable<User>, Serializable {
 	public void setDateLastConnexion(String dateLastConnexion) {
 		this.dateLastConnexion = dateLastConnexion;
 	}
-	
+	public void sinstaller(){
+		installe = true;
+	}
+	public void quitterLaPlace(){
+		installe = false;
+	}
+	public boolean isInstalle(){
+		return installe;
+	}
 	// audrey
 	public void setAime(String aime) {
 		this.aime = aime;
