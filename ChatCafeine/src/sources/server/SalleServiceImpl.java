@@ -46,6 +46,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		else mess = login+" vient de faire une action incomprise !";
 		cpt++;		
 	}
+	
 	@Override
 	public ArrayList<User> entre1User(User u, Salle s) {
 		ArrayList<User> tmp = listeUserParSalle.get(s.getNom());

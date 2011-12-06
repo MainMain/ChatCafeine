@@ -36,7 +36,6 @@ public class ChatServiceImpl  extends RemoteServiceServlet implements ChatServic
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         return mess;
     }
 
