@@ -1,0 +1,2 @@
+serviceClass: sources.client.service.CompteService
+path: 263FD1658F0912DEBA72ABDF30A95EF2.gwt.rpc
