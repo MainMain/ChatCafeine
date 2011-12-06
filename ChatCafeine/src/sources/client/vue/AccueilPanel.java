@@ -245,7 +245,6 @@ public class AccueilPanel extends VerticalPanel{
 													Window.alert("Inscription réalisé avec succès ! Vous pouvez maintenant vous connecter !");
 												}
 											}
-
 										});
 							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
 							"mails de sont pas identiques !</small></em></font>");

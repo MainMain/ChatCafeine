@@ -24,22 +24,23 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 	public ChatBoxPanel(){
 		// Config panel chatBoxPan
-		setHeight("655px");
-		setWidth("355px");
+		setHeight("560px");
+		setWidth("360px");
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setStyleName("chatboxPan");
-		// Add elements
-		HTML chatTitreLab = new HTML("<h2>- La t'chat box -	</h2><hr>");
-		chatTitreLab.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		add(chatTitreLab);
-
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec4Panel = new DecoratorPanel();
 		dec4Panel.setWidget(this);
-
+		// Add elements
+		HTML chatTitreLab = new HTML("<h3>- La t'chat box -	</h3><hr>");
+		chatTitreLab.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		add(chatTitreLab);
 		zone2Text = new TextBox();
 		zone2Text.setWidth("80%");
 		zone2Text.setMaxLength(200);
+		/*
+		 * CONFIG DU BOUTON 
+		 */
 		Button bouton = new Button("Envoyer");
 		bouton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -57,8 +58,9 @@ public class ChatBoxPanel extends AbsolutePanel{
 				}
 			}
 		});
+		
 		messPanel.setWidth("350px");
-		messPanel.setHeight("500px");
+		messPanel.setHeight("420px");
 		messPanel.setSpacing(2);
 		messPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		//messPanel.setStyleName("test3");
@@ -70,7 +72,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 		bouton.setStyleName("envoiButton");
 		add(bouton);
-		
+
 		ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
 			@Override
 			public void onFailure(Throwable caught) {
@@ -81,7 +83,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 				cpt = result; // !!!!!!!!! PB <- Répétition du 1er mess
 			}
 		});
-		
+
 		if (!erreurRecup) refresh();
 	}
 

@@ -35,6 +35,8 @@ public class ApplicationPanel extends DockPanel{
 		u.setIdUser("2345");
 		u.setLogin("MainMain");
 		u.setMdp("azer");
+		u.setAime("Les poneys ! ");
+		u.setAimePas("Les ChEeeEeevaAAaAaAaAAlEEuuuUhHhh !");
 		Core.userEnCours = u;
 	}
 

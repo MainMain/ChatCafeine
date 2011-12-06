@@ -69,8 +69,9 @@ h1 {
 .coffeRoomPanel {background-color: #CCCCCC;}
 .sallePan {background-color: #f1f3f9	;}
 .infosSallePan {background-color: #f1f3f9;}
-.eventsSallePan {background-color: #f1f3f9;}
+.listUserPanel {background-color: #DDDDDD;}
 .chatboxPan {background-color: #f1f3f9;}
+.vueSalle {background-color: #000000;}
 .envoiButton {
 	height: 25px;
 	color: #FFFFFF;
@@ -90,6 +91,9 @@ h1 {
 .headerProfilPan {background-color: #4D9ACD;}
 .textHeaderProfilPan {color: #f1f3f9;}
 
+/************************************************** VueSalle ******************************************************/
+.caseSol {background-color: #234567;}
+.caseSiege {background-color: #985765;}
 /************************************************** AccueilPanel **************************************************/
 .accueilPanel {
 	margin: 5px;

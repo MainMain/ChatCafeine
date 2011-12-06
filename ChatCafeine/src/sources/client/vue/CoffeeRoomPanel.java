@@ -1,8 +1,5 @@
 package sources.client.vue;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import sources.client.model.Salle;
 
 import com.google.gwt.user.client.ui.*;
@@ -16,11 +13,16 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 
 		configPanel();
 		configChatBox();
-		configInfosSallePan();
-		configEventsSallePan();
-		//configFlashPan();
+		//configListUserPan();
+		//configInfosSallePan();
+		//configEventsSallePan(); // Idée : Mettre les évnts dans la tchat box (d'une couleur différente)
+		configVisualisationSalle();
 		
-		//configStackPan(); // Panels visualisationSalle + chatBox
+	}
+	private void configPanel() {
+		setWidth("100%");
+		setHeight(Core.HEIGHT-20+"px");
+		setStyleName("coffeRoomPanel");
 	}
 	/**
 	 * 
@@ -29,7 +31,26 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec1Panel = new DecoratorPanel();
 		dec1Panel.setWidget(new ChatBoxPanel());
-		add(dec1Panel, 10+900+10+10, 230);
+		add(dec1Panel, 900+10+10+10, 10);
+	}
+	/**
+	 * 
+	 */
+
+	private void configVisualisationSalle() {
+		// Wrap the contents in a DecoratorPanel
+		DecoratorPanel dec3Panel = new DecoratorPanel();
+		dec3Panel.setWidget(new VisualisationSallePanel());
+		add(dec3Panel, 10, 10);
+	}
+	/**
+	 * 
+	 */
+	private void configListUserPan() {
+		// Wrap the contents in a DecoratorPanel
+		DecoratorPanel dec1Panel = new DecoratorPanel();
+		dec1Panel.setWidget(new ListUserPanel());
+		add(dec1Panel, 10, 10);
 	}
 	/**
 	 * 
@@ -41,16 +62,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		dec3Panel.setWidget(new EventsPanel());
 		add(dec3Panel, 385, 10);
 	}
-	/**
-	 * 
-	 */
-	private void configFlashPan() {
-		// Wrap the contents in a DecoratorPanel
-		DecoratorPanel dec3Panel = new DecoratorPanel();
-		dec3Panel.setWidget(new VisualisationSallePanel());
-		dec3Panel.setPixelSize(900, 575);
-		add(dec3Panel, 10, 10);
-	}
+
 	/**
 	 * 
 	 */
@@ -61,11 +73,7 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 	/**
 	 * 
 	 */
-	private void configPanel() {
-		setWidth("100%");
-		setHeight(Core.HEIGHT+300+"px");
-		setStyleName("coffeRoomPanel");
-	}
+
 	/**
 	 * 
 	 */
@@ -86,17 +94,4 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		dec2Panel.setWidget(infosSallePan);
 		add(dec2Panel, 10, 10);
 	}
-	/**
-	 * 
-	 */
-	private void configStackPan() {
-		stackPanel = (StackLayoutPanel) CreateStackTest.onInitialize();
-		// Wrap the contents in a DecoratorPanel
-		DecoratorPanel dec0Panel = new DecoratorPanel();
-		dec0Panel.setWidget(stackPanel);
-		add(dec0Panel, 10, 10);
-	}
-	/**
-	 * 
-	 */
 }
