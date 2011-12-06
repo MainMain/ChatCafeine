@@ -101,6 +101,7 @@ public class AccueilPanel extends VerticalPanel{
 									else {
 										Core.userEnCours = result;
 										Core.modeConnecte();
+										errorHTML.setHTML("<font color=\"#FFFFFF\"><em><small>Ok !</small></em></font>");
 										//userConnected=result;
 										//ecran.majAdmin();
 										//dialogBox.hide();
@@ -230,7 +231,7 @@ public class AccueilPanel extends VerticalPanel{
 								if (passIdentiques()){
 									if (mailIdentiques()){
 										int age = Integer.parseInt(ageBox.getItemText(ageBox.getSelectedIndex()).substring(0,2));
-										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription en cours !</small></em></font>");
+										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription complétée !</small></em></font>");
 										CompteService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), age,
 												hRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
 											@Override
@@ -241,9 +242,6 @@ public class AccueilPanel extends VerticalPanel{
 											public void onSuccess(Boolean result) {
 												if (result==null)
 													Window.alert("Erreur lors de l'inscription !");
-												else {
-													Window.alert("Inscription réalisé avec succès ! Vous pouvez maintenant vous connecter !");
-												}
 											}
 										});
 							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
