@@ -28,7 +28,7 @@ public interface CompteService extends RemoteService {
 			return instance;
 		}
 	}
-	public boolean desincription(int id);
-	boolean inscription(String login, String mdp, int age, String sexe,
-			String email);
+	boolean desincription(String url, String login, String password, int idUser);
+	boolean inscription(String url, String login, String password,
+			String loginUser, String mdp, int age, String sexe, String email);
 }

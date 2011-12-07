@@ -11,9 +11,11 @@ public class ConBDD {
 	private static String userPWD  = "";
 	public static boolean DEBUG = true;
 
-
-	public ConBDD() {
+	public ConBDD(String URLparam, String userNameparam, String userPWDparam) {
 		super();
+		URL = URLparam;
+		userName = userNameparam; 
+		userPWD = userPWDparam; 
 		connectToDB();
 	}
 
@@ -30,14 +32,13 @@ public class ConBDD {
 			e.printStackTrace();
 		} 
 		try {
-			if(DEBUG)System.out.println("begin connecttodb");
+			//connOjbect = DriverManager.getConnection("jdbc:mysql:"+URL,userName, userPWD);
 			connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ChatCafeine", "root", "");
-			if(DEBUG)System.out.println("end connecttodb");
 			return true;
 		} catch (SQLException e) {
 			System.err.println("Mysql Connection Error: ");
 			e.printStackTrace();
-			
+
 		}
 		return false;
 	}

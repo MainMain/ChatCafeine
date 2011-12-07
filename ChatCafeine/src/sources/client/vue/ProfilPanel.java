@@ -1,8 +1,11 @@
 package sources.client.vue;
 
+import sources.client.service.CompteService;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -298,8 +301,17 @@ public class ProfilPanel extends AbsolutePanel{
 		Button supprButton = new Button(
 				"Supprimer mon compte", new ClickHandler(){
 					public void onClick(ClickEvent event) {
-						Window.alert("Votre compte est supprimé !");
-						//Core.onModuleLoad();
+						CompteService.Util.getInstance().desincription("//127.0.0.1:3306/chatcafeine", "root", "", 4, new AsyncCallback<Boolean>(){
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Erreur : "+ caught.getMessage());
+							}
+							@Override
+							public void onSuccess(Boolean result) {
+								if (result==null)
+									Window.alert("Erreur lors de la suppression du compte !");
+							}
+						});
 					}				
 				});
 		supprButton.setWidth("200px");
