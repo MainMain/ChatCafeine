@@ -105,9 +105,11 @@ public class ChatBoxPanel extends AbsolutePanel{
 			}
 			@Override
 			public void onSuccess(String result) {
-				if (result != historique[99]) majHistorique(result+" "+cpt); // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
+				if (result != historique[99]) majHistorique(result); // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
 				cpt++;
+				System.out.println("refresh !");
 				refresh();
+				
 			}
 		});
 		messPanel.clear();
