@@ -86,7 +86,7 @@ public class AccueilPanel extends VerticalPanel{
 				"Connexion", new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
-							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), 
+							ConnexionService.Util.getInstance().authentifier("//127.0.0.1:3306/chatcafeine", "root", "",loginBox.getText(), mdpBox.getText(), 
 									new AsyncCallback<User>(){
 								@Override
 								public void onFailure(Throwable caught) {
@@ -131,7 +131,7 @@ public class AccueilPanel extends VerticalPanel{
 		//headPanel.add(logoImg);
 	}
 
-	
+
 	private void createBodyPanel() {
 		bodyPanel = new HorizontalPanel();
 		bodyPanel.setWidth("100%");
@@ -232,49 +232,65 @@ public class AccueilPanel extends VerticalPanel{
 									if (mailIdentiques()){
 										int age = Integer.parseInt(ageBox.getItemText(ageBox.getSelectedIndex()).substring(0,2));
 										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription complétée !</small></em></font>");
-										CompteService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), age,
-												hRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
-											@Override
-											public void onFailure(Throwable caught) {
-												Window.alert("Erreur : "+ caught.getMessage());
-											}
-											@Override
-											public void onSuccess(Boolean result) {
-												if (result==null)
-													Window.alert("Erreur lors de l'inscription !");
-											}
-										});
-							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
-							"mails de sont pas identiques !</small></em></font>");
-						}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les mot de passes" +
-						" ne sont pas identiques !</small></em></font>");
-					}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Adresse mail invalide" +
-					" !</small></em></font>");
-				}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Vous devez correctement remplir tout les " +
-				"champs Le login et mot de passe doivent faire au moins 4 caractères !</small></em></font>");
-	}
+										if(hRadio.getValue()!=null){
+											CompteService.Util.getInstance().inscription("//127.0.0.1:3306/chatcafeine", "root", "",login2Box.getText(), pass2Box.getText(), age,
+													hRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
+												@Override
+												public void onFailure(Throwable caught) {
+													Window.alert("Erreur : "+ caught.getMessage());
+												}
+												@Override
+												public void onSuccess(Boolean result) {
+													if (result==null)
+														Window.alert("Erreur lors de l'inscription !");
+												}
+											});
+										}
+										else{
+											CompteService.Util.getInstance().inscription("//127.0.0.1:3306/chatcafeine", "root", "",login2Box.getText(), pass2Box.getText(), age,
+													fRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
+												@Override
+												public void onFailure(Throwable caught) {
+													Window.alert("Erreur : "+ caught.getMessage());
+												}
+												@Override
+												public void onSuccess(Boolean result) {
+													if (result==null)
+														Window.alert("Erreur lors de l'inscription !");
+												}
+											});
+										}
+									}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les adresses " +
+									"mails de sont pas identiques !</small></em></font>");
+								}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Les mot de passes" +
+								" ne sont pas identiques !</small></em></font>");
+							}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Adresse mail invalide" +
+							" !</small></em></font>");
+						}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Vous devez correctement remplir tout les " +
+						"champs Le login et mot de passe doivent faire au moins 4 caractères !</small></em></font>");
+					}
 
-	private boolean casesRemplies() {
-		return (login2Box.getText().length()>=4 && 
-				pass2Box.getText().length()>=4 && 
-				pass2VerifBox.getText().length()!=0 && 
-				mailBox.getText().length()!=0 && 
-				mailVerifBox.getText().length()!=0 &&
-				(hRadio.getValue() || hRadio.getValue())
-		);
-	}
+					private boolean casesRemplies() {
+						return (login2Box.getText().length()>=4 && 
+								pass2Box.getText().length()>=4 && 
+								pass2VerifBox.getText().length()!=0 && 
+								mailBox.getText().length()!=0 && 
+								mailVerifBox.getText().length()!=0 &&
+								(hRadio.getValue() || fRadio.getValue())
+						);
+					}
 
-	private boolean mailValide(){
-		return (mailBox.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"));
-	}
-	private boolean passIdentiques(){
-		return ((pass2Box.getText()).equals(pass2VerifBox.getText()));
-	}
+					private boolean mailValide(){
+						return (mailBox.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"));
+					}
+					private boolean passIdentiques(){
+						return ((pass2Box.getText()).equals(pass2VerifBox.getText()));
+					}
 
-	private boolean mailIdentiques(){
-		return ((mailBox.getText()).equals(mailVerifBox.getText()));
-	}
-}));
+					private boolean mailIdentiques(){
+						return ((mailBox.getText()).equals(mailVerifBox.getText()));
+					}
+				}));
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel decPanel = new DecoratorPanel();
 		layout.setStyleName("formInscription");

@@ -13,11 +13,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface ConnexionServiceAsync {
 
-	/**
-	 * @param login
-	 * @param mdp
-	 * @param asyncCallback
-	 */
-	public void authentifier(String login, String mdp,
-			AsyncCallback<User> callback);
+	void authentifier(String url, String login, String password, String id,
+			String mdp, AsyncCallback<User> callback);
 }
