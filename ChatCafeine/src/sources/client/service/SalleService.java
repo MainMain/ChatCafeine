@@ -31,8 +31,10 @@ public interface SalleService extends RemoteService {
 			return instance;
 		}
 	}
+	boolean creerSalle(String nom, String theme, String description, int nbPlaceMax);
+	ArrayList<Salle> getToutesSalles();
+	boolean supprimerSalle(String nom);
 	void envoiEvenement(String event, String login);
 	String getNewEvent(int cpt);
 	ArrayList<User> entre1User(User u, Salle s);
-	void ouvertureSalle(Salle s);
 }

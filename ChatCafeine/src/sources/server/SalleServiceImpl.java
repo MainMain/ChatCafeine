@@ -17,15 +17,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 public class SalleServiceImpl extends RemoteServiceServlet implements SalleService{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 986767859747034195L;
 	private int cpt = 0;
 	private String mess;
-	private HashMap<String, ArrayList<User>> listeUserParSalle = new HashMap<String, ArrayList<User>>();
-	
-	
+	private HashMap<String, ArrayList<User>> listeUserParSalle = // String = nom de la salle
+		new HashMap<String, ArrayList<User>>();
+
 	@Override
 	public String getNewEvent(int num) {
 		while (cpt != num)
@@ -37,7 +34,9 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 			return mess;
 	}
-
+	/**
+	 * 
+	 */
 	@Override
 	public void envoiEvenement(String event, String login) {
 		if (event.equals("entree")) mess = login+" vient d'entrer dans la salle !";
@@ -46,7 +45,9 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		else mess = login+" vient de faire une action incomprise !";
 		cpt++;		
 	}
-	
+	/**
+	 * 
+	 */
 	@Override
 	public ArrayList<User> entre1User(User u, Salle s) {
 		ArrayList<User> tmp = listeUserParSalle.get(s.getNom());
@@ -55,9 +56,35 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		listeUserParSalle.put(s.getNom(), tmp);
 		return tmp;
 	}
+	/**
+	 * 
+	 */
+	public boolean majListeSalles(Salle s, boolean ajout) {
+		if (ajout)
+			listeUserParSalle.put(s.getNom(), new ArrayList<User>());
+		else
+			listeUserParSalle.remove(s.getNom());
+		return true;
+	}
+
+	@Override
+	public boolean creerSalle(String nom, String theme, String description,
+			int nbPlaceMax) {
+		// METHODE A CODER PAR AUDREY
+		// CONTRAINTE : DEUX SALLES NE PEUVENT AVOIR LE MEME NOM
+		return false;
+	}
 	
 	@Override
-	public void ouvertureSalle(Salle s) {
-		listeUserParSalle.put(s.getNom(), new ArrayList<User>());
+	public ArrayList<Salle> getToutesSalles() {
+		// METHODE A CODER PAR AUDREY
+		// CETTE METHODE RENVERA UN ARRAY CONTENANT TOUTES LES SALLES
+		return null;
+	}
+	
+	@Override
+	public boolean supprimerSalle(String nom) {
+		// METHODE A CODER PAR AUDREY
+		return false;
 	}
 }

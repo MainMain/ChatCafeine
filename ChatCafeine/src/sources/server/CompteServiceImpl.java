@@ -1,6 +1,5 @@
 package sources.server;
 
-import sources.client.model.User;
 import sources.client.service.CompteService;
 
 import com.google.gwt.user.client.Window;
@@ -32,8 +31,9 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 			return true;
 		else return false;
 	}
-
-
+	/**
+	 * 
+	 */
 	@Override
 	public boolean desincription(String url, String login, String password,
 			int idUser) {
@@ -44,9 +44,32 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 		if (resultat==null || resultat.equals("Error"))
 			return false;
 		if (resultat.equals("OK")){
-			Window.alert("Votre compte a été supprimé");
+			Window.alert("Votre compte a ï¿½tï¿½ supprimï¿½");
 			return true;
 		}
 		else return false;
+	}
+	/**
+	 * 
+	 */
+	@Override
+	public boolean isBanniSalle(String login, String nomSalle) {
+		// TRAVAIL D'AUDREY
+		// RETOURNE SI LE LOGIN EST BANNI DE LA SALLE
+		return false;
+	}
+	@Override
+	public boolean bannirUser(String login, String nomSalle, int temps) {
+		// TRAVAIL D'AUDREY
+		// BANNI UN USER DE LA SALLE
+		// LE TEMPS EST EN MINUTES
+		// IL FAUT INCREMENTER LE NOMBRE DE BANNISSEMENT DE L'USER
+		return false;
+	}
+	@Override
+	public boolean majDateLastConnexion(String login) {
+		// TRAVAIL D'AUDREY
+		// RECUPERE LA DATE ACTUELLE ET INSERE LA DANS "DateLastConnexion"
+		return false;
 	}
 }

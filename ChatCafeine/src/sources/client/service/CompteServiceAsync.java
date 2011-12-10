@@ -3,7 +3,6 @@
  */
 package sources.client.service;
 
-import sources.client.model.User;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -18,4 +17,9 @@ public interface CompteServiceAsync {
 	public void inscription(String url, String login, String password,
 			String loginUser, String mdp, int age, String sexe, String email,
 			AsyncCallback<Boolean> asyncCallback);
+	void isBanniSalle(String login, String nomSalle,
+			AsyncCallback<Boolean> callback);
+	void bannirUser(String login, String nomSalle, int temps,
+			AsyncCallback<Boolean> callback);
+	void majDateLastConnexion(String login, AsyncCallback<Boolean> callback);
 }

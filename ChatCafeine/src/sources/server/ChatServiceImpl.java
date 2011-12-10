@@ -27,7 +27,9 @@ public class ChatServiceImpl  extends RemoteServiceServlet implements ChatServic
         mess = loginUser+" : <font color=\"#4D9ACD\"><em>"+message+"</em></font>";
         cpt++;
     }
-
+	/**
+	 * 
+	 */
     @Override
     public String getNewMessage(int num) { // Que se passe t-il si dans le lap des 100 ms deux messages sont envoyés?
         while (cpt != num)
@@ -38,7 +40,9 @@ public class ChatServiceImpl  extends RemoteServiceServlet implements ChatServic
             }
         return mess;
     }
-
+	/**
+	 * 
+	 */
     @Override
     public int getCptServeur(){
 		return this.cpt;

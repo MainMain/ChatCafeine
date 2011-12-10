@@ -13,11 +13,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 public class ConnexionServiceImpl extends RemoteServiceServlet implements ConnexionService {
-
-
+	private static final long serialVersionUID = 5691744844859451602L;
+	/**
+	 * 
+	 */
 	public User authentifier(String url, String login, String password,
 			String id, String mdp) {
-		
 		String requete= "SELECT ID_user, ID_Salle, Login, Pass, Age, Sexe, Email, Aime, AimePas, Droit, Avatar " +
 				"FROM Utilisateur WHERE Login = '"+id+"' AND pass = '"+mdp+"'";
 		ConBDD connexion=new ConBDD(url,login,password);

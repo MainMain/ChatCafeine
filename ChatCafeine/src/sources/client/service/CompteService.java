@@ -3,7 +3,6 @@
  */
 package sources.client.service;
 
-import sources.client.model.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -31,4 +30,7 @@ public interface CompteService extends RemoteService {
 	boolean desincription(String url, String login, String password, int idUser);
 	boolean inscription(String url, String login, String password,
 			String loginUser, String mdp, int age, String sexe, String email);
+	boolean majDateLastConnexion(String login);
+	boolean isBanniSalle(String login, String nomSalle);
+	boolean bannirUser(String login, String nomSalle, int temps);
 }

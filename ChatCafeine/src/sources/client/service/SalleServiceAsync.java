@@ -23,6 +23,11 @@ public interface SalleServiceAsync {
 	void entre1User(User u, Salle s,
 			AsyncCallback<ArrayList<User>> asyncCallback);
 
-	void ouvertureSalle(Salle s, AsyncCallback<Void> callback);
+	void creerSalle(String nom, String theme, String description,
+			int nbPlaceMax, AsyncCallback<Boolean> callback);
+
+	void getToutesSalles(AsyncCallback<ArrayList<Salle>> callback);
+
+	void supprimerSalle(String nom, AsyncCallback<Boolean> callback);
 
 }
