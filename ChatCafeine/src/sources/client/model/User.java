@@ -13,7 +13,8 @@ public class User implements Comparable<User>, Serializable {
 	 * The key provider that provides the unique ID of a user.
 	 */
 	private String idUser;
-	private String login, mdp, email, genre, age, activite, droit, dateInscription, dateLastConnexion, aime, aimePas;
+	private String login, mdp, email, genre, age, activite, droit, dateInscription,
+	dateLastConnexion, aime, aimePas, avatar;
 	private int compteurChat = 900, nbrCafe = 0;
 	private boolean installe = false; // Savoir s'il est assis dans une salle (pour recevoir messages).
 	/*
@@ -179,6 +180,9 @@ public class User implements Comparable<User>, Serializable {
 	}
 	public int getNbrCafePris(){
 		return nbrCafe;
+	}
+	public String getCheminAvatar(){
+		return avatar;
 	}
 
 }

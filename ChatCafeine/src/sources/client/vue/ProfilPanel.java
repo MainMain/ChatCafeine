@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -59,13 +60,32 @@ public class ProfilPanel extends AbsolutePanel{
 		headerFiche.add(textFiche);
 		fichePan.add(headerFiche);
 
+		// AVATAR
 		AbsolutePanel avatarPan = new AbsolutePanel();
 		avatarPan.setHeight("200px");
 		avatarPan.setWidth("200px");
 		avatarPan.setStyleName("avatarPan");
+		Image avatarImg;
+		if (Core.userEnCours.getCheminAvatar() != null) 
+			avatarImg = new Image("images/"+Core.userEnCours.getCheminAvatar());
+		else
+			avatarImg = new Image("images/anonyme.jpg");
+		avatarImg.setSize("100%", "100%");
+		avatarPan.add(avatarImg);
 		fichePan.add(avatarPan);
 		fichePan.setWidgetPosition(avatarPan, 220, 65);
-
+		
+		// BOUTON CHANGE AVATAR
+		Button changeA = new Button("Changer l'avatar");
+		changeA.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		fichePan.add(changeA, 250, 270);
 		HTML textLogin = new HTML();
 		textLogin.setHTML("<b>Login : </b>"+Core.userEnCours.getLogin());
 		fichePan.add(textLogin);
