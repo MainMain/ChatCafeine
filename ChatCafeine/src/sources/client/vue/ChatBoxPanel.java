@@ -38,8 +38,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		HTML chatTitreLab = new HTML("<h3>- La t'chat box -	</h3><hr>");
 		chatTitreLab.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		add(chatTitreLab);
-
-
+		
 		/*
 		 * CONFIG DU BOUTON 
 		 */
@@ -63,7 +62,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		messPanel.setWidth("350px");
 		messPanel.setHeight("420px");
 		conversation = new HTML();
-		messPanel.add(conversation); // AJOUT**********************************************************
+		messPanel.add(conversation); 
 		add(messPanel);
 		add(new HTML("<hr>"));
 		
@@ -76,6 +75,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 		// AJOUT BOUTON
 		bouton.setStyleName("envoiButton");
+		bouton.setEnabled(false); // Désactivé au lancement car user pas assi
 		add(bouton);
 
 			ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
@@ -86,11 +86,22 @@ public class ChatBoxPanel extends AbsolutePanel{
 				@Override
 				public void onSuccess(Integer result) {
 					cpt = result;
-					System.out.println(Core.userEnCours.getLogin()+" : cpt récup ! : "+result);
+					//System.out.println(Core.userEnCours.getLogin()+" : cpt récup ! : "+result);
 				}
 			});
 		historique[99] = "Message automatique : <font color=\"#FF0000\"><em>Bienvenue ! Reprise du dernier message ci dessous : </em></font>";
 		if (!erreurRecup) refresh();
+		
+		ChatService.Util.getInstance().envoiMessage(Core.userEnCours.getLogin()+" vient d'entrer dans la salle !", 
+				"Message automatique", new AsyncCallback<Void>(){
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+			@Override
+			public void onSuccess(Void result) {
+				zone2Text.setText("");
+			}
+		});
 	}
 	
 	/*
@@ -108,7 +119,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 				if (!result.equals(historique[99])) // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
 					majHistorique(result); // On l'insère en tête de tableau
 				cpt++;
-				System.out.println("refresh !");
+				//System.out.println("refresh !");
 				refresh();
 			}
 		});

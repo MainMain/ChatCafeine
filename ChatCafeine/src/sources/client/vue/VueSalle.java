@@ -3,9 +3,12 @@
  */
 package sources.client.vue;
 
+import sources.client.service.ChatService;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -29,14 +32,14 @@ public class VueSalle extends AbsolutePanel {
 		setHeight("100%");
 		setWidth("100%");
 		setStyleName("vueSalle");
-		
+
 		flextable = new FlexTable();
-	    flextable.clear();
-	    flowpanel = new FlowPanel();
-	    flextable.setWidget(3, 0, flowpanel);
-	    flowpanel.setSize("100%", "100%");
-	    flextable.setCellSpacing(0);
-	    add(flextable);
+		flextable.clear();
+		flowpanel = new FlowPanel();
+		flextable.setWidget(3, 0, flowpanel);
+		flowpanel.setSize("100%", "100%");
+		flextable.setCellSpacing(0);
+		add(flextable);
 		matrice = new int[][]     
 		                    {
 				{ 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
@@ -50,7 +53,7 @@ public class VueSalle extends AbsolutePanel {
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5 }
 		                    };
-		
+
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 12; j++)
 				flextable.setWidget(i, j,(new Case(matrice[i][j])));
@@ -85,7 +88,17 @@ public class VueSalle extends AbsolutePanel {
 					avatarImg.setSize("100%", "100%");
 					//add(avatarImg);
 					setStyleName("testImg");
-					 new SiegeButton(avatarImg);
+					new SiegeButton(avatarImg);
+					ChatService.Util.getInstance().envoiMessage(
+							Core.userEnCours.getLogin()+" viens de s'installer", 
+							"Message automatique", new AsyncCallback<Void>(){
+								@Override
+								public void onFailure(Throwable caught) {
+								}
+								@Override
+								public void onSuccess(Void result) {
+								}
+							});
 				}
 			});
 		}
@@ -98,6 +111,16 @@ public class VueSalle extends AbsolutePanel {
 					Window.alert("Click sur une place !");
 					Core.userEnCours.sinstaller();
 					ChatBoxPanel.activerBoutonEnvoi();
+					ChatService.Util.getInstance().envoiMessage(
+							Core.userEnCours.getLogin()+" viens de s'installer", 
+							"Message automatique", new AsyncCallback<Void>(){
+								@Override
+								public void onFailure(Throwable caught) {
+								}
+								@Override
+								public void onSuccess(Void result) {
+								}
+							});
 				}
 			});
 		}
@@ -112,6 +135,16 @@ public class VueSalle extends AbsolutePanel {
 					Window.alert("Click sur la machine !");
 					Core.userEnCours.quitterLaPlace();
 					ChatBoxPanel.desactiverBoutonEnvoi();
+					ChatService.Util.getInstance().envoiMessage(
+							Core.userEnCours.getLogin()+" va prendre un café", 
+							"Message automatique", new AsyncCallback<Void>(){
+								@Override
+								public void onFailure(Throwable caught) {
+								}
+								@Override
+								public void onSuccess(Void result) {
+								}
+							});
 				}
 			});
 		}

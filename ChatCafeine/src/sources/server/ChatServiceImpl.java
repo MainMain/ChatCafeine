@@ -24,7 +24,10 @@ public class ChatServiceImpl  extends RemoteServiceServlet implements ChatServic
 
 	@Override
 	public void envoiMessage(String message, String loginUser) {
-		mess = loginUser+" : <font color=\"#4D9ACD\"><em>"+message+"</em></font>";
+		if (loginUser.equals("Message automatique"))
+			mess = loginUser+" : <font color=\"#FF0000\"><em>"+message+"</em></font>";
+		else
+			mess = loginUser+" : <font color=\"#4D9ACD\"><em>"+message+"</em></font>";
 		cpt++;
 	}
 	/**
@@ -32,7 +35,7 @@ public class ChatServiceImpl  extends RemoteServiceServlet implements ChatServic
 	 */
 	@Override
 	public String getNewMessage(int cptUser) { // Que se passe t-il si dans le lap des 100 ms deux messages sont envoyés?
-		while (cptUser ==  cpt){
+		while (cptUser == cpt){
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
