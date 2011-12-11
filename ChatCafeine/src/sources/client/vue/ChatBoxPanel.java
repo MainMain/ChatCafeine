@@ -25,17 +25,6 @@ public class ChatBoxPanel extends AbsolutePanel{
 	static Button bouton;
 
 	public ChatBoxPanel(){
-		ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-			@Override
-			public void onSuccess(Integer result) {
-				cpt = result;
-				System.out.println(Core.userEnCours.getLogin()+" : cpt récup ! : "+result);
-			}
-		});
 		// Config panel chatBoxPan
 		setHeight("560px");
 		setWidth("360px");
@@ -73,8 +62,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		});
 		messPanel.setWidth("350px");
 		messPanel.setHeight("420px");
-		messPanel.setStyleName("caseTable");
-		conversation = new HTML("Message automatique : Bienvenue ! <br>");
+		conversation = new HTML();
 		messPanel.add(conversation); // AJOUT**********************************************************
 		add(messPanel);
 		add(new HTML("<hr>"));
@@ -90,6 +78,18 @@ public class ChatBoxPanel extends AbsolutePanel{
 		bouton.setStyleName("envoiButton");
 		add(bouton);
 
+			ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
+				@Override
+				public void onFailure(Throwable caught) {
+					
+				}
+				@Override
+				public void onSuccess(Integer result) {
+					cpt = result;
+					System.out.println(Core.userEnCours.getLogin()+" : cpt récup ! : "+result);
+				}
+			});
+		historique[99] = "Message automatique : <font color=\"#FF0000\"><em>Bienvenue ! Reprise du dernier message ci dessous : </em></font>";
 		if (!erreurRecup) refresh();
 	}
 	
@@ -105,12 +105,11 @@ public class ChatBoxPanel extends AbsolutePanel{
 			}
 			@Override
 			public void onSuccess(String result) {
-				if (result != historique[99]) // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
+				if (!result.equals(historique[99])) // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
 					majHistorique(result); // On l'insère en tête de tableau
 				cpt++;
 				System.out.println("refresh !");
 				refresh();
-				
 			}
 		});
 		//messPanel.clear();
@@ -125,7 +124,6 @@ public class ChatBoxPanel extends AbsolutePanel{
 				str += historique[i]+"<br>";
 			//if (historique[i] != null) str += historique[i];
 		}
-		System.out.println(str);
 		conversation.setHTML(str);
 		messPanel.scrollToBottom();
 		
