@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -65,7 +67,7 @@ public class VueSalle extends AbsolutePanel {
 		}
 	}
 
-	public class SiegeButton extends Button{
+	public class SiegeButton extends PushButton{
 		public SiegeButton(){
 			setSize("100%", "100%");
 			setStyleName("caseSiege");
@@ -75,6 +77,14 @@ public class VueSalle extends AbsolutePanel {
 					Window.alert("Click sur une place !");
 					Core.userEnCours.sinstaller();
 					ChatBoxPanel.activerBoutonEnvoi();
+					Image avatarImg;
+					if (Core.userEnCours.getCheminAvatar() != null) 
+						avatarImg = new Image("images/"+Core.userEnCours.getCheminAvatar());
+					else
+						avatarImg = new Image("images/anonyme.jpg");
+					avatarImg.setSize("100%", "100%");
+					//add(avatarImg);
+					setStyleName("testImg");
 				}
 			});
 		}
