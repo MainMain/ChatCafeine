@@ -85,6 +85,19 @@ public class VueSalle extends AbsolutePanel {
 					avatarImg.setSize("100%", "100%");
 					//add(avatarImg);
 					setStyleName("testImg");
+					 new SiegeButton(avatarImg);
+				}
+			});
+		}
+		public SiegeButton(Image img){
+			setSize("100%", "100%");
+			setStyleName("caseSiege");
+			addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.alert("Click sur une place !");
+					Core.userEnCours.sinstaller();
+					ChatBoxPanel.activerBoutonEnvoi();
 				}
 			});
 		}

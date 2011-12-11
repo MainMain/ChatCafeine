@@ -20,8 +20,8 @@ public class ChatBoxPanel extends AbsolutePanel{
 	private int cpt = 0;	// Au final, il faut se synchroniser au compteur du servlet
 	boolean erreurRecup = false;
 	String[] historique = new String[100];
-	final VerticalPanel messPanel = new VerticalPanel();
-	private HTML conversation = new HTML();
+	final ScrollPanel messPanel = new ScrollPanel();
+	private HTML conversation;
 	static Button bouton;
 
 	public ChatBoxPanel(){
@@ -44,13 +44,12 @@ public class ChatBoxPanel extends AbsolutePanel{
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec4Panel = new DecoratorPanel();
 		dec4Panel.setWidget(this);
-		// Add elements
+		
+		// AJOUT ENTETE
 		HTML chatTitreLab = new HTML("<h3>- La t'chat box -	</h3><hr>");
 		chatTitreLab.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		add(chatTitreLab);
-		zone2Text = new TextBox();
-		zone2Text.setWidth("80%");
-		zone2Text.setMaxLength(200);
+
 
 		/*
 		 * CONFIG DU BOUTON 
@@ -74,25 +73,26 @@ public class ChatBoxPanel extends AbsolutePanel{
 		});
 		messPanel.setWidth("350px");
 		messPanel.setHeight("420px");
+		messPanel.setStyleName("caseTable");
+		conversation = new HTML("Message automatique : Bienvenue ! <br>");
+		messPanel.add(conversation); // AJOUT**********************************************************
 		add(messPanel);
 		add(new HTML("<hr>"));
-
+		
+		// AJOUT ZONE DE TEXTE
+		zone2Text = new TextBox();
+		zone2Text.setWidth("80%");
+		zone2Text.setMaxLength(200);
 		zone2Text.setStyleName("messBox");
 		add(zone2Text);
 
+		// AJOUT BOUTON
 		bouton.setStyleName("envoiButton");
 		add(bouton);
 
 		if (!erreurRecup) refresh();
 	}
-
-	public static void activerBoutonEnvoi(){
-		bouton.setEnabled(true);
-	}
-	public static void desactiverBoutonEnvoi(){
-		bouton.setEnabled(false);
-	}
-
+	
 	/*
 	 * METHODE DE RAFRAICHISSEMENT POUR NOUVEAUX MESSAGES
 	 */
@@ -105,29 +105,34 @@ public class ChatBoxPanel extends AbsolutePanel{
 			}
 			@Override
 			public void onSuccess(String result) {
-				if (result != historique[99]) majHistorique(result); // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
+				if (result != historique[99]) // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
+					majHistorique(result); // On l'insère en tête de tableau
 				cpt++;
 				System.out.println("refresh !");
 				refresh();
 				
 			}
 		});
-		messPanel.clear();
+		//messPanel.clear();
 		/*for(String msg : historique){ // Puis on lui met les bons messages
 			//if (msg != null) conversationLab.setText(conversationLab.getText()+"\n"+msg); 
 			if (msg != null) messPanel.add(new HTML(msg)); // Le message le plus récent doit être le dernier ! (Donc position 0, puis 1 etc...)
 		}*/
 		String str = "";
+		// Dans la boucle, on converti chaque String en HTML et chaque null en ""
 		for (int i = 0; i < 100; i++){
-			if (historique[i] != null) messPanel.add(new HTML(historique[i]));
-			else messPanel.add(new HTML(""));
+			if (historique[i] != null) 
+				str += historique[i]+"<br>";
 			//if (historique[i] != null) str += historique[i];
 		}
-		//conversation.setText(str);
-		//messPanel.add(conversation);
+		System.out.println(str);
+		conversation.setHTML(str);
+		messPanel.scrollToBottom();
 		
 	}
 
+	
+	
 	/*
 	 * MISE A JOUR DE L'HISTORIQUE
 	 */
@@ -136,6 +141,13 @@ public class ChatBoxPanel extends AbsolutePanel{
 			if (historique[i+1] != null) historique[i] = historique[i+1];
 		}
 		historique[99] = nvMess;
+	}
+
+	public static void activerBoutonEnvoi(){
+		bouton.setEnabled(true);
+	}
+	public static void desactiverBoutonEnvoi(){
+		bouton.setEnabled(false);
 	}
 }
 

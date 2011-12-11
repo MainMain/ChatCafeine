@@ -66,11 +66,11 @@ public class AccueilPanel extends VerticalPanel{
 
 		// 2 text box, 2 label, un bouton
 		final TextBox loginBox = new TextBox();
-		loginBox.setText("");
+		loginBox.setText("Mainmain");
 		loginBox.setMaxLength(20);
 		loginBox.setHeight("15px");
 		final PasswordTextBox mdpBox = new PasswordTextBox();
-		mdpBox.setText("");
+		mdpBox.setText("azer");
 		mdpBox.setHeight("15px");
 		mdpBox.setMaxLength(20);
 
