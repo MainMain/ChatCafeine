@@ -3,7 +3,7 @@
  */
 package sources.client.vue;
 
-import sources.client.service.ChatService;
+import sources.client.service.SalleService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -46,7 +46,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		bouton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(!zone2Text.getText().isEmpty()){
-					ChatService.Util.getInstance().envoiMessage(zone2Text.getText(), 
+					SalleService.Util.getInstance().envoiMessage(zone2Text.getText(), 
 							Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
 						@Override
 						public void onFailure(Throwable caught) {
@@ -78,7 +78,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		bouton.setEnabled(false); // Désactivé au lancement car user pas assi
 		add(bouton);
 
-			ChatService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
+			SalleService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
 				@Override
 				public void onFailure(Throwable caught) {
 					
@@ -92,7 +92,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		historique[99] = "Message automatique : <font color=\"#FF0000\"><em>Bienvenue ! Reprise du dernier message ci dessous : </em></font>";
 		if (!erreurRecup) refresh();
 		
-		ChatService.Util.getInstance().envoiMessage(Core.userEnCours.getLogin()+" vient d'entrer dans la salle !", 
+		SalleService.Util.getInstance().envoiMessage(Core.userEnCours.getLogin()+" vient d'entrer dans la salle !", 
 				"Message automatique", new AsyncCallback<Void>(){
 			@Override
 			public void onFailure(Throwable caught) {
@@ -108,7 +108,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 	 * METHODE DE RAFRAICHISSEMENT POUR NOUVEAUX MESSAGES
 	 */
 	private void refresh() {
-		ChatService.Util.getInstance().getNewMessage(cpt , new AsyncCallback<String>() {
+		SalleService.Util.getInstance().getNewMessage(cpt , new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Erreur lors de la récupération des messages ! \n Récupération stoppée !");

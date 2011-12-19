@@ -1,6 +1,3 @@
-/**
- * 
- */
 package sources.client.service;
 
 import sources.client.model.User;

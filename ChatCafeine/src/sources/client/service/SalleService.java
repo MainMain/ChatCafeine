@@ -1,6 +1,3 @@
-/**
- * 
- */
 package sources.client.service;
 
 import java.util.ArrayList;
@@ -31,10 +28,22 @@ public interface SalleService extends RemoteService {
 			return instance;
 		}
 	}
+	
+	/**
+	 * Liés au tchat
+	 */
+	String getNewMessage(int cpt);
+	void envoiMessage(String text, String login);
+	int getCptServeur();
+	
+	/**
+	 * liés à la salle
+	 */
 	boolean creerSalle(String nom, String theme, String description, int nbPlaceMax);
 	ArrayList<Salle> getToutesSalles();
 	boolean supprimerSalle(String nom);
 	void envoiEvenement(String event, String login);
 	String getNewEvent(int cpt);
 	ArrayList<User> entre1User(User u, Salle s);
+	boolean modifierPosition(int x_case, int y_case);
 }

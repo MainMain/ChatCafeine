@@ -16,6 +16,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface SalleServiceAsync {
 
+	/**
+	 * Liés au tchat
+	 */
+	void envoiMessage(String text, String login, AsyncCallback<Void> callback);
+	void getCptServeur(AsyncCallback<Integer> callback);
+	void getNewMessage(int cpt, AsyncCallback<String> callback);
+	
+	/**
+	 * 
+	 */
 	void getNewEvent(int cpt, AsyncCallback<String> callback);
 
 	void envoiEvenement(String event, String login, AsyncCallback<Void> callback);
@@ -29,5 +39,8 @@ public interface SalleServiceAsync {
 	void getToutesSalles(AsyncCallback<ArrayList<Salle>> callback);
 
 	void supprimerSalle(String nom, AsyncCallback<Boolean> callback);
+
+	void modifierPosition(int x_case, int y_case,
+			AsyncCallback<Boolean> callback);
 
 }

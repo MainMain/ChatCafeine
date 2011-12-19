@@ -13,11 +13,12 @@
 
   <!-- Other module inherits                                      -->
   <inherits name='com.google.gwt.uibinder.UiBinder'/> 
-
+	
   <!-- Specify the app entry point class.                         -->
 	<entry-point class='sources.client.vue.Core'/>
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
-
+  
+	  <!--<source path='server'/>-->
 </module>

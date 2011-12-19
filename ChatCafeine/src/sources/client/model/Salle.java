@@ -3,11 +3,13 @@
  */
 package sources.client.model;
 
+import java.io.Serializable;
+
 /**
  * @author : Johan
  *
  */
-public class Salle {
+public class Salle implements Comparable<User>, Serializable{
 	private String nom = "Test";
 	private String theme = "Aucun";
 	private String description;
@@ -20,6 +22,10 @@ public class Salle {
 		this.theme = theme;
 		this.description = description;
 		this.nbrPlaceMax = nbrPlaceMax;
+	}
+	
+	public Salle(){
+		
 	}
 
 	public String getNom() {
@@ -60,6 +66,15 @@ public class Salle {
 
 	public void setNbrPlaceOqp(int nbrPlaceOqp) {
 		this.nbrPlaceOqp = nbrPlaceOqp;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(User o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	
