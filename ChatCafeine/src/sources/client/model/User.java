@@ -13,6 +13,7 @@ public class User implements Comparable<User>, Serializable {
 	 * The key provider that provides the unique ID of a user.
 	 */
 	private String idUser;
+	private int id;
 	private String login, mdp, email, genre, age, activite, droit, dateInscription,
 	dateLastConnexion, aime, aimePas, avatar;
 	private int compteurChat = 900, nbrCafe = 0;
@@ -55,7 +56,7 @@ public class User implements Comparable<User>, Serializable {
 
 	@Override
 	public int hashCode() {
-		return Integer.parseInt(idUser.substring(idUser.length()-3));
+		return id;
 	}
 
 	/*
@@ -69,6 +70,11 @@ public class User implements Comparable<User>, Serializable {
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
+	
+	public void setId(String idUser) {
+		this.id = Integer.parseInt(idUser);
+		System.out.println("id "+id);
+	}
 
 	public String getLogin() {
 		return login;
@@ -76,6 +82,7 @@ public class User implements Comparable<User>, Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+		idUser = login;
 	}
 
 	public String getMdp() {

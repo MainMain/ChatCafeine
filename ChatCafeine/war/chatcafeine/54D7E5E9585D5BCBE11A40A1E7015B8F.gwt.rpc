@@ -1,0 +1,16 @@
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+[I, true, true, false, false, [I/2970817851, 2970817851
+[[I, true, true, false, false, [[I/805731539, 805731539
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.util.ArrayList, true, true, false, false, java.util.ArrayList/4159755760, 4159755760
+sources.client.model.PaquetCom, true, true, false, false, sources.client.model.PaquetCom/3478362190, 3478362190
+sources.client.model.Salle, true, true, true, true, sources.client.model.Salle/875782165, 875782165
+sources.client.model.User, true, true, true, true, sources.client.model.User/4115872825, 4115872825
+[Lsources.client.model.User;, true, true, false, false, [Lsources.client.model.User;/1512717043, 1512717043
+[[Lsources.client.model.User;, true, true, false, false, [[Lsources.client.model.User;/123087282, 123087282
+sources.client.service.SalleService, false, false, false, false, _, 1622117588

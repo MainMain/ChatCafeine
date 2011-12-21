@@ -29,6 +29,7 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 			while (resultat.next()){
 				User p=new User();
 				p.setIdUser(resultat.getString("ID_user"));
+				p.setId(resultat.getString("ID_user"));
 				//p.setActivite(resultat.getString("ACTIVITE")); Pas de colone activité ! O_O !
 				p.setAge(resultat.getString("Age"));
 				p.setDroit(resultat.getString("Droit"));

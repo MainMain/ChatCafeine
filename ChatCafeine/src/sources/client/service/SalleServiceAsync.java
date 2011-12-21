@@ -65,6 +65,7 @@ public interface SalleServiceAsync {
 	 */
 	void prendre1Cafe(int x_last, int y_last,
 			AsyncCallback<Boolean> asyncCallback);
+	void sortie1User(User u, Salle s, AsyncCallback<Void> callback);
 
 
 }

@@ -59,4 +59,10 @@ public interface SalleService extends RemoteService {
 	int getCptSalle();
 	User[][] getMatriceUser(int cptVueSalle);
 	boolean prendre1Cafe(int x_last, int y_last);
+	/**
+	 * @param u
+	 * @param s
+	 * @return
+	 */
+	void sortie1User(User u, Salle s);
 }

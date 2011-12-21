@@ -112,6 +112,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 	public ArrayList<User> entre1User(User u, Salle s) {
 		System.out.println("Entrée d'un user !");
 		listeUtilisateurs.add(u);
+		System.out.println("Entrée User index : "+listeUtilisateurs.indexOf(u));
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
 		pc.setListeUtilisateurs(listeUtilisateurs);
 		cptVueSalle++;
@@ -119,6 +120,27 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		return listeUtilisateurs;
 	}
 	
+	@Override
+	public void sortie1User(User u, Salle s) {
+		PaquetCom pc = new PaquetCom();
+		int a = -1;
+		for (int i = 0; i < listeUtilisateurs.size(); i++){
+			if (listeUtilisateurs.get(i).getLogin().equals(u.getLogin())){
+					a = i;
+					break;
+			}
+		}
+		listeUtilisateurs.remove(a);								// Suppression de la liste des utilisateurs
+		if (u.getPos_x() > -1 && u.getPox_y() > -1){				// Si utilisateur était installé
+			matriceUser[u.getPos_x()][u.getPox_y()] = null;
+			pc.setX_last(u.getPos_x());
+			pc.setY_last(u.getPox_y());
+		}
+							// On crée un nouveau paquet...
+		pc.setListeUtilisateurs(listeUtilisateurs);
+		cptVueSalle++;
+		paquetTmp = pc;
+	}
 	@Override
 	public boolean sinstaller(int x_case, int y_case, int x_last, int y_last, User u) {
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...

@@ -1,0 +1,2 @@
+serviceClass: sources.client.service.ConnexionService
+path: 8AC0EE050B38084908D885241EB6BBC1.gwt.rpc
