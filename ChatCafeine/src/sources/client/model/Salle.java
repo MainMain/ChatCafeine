@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author : Johan
  *
  */
-public class Salle implements Comparable<User>, Serializable{
+public class Salle implements Comparable<Salle>, Serializable{
 	private String nom = "Test";
 	private String theme = "Aucun";
 	private String description;
@@ -72,7 +72,7 @@ public class Salle implements Comparable<User>, Serializable{
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public int compareTo(User o) {
+	public int compareTo(Salle o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

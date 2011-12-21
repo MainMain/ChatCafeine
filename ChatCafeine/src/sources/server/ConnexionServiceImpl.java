@@ -38,6 +38,10 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 				p.setMdp(resultat.getString("Pass"));
 				p.setAime(resultat.getString("Aime"));
 				p.setAimePas(resultat.getString("AimePas"));
+				if (resultat.getString("Avatar") != null)
+						p.setCheminAvatar(resultat.getString("Avatar"));
+				else
+					p.setCheminAvatar("anonyme.jpg");
 				return p;//String[]{"OK",resultat.getString("id")};
 			}
 			connexion.fermer();

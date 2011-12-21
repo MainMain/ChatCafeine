@@ -3,32 +3,41 @@
  */
 package sources.client.vue;
 
-import sources.client.service.ChatService;
+import sources.client.model.PaquetCom;
+import sources.client.model.User;
+import sources.client.service.SalleService;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.*;
 
 /**
  * @author : Johan
  *
  */
 public class VueSalle extends AbsolutePanel {
-	private int[][] matrice;
+	private int[][] matriceSalle = 
+		new int[][]{
+			{ 7, 4, 6, 1, 1, 6, 6, 6, 6, 6, 6, 7 }, 
+			{ 6, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6 }, 
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6 }, 
+			{ 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 6 }, 
+			{ 6, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1 },  
+			{ 6, 1, 2, 3, 6, 6, 7, 6, 6, 3, 2, 1 },  
+			{ 6, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1 },  
+			{ 6, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 }, 
+			{ 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
+			{ 7, 6, 6, 6, 6, 6, 1, 1, 6, 6, 1, 5 }
+	};
 	FlexTable flextable;
 	FlowPanel flowpanel;
+	private int cptVueSalle = 0;
+	private ListUserPanel listUserPanel;
 
-	public VueSalle(){
+	public VueSalle(ListUserPanel a){
+		listUserPanel = a;
 		setHeight("100%");
 		setWidth("100%");
 		setStyleName("vueSalle");
@@ -36,106 +45,161 @@ public class VueSalle extends AbsolutePanel {
 		flextable = new FlexTable();
 		flextable.clear();
 		flowpanel = new FlowPanel();
-		flextable.setWidget(3, 0, flowpanel);
+		flextable.setWidget(1, 0, flowpanel);
 		flowpanel.setSize("100%", "100%");
 		flextable.setCellSpacing(0);
 		add(flextable);
-		matrice = new int[][]     
-		                    {
-				{ 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 }, 
-				{ 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1 },  
-				{ 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 2, 1 },  
-				{ 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1 },  
-				{ 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5 }
-		                    };
 
+		// CREATION DE LA VUE DE LA SALLE
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 12; j++)
-				flextable.setWidget(i, j,(new Case(matrice[i][j])));
+				flextable.setWidget(i, j,(new Case(matriceSalle[i][j],i ,j )));
+
+		System.out.println("Nouvelle connexion !");
+
+		// RECUPERATION DU COMPTEUR SALLE DU SERVEUR
+		SalleService.Util.getInstance().getCptSalle(new AsyncCallback<Integer>(){
+			@Override
+			public void onFailure(Throwable caught) {
+				System.out.println("erreur !");
+			}
+			@Override
+			public void onSuccess(Integer result) {
+				cptVueSalle = result;
+			}
+		});
+
+		// RECUPERATION DE LA MATRICE DES USERS
+		SalleService.Util.getInstance().getMatriceUser(cptVueSalle, new AsyncCallback<User[][]>(){
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+			@Override
+			public void onSuccess(User[][] result) {
+				for (int i = 0; i < 10; i++)
+					for (int j = 0; j < 12; j++){
+						if (result[i][j] != null){
+							flextable.setWidget(i,j,
+									new SiegeButton("images/"+result[i][j].getCheminAvatar(),i,j,true));
+						}
+					}
+				refresh();
+			}
+		});
+
+	}
+
+	/*
+	 * METHODE DE RAFRAICHISSEMENT POUR DEPLACEMENTS
+	 */
+	private void refresh() {
+		SalleService.Util.getInstance().getNewMatrice(cptVueSalle, new AsyncCallback<PaquetCom>() {			
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+			@Override
+			public void onSuccess(PaquetCom pc) {
+				cptVueSalle++;
+				if (pc.getX_case() > -1 && pc.getY_case() > -1)
+					flextable.setWidget(pc.getX_case(), pc.getY_case(),
+							new SiegeButton("images/"+pc.getImgUser(), pc.getX_case(), 
+									pc.getX_case(),true));
+				if (pc.getX_last() > -1 && pc.getY_last() > -1)
+					flextable.setWidget(pc.getX_last(), pc.getY_last(),
+							new SiegeButton("images/siege2.png", pc.getX_last(), 
+									pc.getY_last(),false));
+				if (pc.getListeUtilisateurs() != null){
+					System.out.println("refresh list user");
+					listUserPanel.maj(pc.getListeUtilisateurs());
+				}
+				refresh();
+			}
+		});
+
 	}
 
 	public class Case extends AbsolutePanel {
-		public Case(int x){
+		public Case(int a, int x, int y){
 			setSize("54px", "54px");
-			if (x == 1) { setStyleName("caseSol"); add(new HTML(""));}
-			else if (x == 2) { add(new SiegeButton()); 		add(new HTML(""));}
-			else if (x == 3) { setStyleName("caseTable");  	add(new HTML(""));}
-			else if (x == 4) { add(new CafeButton()); 		add(new HTML(""));}
-			else if (x == 5) { add(new SortieButton()); 	add(new HTML(""));}
+			if (a == 1) { setStyleName("caseSol"); }
+			else if (a == 2) { add(new SiegeButton("images/siege2.png",x,y,false)); 	}
+			else if (a == 3) { add(new DecoButton("/images/table2.png"));  	}
+			else if (a == 4) { add(new CafeButton()); 		}
+			else if (a == 5) { add(new SortieButton()); 	}
+			else if (a == 6) { add(new DecoButton("/images/plante2.png")); 	}
+			else if (a == 7) { add(new DecoButton("/images/lampe1.png")); 	}
 		}
 	}
 
-	public class SiegeButton extends PushButton{
-		public SiegeButton(){
-			setSize("100%", "100%");
-			setStyleName("caseSiege");
+	public class SiegeButton extends Image{
+		private int x_case;
+		private int y_case;
+		// Les 2 attributs suivants serviront si l'user change de place.
+		private int x_last = -1;
+		private int y_last = -1;
+		private boolean occupee = false;
+
+		public SiegeButton(String cheminImg, int x, int y, boolean oqp){
+			super(cheminImg);
+			setSize("54px", "54px");
+			setStyleName("caseSol");
+			occupee = oqp;
+			x_case = x;
+			y_case = y;
+			//setStyleName("caseSiege");
+
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Click sur une place !");
-					Core.userEnCours.sinstaller();
-					ChatBoxPanel.activerBoutonEnvoi();
-					Image avatarImg;
-					if (Core.userEnCours.getCheminAvatar() != null) 
-						avatarImg = new Image("images/"+Core.userEnCours.getCheminAvatar());
-					else
-						avatarImg = new Image("images/anonyme.jpg");
-					avatarImg.setSize("100%", "100%");
-					//add(avatarImg);
-					setStyleName("testImg");
-					new SiegeButton(avatarImg);
-					ChatService.Util.getInstance().envoiMessage(
-							Core.userEnCours.getLogin()+" viens de s'installer", 
-							"Message automatique", new AsyncCallback<Void>(){
-								@Override
-								public void onFailure(Throwable caught) {
-								}
-								@Override
-								public void onSuccess(Void result) {
-								}
-							});
-				}
-			});
-		}
-		public SiegeButton(Image img){
-			setSize("100%", "100%");
-			setStyleName("caseSiege");
-			addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					Window.alert("Click sur une place !");
-					Core.userEnCours.sinstaller();
-					ChatBoxPanel.activerBoutonEnvoi();
-					ChatService.Util.getInstance().envoiMessage(
-							Core.userEnCours.getLogin()+" viens de s'installer", 
-							"Message automatique", new AsyncCallback<Void>(){
-								@Override
-								public void onFailure(Throwable caught) {
-								}
-								@Override
-								public void onSuccess(Void result) {
-								}
-							});
+					if (!occupee){
+						System.out.println(occupee);
+						Core.userEnCours.sinstaller();									// User noté comme installé
+						x_last = Core.userEnCours.getPos_x();							// On sauvegarde les anciennes positions...
+						y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
+						Core.userEnCours.setPos_x(x_case);								// On lui attribut celles....
+						Core.userEnCours.setPox_y(y_case);								// De la place qu'il vient de prendre
+						ChatBoxPanel.activerBoutonEnvoi();								// Activation du bouton d'envoi
+						SalleService.Util.getInstance().envoiMessageFromClient(			// Envoi du message pour prévenir
+								Core.userEnCours.getLogin()+" vient de s'installer", 
+								"Message automatique", new AsyncCallback<Void>(){
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+									@Override
+									public void onSuccess(Void result) {
+									}
+								});
+						System.out.println(x_case+" , "+ y_case+" , "+ x_last+" , "+ y_last);
+						SalleService.Util.getInstance().sinstaller(						// Prévenir serveur
+								x_case, y_case, x_last, y_last, Core.userEnCours, 
+								new AsyncCallback<Boolean>(){
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+									@Override
+									public void onSuccess(Boolean result) {
+									}
+								});
+					}
 				}
 			});
 		}
 	}
-	public class CafeButton extends Button{
+	public class CafeButton extends Image{
 		public CafeButton(){
+			super("images/MaC1.png");
 			setSize("100%", "100%");
-			setStyleName("caseCafe");
+			setStyleName("caseSol");
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Click sur la machine !");
 					Core.userEnCours.quitterLaPlace();
+					int x_last = Core.userEnCours.getPos_x();							// On sauvegarde les anciennes positions...
+					int y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
+					Core.userEnCours.setPos_x(-1);
+					Core.userEnCours.setPox_y(-1);
 					ChatBoxPanel.desactiverBoutonEnvoi();
-					ChatService.Util.getInstance().envoiMessage(
+					SalleService.Util.getInstance().envoiMessageFromClient(
 							Core.userEnCours.getLogin()+" va prendre un café", 
 							"Message automatique", new AsyncCallback<Void>(){
 								@Override
@@ -145,21 +209,41 @@ public class VueSalle extends AbsolutePanel {
 								public void onSuccess(Void result) {
 								}
 							});
+					SalleService.Util.getInstance().prendre1Cafe(x_last, y_last, new AsyncCallback<Boolean>() {
+						@Override
+						public void onFailure(Throwable caught) {
+						}
+						@Override
+						public void onSuccess(Boolean result) {
+						}
+					});
 				}
 			});
 		}
 	}
-	public class SortieButton extends Button{
+
+	public class SortieButton extends Image{
 		public SortieButton(){
+			super("/images/porte1.png");
 			setSize("100%", "100%");
-			setStyleName("caseSortie");;
+			setStyleName("caseSol");;
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Click sur la sortie !");
 					ChatBoxPanel.desactiverBoutonEnvoi();
+					flextable.setWidget(2, 2, null);
 				}
 			});
+
+		}
+	}
+
+	public class DecoButton extends Image{
+		public DecoButton(String a){
+			super(a);
+			setSize("100%", "100%");
+			setStyleName("caseSol");;
+
 		}
 	}
 }

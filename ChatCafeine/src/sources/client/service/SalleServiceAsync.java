@@ -5,6 +5,7 @@ package sources.client.service;
 
 import java.util.ArrayList;
 
+import sources.client.model.PaquetCom;
 import sources.client.model.Salle;
 import sources.client.model.User;
 
@@ -19,10 +20,13 @@ public interface SalleServiceAsync {
 	/**
 	 * Liés au tchat
 	 */
-	void envoiMessage(String text, String login, AsyncCallback<Void> callback);
+	void envoiMessageFromClient(String text, String login, AsyncCallback<Void> callback);
 	void getCptServeur(AsyncCallback<Integer> callback);
-	void getNewMessage(int cpt, AsyncCallback<String> callback);
 	
+	/**
+	 * 
+	 */
+	void getNewMessage(int cptChat, AsyncCallback<PaquetCom> callback);
 	/**
 	 * 
 	 */
@@ -40,7 +44,27 @@ public interface SalleServiceAsync {
 
 	void supprimerSalle(String nom, AsyncCallback<Boolean> callback);
 
-	void modifierPosition(int x_case, int y_case,
-			AsyncCallback<Boolean> callback);
+	void sinstaller(int x_case, int y_case, int x_last, int y_last,
+			User userEnCours, AsyncCallback<Boolean> callback);
+	/**
+	 * @param cptVueSalle
+	 * @param asyncCallback
+	 */
+	void getNewMatrice(int cptVueSalle, AsyncCallback<PaquetCom> asyncCallback);
+	void getCptSalle(AsyncCallback<Integer> callback);
+	/**
+	 * @param cptVueSalle
+	 * @param asyncCallback
+	 */
+	void getMatriceUser(int cptVueSalle, AsyncCallback<User[][]> asyncCallback);
+	void quitterPlace(int x_case, int y_case, AsyncCallback<Boolean> callback);
+	/**
+	 * @param x_last
+	 * @param y_last
+	 * @param asyncCallback
+	 */
+	void prendre1Cafe(int x_last, int y_last,
+			AsyncCallback<Boolean> asyncCallback);
+
 
 }

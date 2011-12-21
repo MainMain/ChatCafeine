@@ -2,6 +2,7 @@ package sources.client.service;
 
 import java.util.ArrayList;
 
+import sources.client.model.PaquetCom;
 import sources.client.model.Salle;
 import sources.client.model.User;
 
@@ -32,9 +33,13 @@ public interface SalleService extends RemoteService {
 	/**
 	 * Liés au tchat
 	 */
-	String getNewMessage(int cpt);
-	void envoiMessage(String text, String login);
+	void envoiMessageFromClient(String text, String login);
 	int getCptServeur();
+	
+	/*
+	 * Liéé au paquet
+	 */
+	PaquetCom getNewMessage(int cptChat);
 	
 	/**
 	 * liés à la salle
@@ -45,5 +50,13 @@ public interface SalleService extends RemoteService {
 	void envoiEvenement(String event, String login);
 	String getNewEvent(int cpt);
 	ArrayList<User> entre1User(User u, Salle s);
-	boolean modifierPosition(int x_case, int y_case);
+	boolean sinstaller(int x_case, int y_case, int x_last, int y_last, User userEnCours);
+	boolean quitterPlace(int x_case, int y_case);
+	PaquetCom getNewMatrice(int cptVueSalle);
+	/**
+	 * @return
+	 */
+	int getCptSalle();
+	User[][] getMatriceUser(int cptVueSalle);
+	boolean prendre1Cafe(int x_last, int y_last);
 }

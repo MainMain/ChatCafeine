@@ -3,8 +3,13 @@
  */
 package sources.client.vue;
 
-import sources.client.model.Salle;
+import java.util.ArrayList;
 
+import sources.client.model.Salle;
+import sources.client.model.User;
+import sources.client.service.SalleService;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
 /**
@@ -22,9 +27,31 @@ public class VisualisationSallePanel extends AbsolutePanel {
 
 		// Add elements
 		listUser = new ListUserPanel();
-		vueSalle = new VueSalle();
+		vueSalle = new VueSalle(listUser);
 		add(listUser);
 		add(vueSalle, 226, 0);
+		
+		// PREVENIR LE SERVEUR QUE L'UTILISATEUR VIENT D'ENTRER DANS LA SALLE
+		SalleService.Util.getInstance().entre1User(Core.userEnCours, null, 
+				new AsyncCallback<ArrayList<User>>(){
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+			@Override
+			public void onSuccess(ArrayList<User> result) {
+				listUser.maj(result);
+			}
+		});
+		// PREVENIR LES AUTRES QUE L'UTILISATEUR VIENT D'ENTRER DANS LA SALLE
+		SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getLogin()+" vient d'entrer dans la salle !", 
+				"Message automatique", new AsyncCallback<Void>(){
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+			@Override
+			public void onSuccess(Void result) {
+			}
+		});
 	}
 	
 	public ListUserPanel getListUser(){

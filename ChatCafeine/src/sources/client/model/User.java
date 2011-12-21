@@ -17,6 +17,9 @@ public class User implements Comparable<User>, Serializable {
 	dateLastConnexion, aime, aimePas, avatar;
 	private int compteurChat = 900, nbrCafe = 0;
 	private boolean installe = false; // Savoir s'il est assis dans une salle (pour recevoir messages).
+	private int pos_x = -1;
+	private int pox_y = -1;
+
 	/*
 	 * Constructeur 
 	 */
@@ -184,5 +187,25 @@ public class User implements Comparable<User>, Serializable {
 	public String getCheminAvatar(){
 		return avatar;
 	}
+	
+	public void setCheminAvatar(String a){
+		avatar = a;
+	}
 
+	public int getPos_x() {
+		return pos_x;
+	}
+
+	public void setPos_x(int pos_x) {
+		this.pos_x = pos_x;
+	}
+
+	public int getPox_y() {
+		return pox_y;
+	}
+
+	public void setPox_y(int pox_y) {
+		this.pox_y = pox_y;
+	}
+	
 }
