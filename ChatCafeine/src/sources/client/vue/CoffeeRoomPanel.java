@@ -1,77 +1,99 @@
 package sources.client.vue;
 
-import java.util.ArrayList;
+
 
 import sources.client.model.Salle;
-import sources.client.model.User;
-import sources.client.service.SalleService;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.*;
 
 public class CoffeeRoomPanel extends AbsolutePanel{
-	private static Salle salleEnCours = null;
-	private static ChatBoxPanel chatBox;
-	private static VisualisationSallePanel visualSalle;
+	private Salle salleEnCours = null;
+	private ChatBoxPanel chatBox;
+	private VisualisationSallePanel visualSalle;
+	private ChoixSallePanel choixSalle;
+	private static CoffeeRoomPanel instance = null;
 	
-	public CoffeeRoomPanel(){
-		creerSalleDeTest();
-
+	private CoffeeRoomPanel(){
 		configPanel();
-		configChatBox();
-		//configListUserPan();
-		//configInfosSallePan();
-		//configEventsSallePan(); // Idée : Mettre les évnts dans la tchat box (d'une couleur différente)
-		configVisualisationSalle();
-		
+		creerEcranChoixSalle();
+		//creerEcranInSalle(4);
 	}
+	
+	public static CoffeeRoomPanel getInstance(){
+		if (instance == null)
+			instance = GWT.create(CoffeeRoomPanel.class);
+		return instance;
+	}
+	
 	private void configPanel() {
 		setWidth("100%");
 		setHeight(Core.HEIGHT-20+"px");
 		setStyleName("coffeRoomPanel");
-		// Informer d'un nouvel arrivant***************************************************************************************************
-		/*SalleService.Util.getInstance().entre1User(Core.userEnCours, salleEnCours, new AsyncCallback<ArrayList<User>>(){
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-			@Override
-			public void onSuccess(ArrayList<User> result) {
-				visualSalle.getListUser().maj(result);
-			}
-		})*/;
 	}
-	/**
-	 * 
+
+	public void creerEcranInSalle(Salle s){
+		clear();
+		salleEnCours = s;
+		Core.userEnCours.setIdSalleEnCours(s.getIdSalle());
+		Core.userEnCours.entrerInSalle();
+		configChatBox();
+		configVisualisationSalle();
+	}
+	
+	public void creerEcranChoixSalle(){
+		clear();
+		Core.userEnCours.setIdSalleEnCours(-1);
+		Core.userEnCours.sortirFromSalle();
+		choixSalle = new ChoixSallePanel(this);
+		add(choixSalle);
+	}
+
+
+	/*
+	 * ECRAN DE TCHAT UNE FOIS ENTRE DANS LA SALLE
 	 */
 	private void configChatBox() {
-		// Wrap the contents in a DecoratorPanel
+		// Nom & thème salle
+		DecoratorPanel dec2Panel = new DecoratorPanel();
+		VerticalPanel infosBox = new VerticalPanel();
+		infosBox.setSize("360px", "50px");
+		infosBox.add(new HTML(salleEnCours.getNom()));
+		dec2Panel.setWidget(infosBox);
+		add(dec2Panel, 900+10+10+10, 10);
+		
+		// Chat
 		DecoratorPanel dec1Panel = new DecoratorPanel();
 		chatBox = new ChatBoxPanel();
 		dec1Panel.setWidget(chatBox);
-		add(dec1Panel, 900+10+10+10, 10);
+		add(dec1Panel, 900+10+10+10, 10+60);
 	}
-	/**
-	 * 
-	 */
+	
 	private void configVisualisationSalle() {
-		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec3Panel = new DecoratorPanel();
 		visualSalle = new VisualisationSallePanel(salleEnCours);
 		dec3Panel.setWidget(visualSalle);
 		add(dec3Panel, 10, 10);
 	}
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+
 	/**
 	 * 
 	 */
 	private void creerSalleDeTest() {
-		Salle mySalle = new Salle ("0o0o°° Salle de test °°o0o0", "Développement", "Une superbe salle pour super tester le super développement ! Admirez donc la gestion de projet exceptionnelle par cet exceptionnel MainMain ! ", 40);
+		Salle mySalle = new Salle (9, "0o0o°° Salle de test °°o0o0", "Développement", "Une superbe salle pour super tester le super développement ! Admirez donc la gestion de projet exceptionnelle par cet exceptionnel MainMain ! ", 40);
 		salleEnCours = mySalle;
-		//*******************************************************************
-		//SalleService.Util.getInstance().ouvertureSalle(mySalle, null);
 	}
-
 	/**
 	 * 
 	 */

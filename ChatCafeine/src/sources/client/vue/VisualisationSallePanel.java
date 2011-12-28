@@ -32,8 +32,8 @@ public class VisualisationSallePanel extends AbsolutePanel {
 		add(vueSalle, 226, 0);
 		
 		// PREVENIR LE SERVEUR QUE L'UTILISATEUR VIENT D'ENTRER DANS LA SALLE
-		SalleService.Util.getInstance().entre1User(Core.userEnCours, null, 
-				new AsyncCallback<ArrayList<User>>(){
+		SalleService.Util.getInstance().entre1User(Core.userEnCours.getIdSalleEnCours(),
+				Core.userEnCours, new AsyncCallback<ArrayList<User>>(){
 			@Override
 			public void onFailure(Throwable caught) {
 			}
@@ -43,7 +43,8 @@ public class VisualisationSallePanel extends AbsolutePanel {
 			}
 		});
 		// PREVENIR LES AUTRES QUE L'UTILISATEUR VIENT D'ENTRER DANS LA SALLE
-		SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getLogin()+" vient d'entrer dans la salle !", 
+		SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
+				Core.userEnCours.getLogin()+" vient d'entrer dans la salle !", 
 				"Message automatique", new AsyncCallback<Void>(){
 			@Override
 			public void onFailure(Throwable caught) {

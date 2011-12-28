@@ -7,6 +7,7 @@ import sources.client.model.Salle;
 import sources.client.model.User;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -33,13 +34,13 @@ public interface SalleService extends RemoteService {
 	/**
 	 * Liés au tchat
 	 */
-	void envoiMessageFromClient(String text, String login);
-	int getCptServeur();
+	void envoiMessageFromClient(int idSalle, String text, String login);
+	int getCptServeur(int idSalle);
 	
 	/*
 	 * Liéé au paquet
 	 */
-	PaquetCom getNewMessage(int cptChat);
+	PaquetCom getNewMessage(int idSalle, int cptChat);
 	
 	/**
 	 * liés à la salle
@@ -47,22 +48,24 @@ public interface SalleService extends RemoteService {
 	boolean creerSalle(String nom, String theme, String description, int nbPlaceMax);
 	ArrayList<Salle> getToutesSalles();
 	boolean supprimerSalle(String nom);
-	void envoiEvenement(String event, String login);
-	String getNewEvent(int cpt);
-	ArrayList<User> entre1User(User u, Salle s);
-	boolean sinstaller(int x_case, int y_case, int x_last, int y_last, User userEnCours);
-	boolean quitterPlace(int x_case, int y_case);
-	PaquetCom getNewMatrice(int cptVueSalle);
+	
+	boolean sinstaller(int idSalle, int x_case, int y_case, int x_last, int y_last, User userEnCours);
+	PaquetCom getNewMatrice(int idSalle, int cptVueSalle);
 	/**
 	 * @return
 	 */
-	int getCptSalle();
-	User[][] getMatriceUser(int cptVueSalle);
-	boolean prendre1Cafe(int x_last, int y_last);
+	int getCptSalle(int idSalle);
+	User[][] getMatriceUser(int idSalle, int cptVueSalle);
+	boolean prendre1Cafe(int idSalle, int x_last, int y_last);
 	/**
 	 * @param u
 	 * @param s
 	 * @return
 	 */
-	void sortie1User(User u, Salle s);
+	ArrayList<User> entre1User(int idSalle, User u);
+	/**
+	 * @param idSalle
+	 * @param u
+	 */
+	void sortie1User(int idSalle, User u);
 }

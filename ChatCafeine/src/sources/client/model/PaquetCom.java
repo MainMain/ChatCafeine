@@ -13,7 +13,9 @@ import com.google.gwt.user.client.ui.Image;
  *
  */
 public class PaquetCom implements Comparable<PaquetCom>, Serializable{
-	private String nomSalleDestination;
+	private long idPaquet;
+	private static long cpt = 0;
+	private int idSalleDestination;
 	
 	private String message;
 	private int cptMessage;
@@ -30,7 +32,7 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 	private ArrayList<User> listeUtilisateurs = null;
 	
 	public PaquetCom(){
-		
+		idPaquet = cpt++;
 	}
 	
 	public boolean existNewMessage(){
@@ -67,12 +69,12 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 		this.listeUtilisateurs = listeUtilisateurs;
 	}
 	
-	public String getNomSalleDestination() {
-		return nomSalleDestination;
+	public int getIdSalleDestination() {
+		return idSalleDestination;
 	}
 
-	public void setNomSalleDestination(String nomSalleDestination) {
-		this.nomSalleDestination = nomSalleDestination;
+	public void setIdSalleDestination(int idSalleDestination) {
+		this.idSalleDestination = idSalleDestination;
 	}
 
 	public int getCptMessage() {
@@ -130,7 +132,9 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 	public void setNomEmetteur(String nomEmetteur) {
 		this.nomEmetteur = nomEmetteur;
 	}
-	
+	public long getIdPaquet(){
+		return idPaquet;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */

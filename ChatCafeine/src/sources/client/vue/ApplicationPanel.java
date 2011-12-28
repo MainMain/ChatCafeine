@@ -3,9 +3,13 @@
  */
 package sources.client.vue;
 
+import java.util.ArrayList;
+
 import sources.client.model.Salle;
 import sources.client.model.User;
+import sources.client.service.SalleService;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -15,32 +19,10 @@ import com.google.gwt.user.client.ui.TabPanel;
  *
  */
 public class ApplicationPanel extends DockPanel{
-
 	public ApplicationPanel() {
-		//creerUtilisateurDeTest();
 		configPanel();
-		
 	}
 	
-	/**
-	 * 
-	 */
-	private void creerUtilisateurDeTest() {
-		System.out.println("Création user par défaut");
-		User u = new User();
-		u.setActivite("Etudiant");
-		u.setAge("19");
-		u.setDroit("administrateur");
-		u.setEmail("mainmain@hotmail.fr");
-		u.setGenre("Homme");
-		u.setIdUser("2345");
-		u.setLogin("MainMain");
-		u.setMdp("azer");
-		u.setAime("Les poneys ! ");
-		u.setAimePas("Les ChEeeEeevaAAaAaAaAAlEEuuuUhHhh !");
-		Core.userEnCours = u;
-	}
-
 	/**
 	 * Méthodes de classe
 	 */
@@ -56,7 +38,7 @@ public class ApplicationPanel extends DockPanel{
 		tab.setWidth("100%");
 		tab.setAnimationEnabled(true);
 		String[] tabTitles = {"Coffee Room", "Mon profil", "Administration"};
-	    tab.add(new CoffeeRoomPanel(), tabTitles[0]);
+	    tab.add(CoffeeRoomPanel.getInstance(), tabTitles[0]);
 	    tab.add(new ProfilPanel(), tabTitles[1]);
 	    if (Core.userEnCours.getDroit().equals("administrateur")) tab.add(new AdminPanel(), tabTitles[2]);
 	    add(tab, DockPanel.NORTH);

@@ -10,14 +10,16 @@ import java.io.Serializable;
  *
  */
 public class Salle implements Comparable<Salle>, Serializable{
-	private String nom = "Test";
+	private int idSalle;
+	private String nom = "Aucun";
 	private String theme = "Aucun";
 	private String description;
 	private int nbrPlaceMax = 40;
 	private int nbrPlaceOqp = 0;
 
-	public Salle(String nom, String theme, String description, int nbrPlaceMax) {
+	public Salle(int idSalle, String nom, String theme, String description, int nbrPlaceMax) {
 		super();
+		this.idSalle = idSalle;
 		this.nom = nom;
 		this.theme = theme;
 		this.description = description;
@@ -75,6 +77,14 @@ public class Salle implements Comparable<Salle>, Serializable{
 	public int compareTo(Salle o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public int getIdSalle() {
+		return idSalle;
+	}
+
+	public void setIdSalle(int idSalle) {
+		this.idSalle = idSalle;
 	}
 	
 	

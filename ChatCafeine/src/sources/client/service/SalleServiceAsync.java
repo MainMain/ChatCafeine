@@ -9,6 +9,7 @@ import sources.client.model.PaquetCom;
 import sources.client.model.Salle;
 import sources.client.model.User;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -17,55 +18,32 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface SalleServiceAsync {
 
-	/**
-	 * Liés au tchat
-	 */
-	void envoiMessageFromClient(String text, String login, AsyncCallback<Void> callback);
-	void getCptServeur(AsyncCallback<Integer> callback);
+	void envoiMessageFromClient(int idSalle, String text, String login,
+			AsyncCallback<Void> callback);
+	void getCptServeur(int idSalle, AsyncCallback<Integer> callback);
 	
-	/**
-	 * 
-	 */
-	void getNewMessage(int cptChat, AsyncCallback<PaquetCom> callback);
-	/**
-	 * 
-	 */
-	void getNewEvent(int cpt, AsyncCallback<String> callback);
-
-	void envoiEvenement(String event, String login, AsyncCallback<Void> callback);
-
-	void entre1User(User u, Salle s,
+	void getNewMessage(int idSalle, int cptChat,
+			AsyncCallback<PaquetCom> callback);
+	void entre1User(int idSalle, User u,
 			AsyncCallback<ArrayList<User>> asyncCallback);
 
 	void creerSalle(String nom, String theme, String description,
 			int nbPlaceMax, AsyncCallback<Boolean> callback);
 
-	void getToutesSalles(AsyncCallback<ArrayList<Salle>> callback);
+	void getToutesSalles(AsyncCallback<ArrayList<Salle>> asyncCallback);
 
 	void supprimerSalle(String nom, AsyncCallback<Boolean> callback);
 
-	void sinstaller(int x_case, int y_case, int x_last, int y_last,
-			User userEnCours, AsyncCallback<Boolean> callback);
-	/**
-	 * @param cptVueSalle
-	 * @param asyncCallback
-	 */
-	void getNewMatrice(int cptVueSalle, AsyncCallback<PaquetCom> asyncCallback);
-	void getCptSalle(AsyncCallback<Integer> callback);
-	/**
-	 * @param cptVueSalle
-	 * @param asyncCallback
-	 */
-	void getMatriceUser(int cptVueSalle, AsyncCallback<User[][]> asyncCallback);
-	void quitterPlace(int x_case, int y_case, AsyncCallback<Boolean> callback);
-	/**
-	 * @param x_last
-	 * @param y_last
-	 * @param asyncCallback
-	 */
-	void prendre1Cafe(int x_last, int y_last,
-			AsyncCallback<Boolean> asyncCallback);
-	void sortie1User(User u, Salle s, AsyncCallback<Void> callback);
+	void sinstaller(int idSalle, int x_case, int y_case, int x_last,
+			int y_last, User userEnCours, AsyncCallback<Boolean> callback);
+	void getNewMatrice(int idSalle, int cptVueSalle,
+			AsyncCallback<PaquetCom> asyncCallback);
+	void getCptSalle(int idSalle, AsyncCallback<Integer> callback);
+	void getMatriceUser(int idSalle, int cptVueSalle,
+			AsyncCallback<User[][]> asyncCallback);
+	void sortie1User(int idSalle, User u, AsyncCallback<Void> callback);
+	void prendre1Cafe(int idSalle, int x_last, int y_last,
+			AsyncCallback<Boolean> callback);
 
 
 }

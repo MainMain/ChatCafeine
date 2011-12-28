@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public class EventsPanel extends VerticalPanel{
+	/*
 	private int cpt = 1;
 	boolean erreurRecup = false;
 	String[] historique = new String[15];
@@ -65,4 +66,5 @@ public class EventsPanel extends VerticalPanel{
 		}
 		historique[14] = nvMess;
 	}
+	*/
 }

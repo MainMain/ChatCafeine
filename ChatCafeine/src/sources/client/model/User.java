@@ -17,7 +17,13 @@ public class User implements Comparable<User>, Serializable {
 	private String login, mdp, email, genre, age, activite, droit, dateInscription,
 	dateLastConnexion, aime, aimePas, avatar;
 	private int compteurChat = 900, nbrCafe = 0;
+	private int idSalleEnCours;
+
+
 	private boolean installe = false; // Savoir s'il est assis dans une salle (pour recevoir messages).
+	private boolean inSalle = false;
+
+
 	private int pos_x = -1;
 	private int pox_y = -1;
 
@@ -215,4 +221,20 @@ public class User implements Comparable<User>, Serializable {
 		this.pox_y = pox_y;
 	}
 	
+	public boolean isInSalle() {
+		return inSalle;
+	}
+	public void entrerInSalle(){
+		inSalle = true;
+	}
+	public void sortirFromSalle(){
+		inSalle = false;
+	}
+	public int getIdSalleEnCours() {
+		return idSalleEnCours;
+	}
+
+	public void setIdSalleEnCours(int idSalleEnCours) {
+		this.idSalleEnCours = idSalleEnCours;
+	}
 }

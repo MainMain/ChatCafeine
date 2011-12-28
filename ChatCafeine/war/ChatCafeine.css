@@ -81,7 +81,8 @@ h1 {
 	margin-left: 25px;
 	margin-right: 25px;
 }
-
+.listeSalle{background-color: #DDDDDD;}
+/************************************************** ProfilPanel ******************************************************/
 .profilPanel {background-color: #CCCCCC;}
 .fichePan {background-color: #f1f3f9;}
 .modifPan {background-color: #f1f3f9;}

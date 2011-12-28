@@ -3,6 +3,7 @@
  */
 package sources.server;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import sources.client.service.SalleService;
@@ -10,6 +11,7 @@ import sources.client.model.PaquetCom;
 import sources.client.model.Salle;
 import sources.client.model.User;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -18,183 +20,227 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class SalleServiceImpl extends RemoteServiceServlet implements SalleService{
 	private static final long serialVersionUID = 986767859747034195L;
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	/*
 	 * METHODE LIEE AUX PAQUETS
 	 */
-	private PaquetCom paquetTmp = null;
-	
+	private PaquetCom paquetTmpMessage = null;
+	private PaquetCom paquetTmpVue = null;
+
 	@Override
-	public PaquetCom getNewMessage(int cptChat) {
-		while (cptChat == cptMess){
+	public PaquetCom getNewMessage(int idSalle, int cptChat) {
+		//System.out.println("[Serveur] : Cpt salle : "+idSalle+" = " +cptMess.get(idSalle)+ " Cpt recu = "+cptChat);
+		if (idSalle == -1) return null;					// Sécurité
+		if (!(cptChat == cptMess.get(idSalle))){
+			System.out.println("[Serveur] : Envoi du paquet n° "+paquetTmpMessage.getIdPaquet());
+			return paquetTmpMessage;
+		}
+		else{								// Si il est a jour, one lui envoi un paquet null afin qu'il redemande une maj
+			//PaquetCom pc = new PaquetCom();
+			//pc.setIdSalleDestination(-1);
+			//return pc;
+			return null;
+		}
+		/*while (cptChat == cptMess.get(idSalle)){
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		PaquetCom pc = new PaquetCom();
-		pc.setMessage(message);
-		pc.setNomEmetteur(emetteur);
-		System.out.println("avant envoi : "+emetteur);
-		return pc;
+		System.out.println("[Serveur] : Envoi du paquet n° "+paquetTmpMessage.getIdPaquet());
+		return paquetTmpMessage;*/
+
 	}
-	
+
 	@Override
-	public PaquetCom getNewMatrice(int cpt) {
-		System.out.println(cpt+" "+cptVueSalle);
-		while (cpt == cptVueSalle){
+	public PaquetCom getNewMatrice(int idSalle, int cpt) {
+		System.out.println("[Serveur] : Demande de maj de la vue, salle "+idSalle);
+		if (idSalle == -1) return null;					// Sécurité
+		while (cpt == cptVueSalle.get(idSalle)){
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		paquetTmp.setListeUtilisateurs(listeUtilisateurs);
-		return paquetTmp;
+		paquetTmpVue.setListeUtilisateurs(listeUtilisateurs.get(idSalle));
+		return paquetTmpVue;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	/*
 	 * METHODES & ATTRIBUTS LIEES AU TCHAT
 	 */
-	private String message= "Message automatique: <font color=\"#4D9ACD\"><em> Historique vide !</em></font>";
-	private int cptMess = 0;
+	private HashMap<Integer, String> message= new HashMap<Integer, String>();
+	private HashMap<Integer, Integer> cptMess = new HashMap<Integer, Integer>();
 	private String emetteur = "Message automatique";
-	
+
 	// RECEPTION D'UN NOUVEAU MESSAGE
 	@Override
-	public void envoiMessageFromClient(String mess, String loginUser) {
+	public void envoiMessageFromClient(int idSalle, String mess, String loginUser) {
 		emetteur = loginUser;
-		System.out.println(emetteur);
+		System.out.println("[Serveur] : Mesage recu ! emetteur : "+emetteur);
 		if (loginUser.equals("Message automatique"))
-			message= loginUser+" : <font color=\"#FF0000\"><em>"+mess+"</em></font>";
+			message.put(idSalle, loginUser+" : <font color=\"#FF0000\"><em>"+mess+"</em></font>");
 		else
-			message= loginUser+" : <font color=\"#4D9ACD\"><em>"+mess+"</em></font>";
-		cptMess++;
+			message.put(idSalle, loginUser+" : <font color=\"#4D9ACD\"><em>"+mess+"</em></font>");
+		PaquetCom pc = new PaquetCom();					// Création du paquet
+		pc.setIdSalleDestination(idSalle);				// ... Insertion id salle dest
+		pc.setNomEmetteur(loginUser);					// ... Insertion nom emmetteur
+		pc.setMessage(message.get(idSalle));			// ... Insertion message
+		System.out.println("[Serveur] : Message inséré dans le paquet : "+(message.get(idSalle)));
+		paquetTmpMessage = pc;									// Mise dans paquet Tmp (donc prêt à envoyer)
+		System.out.println("[Serveur] : Nouveau paquet prêt à être expédié ! id du paquet : "+pc.getIdPaquet()+"("+paquetTmpMessage.getIdPaquet()+")");
+		System.out.println("[Serveur ] : cptMess = "+cptMess.get(idSalle));
+		cptMess.put(idSalle, cptMess.get(idSalle)+1);	// Incrémente le compteur pour envoi
 	}
-	
+
 	//RECUPERATION DU COMPTEUR DU SERVEUR
 	@Override
-	public int getCptServeur(){
-		return cptMess;
+	public int getCptServeur(int idSalle){
+		System.out.println("[Serveur] : Gestion de message pour la salle "+idSalle+" définie ? "+cptMess.containsKey(idSalle));
+		if (cptMess.containsKey(idSalle))				// Si pas de clé : compteur existe pas, donc il faut le créer (else)
+			return cptMess.get(idSalle);
+		else{
+			cptMess.put(idSalle, 0);
+			System.out.println("[Serveur] : Nouvelle entrée de gestion de message pour la salle "+idSalle);
+			return 0;
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
 	/*
 	 * METHODES & ATTRIBUTS LIEES A LA SALLE
 	 */
-	private User[][] matriceUser = new User[10][12];
-	private ArrayList<User> listeUtilisateurs = new ArrayList<User>();
-	private int cptVueSalle = 0;
-	
+	//********************************************************* METTRE DES HASHMAP !!!
+	private HashMap<Integer,User[][]> matriceUser = new HashMap<Integer, User[][]>();
+
+	private HashMap<Integer, ArrayList<User>> listeUtilisateurs = 
+		new HashMap<Integer,  ArrayList<User>>();
+	private HashMap<Integer, Integer> cptVueSalle = new HashMap<Integer, Integer>();
+
 	@Override
-	public ArrayList<User> entre1User(User u, Salle s) {
-		System.out.println("Entrée d'un user !");
-		listeUtilisateurs.add(u);
-		System.out.println("Entrée User index : "+listeUtilisateurs.indexOf(u));
+	public ArrayList<User> entre1User(int idSalle, User u) {
+		System.out.println("[Serveur] Entrée de "+u.getLogin()+" dans la salle "+idSalle);
+		listeUtilisateurs.get(idSalle).add(u);
+		System.out.println("[Serveur]Index de "+u.getLogin()+" dans la liste : "+listeUtilisateurs.get(idSalle).indexOf(u));
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
-		pc.setListeUtilisateurs(listeUtilisateurs);
-		cptVueSalle++;
-		paquetTmp = pc;
-		return listeUtilisateurs;
+		pc.setListeUtilisateurs(listeUtilisateurs.get(idSalle));
+		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
+		paquetTmpVue = pc;
+		return listeUtilisateurs.get(idSalle);
 	}
-	
+
 	@Override
-	public void sortie1User(User u, Salle s) {
+	public void sortie1User(int idSalle, User u) {
+		System.out.println("[Serveur] : "+u.getLogin()+" est sorti de la salle "+idSalle);
 		PaquetCom pc = new PaquetCom();
 		int a = -1;
-		for (int i = 0; i < listeUtilisateurs.size(); i++){
-			if (listeUtilisateurs.get(i).getLogin().equals(u.getLogin())){
-					a = i;
-					break;
+		for (int i = 0; i < listeUtilisateurs.size(); i++){ 		
+			if (listeUtilisateurs.get(idSalle).get(i).getLogin().equals(u.getLogin())){
+				System.out.println("[Serveur] : "+u.getLogin()+" sorti de la liste des users !");
+				a = i;
+				break;
 			}
 		}
-		listeUtilisateurs.remove(a);								// Suppression de la liste des utilisateurs
+		if (a < -1) listeUtilisateurs.remove(a);					// Suppression de la liste des utilisateurs			
 		if (u.getPos_x() > -1 && u.getPox_y() > -1){				// Si utilisateur était installé
-			matriceUser[u.getPos_x()][u.getPox_y()] = null;
+			matriceUser.get(idSalle)[u.getPos_x()][u.getPox_y()] = null;
 			pc.setX_last(u.getPos_x());
 			pc.setY_last(u.getPox_y());
 		}
-							// On crée un nouveau paquet...
-		pc.setListeUtilisateurs(listeUtilisateurs);
-		cptVueSalle++;
-		paquetTmp = pc;
+		// On crée un nouveau paquet...
+		pc.setListeUtilisateurs(listeUtilisateurs.get(idSalle));
+		pc.setIdSalleDestination(idSalle);
+		paquetTmpVue = pc;
+		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
 	}
 	@Override
-	public boolean sinstaller(int x_case, int y_case, int x_last, int y_last, User u) {
+	public boolean sinstaller(int idSalle, int x_case, int y_case, int x_last, int y_last, User u) {
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
 		pc.setX_case(x_case);										// ... avec la position x
 		pc.setY_case(y_case);										// ... la y...
 		pc.setImgUser(u.getCheminAvatar());							// ... et l'image de l'user
-		matriceUser[x_case][y_case] = u;
+		matriceUser.get(idSalle)[x_case][y_case] = u;
 
 		if (x_last != -1 && y_last != -1){
-			matriceUser[x_last][y_last] = null;
+			matriceUser.get(idSalle)[x_last][y_last] = null;
 			pc.setX_last(x_last);
 			pc.setY_last(y_last);
 		}
-		cptVueSalle++;
-		paquetTmp = pc;
+		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
+		paquetTmpVue = pc;
+		paquetTmpVue.setIdSalleDestination(idSalle);
 		return true;
 	}
-	
+
 	@Override
-	public boolean prendre1Cafe(int x_last, int y_last) {
+	public boolean prendre1Cafe(int idSalle, int x_last, int y_last) {
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
 		pc.setX_last(x_last);
 		pc.setY_last(y_last);
-		matriceUser[x_last][y_last] = null;
+		matriceUser.get(idSalle)[x_last][y_last] = null;
 
-		cptVueSalle++;
-		paquetTmp = pc;
+		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
+		paquetTmpVue = pc;
+		paquetTmpVue.setIdSalleDestination(idSalle);
 		return true;
 	}
-	
+
 	@Override
-	public User[][] getMatriceUser(int cpt) {
-		return matriceUser;
+	public User[][] getMatriceUser(int idSalle, int cpt) {
+		return matriceUser.get(idSalle);
 	}
-	
+
 	@Override
-	public int getCptSalle() {
-		return cptVueSalle;
+	public int getCptSalle(int idSalle) {
+		System.out.println("[Serveur] : Gestion de vue pour la salle "+idSalle+" définie ? "+cptMess.containsKey(idSalle));
+		if (cptVueSalle.containsKey(idSalle))				// Si pas de clé : compteur existe pas, donc il faut le créer (else)
+			return cptVueSalle.get(idSalle);
+		else{												// On initialise donc les structures de données pour la salle
+			System.out.println("[Serveur] : Nouvelle entrée de gestion de vue pour la salle "+idSalle);
+			cptVueSalle.put(idSalle, 0);
+			listeUtilisateurs.put(idSalle, new ArrayList<User>());
+			matriceUser.put(idSalle, new User[10][12]);
+			return 0;
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	@Override
 	public boolean creerSalle(String nom, String theme, String description,
 			int nbPlaceMax) {
@@ -202,82 +248,47 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		// CONTRAINTE : DEUX SALLES NE PEUVENT AVOIR LE MEME NOM
 		return false;
 	}
-	
+
 	@Override
 	public ArrayList<Salle> getToutesSalles() {
-		// METHODE A CODER PAR AUDREY
-		// CETTE METHODE RENVERA UN ARRAY CONTENANT TOUTES LES SALLES
-		return null;
+		String url = "//127.0.0.1:3306/chatcafeine";
+		String login = "root";
+		String password = "";
+		ConBDD connexion=new ConBDD(url,login,password);
+		ArrayList<Salle> a = new ArrayList<Salle> ();
+		try{
+			String requete = "SELECT * FROM Salle";
+			ResultSet result = connexion.getData(requete);
+			while (result.next()){
+				a.add(new Salle(result.getInt("ID_salle"), result.getString("Nom"), result.getString("Theme"),result.getString("Description"), result.getInt("NbPlaceMax")));
+			}
+		}catch (Exception e){
+			System.out.println("Erreur lors de la récupération des salles !\n->"+e.getMessage());
+		}
+		return a;
 	}
-	
+
 	@Override
 	public boolean supprimerSalle(String nom) {
 		// METHODE A CODER PAR AUDREY
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * 	
-	 * */
-	@Override
-	public String getNewEvent(int num) {
-		while (cptMess != num)
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
-			return message;
-	}
-	/**
-	 * 
-	 */
-	@Override
-	public void envoiEvenement(String event, String login) {
-		if (event.equals("entree")) message = login+" vient d'entrer dans la salle !";
-		else if (event.equals("cafe")) message = login+" vient de prendre un café !";
-		else if (event.equals("sortie")) message = login+" vient de quitter la salle !";
-		else message = login+" vient de faire une action incomprise !";
-		cptMess++;		
-	}
-	/**
-	 * 
-	 */
 
-	/* (non-Javadoc)
-	 * @see sources.client.service.SalleService#quitterPlace(int, int)
-	 */
-	@Override
-	public boolean quitterPlace(int x_case, int y_case) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	/* (non-Javadoc)
-	 * @see sources.client.service.SalleService#prendre1Cafe(int, int)
-	 */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -285,7 +296,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	//private HashMap<String, ArrayList<User>> listeUtilisateur = // String = nom de la salle
 	//new HashMap<String, ArrayList<User>>();
-//private HashMap<String, int[][]> positionsUsers;
+	//private HashMap<String, int[][]> positionsUsers;
 
 
 

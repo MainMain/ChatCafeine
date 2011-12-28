@@ -72,8 +72,8 @@ public class Core implements EntryPoint {
 		CloseHandler<Window> closeHandler = new CloseHandler<Window>() {
 			@Override
 			public void onClose(CloseEvent<Window> event) {
-				System.out.println("Client s'est tiré !");
-				SalleService.Util.getInstance().sortie1User(userEnCours, null, new AsyncCallback<Void>() {
+				SalleService.Util.getInstance().sortie1User(Core.userEnCours.getIdSalleEnCours(),
+						userEnCours, new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
 					}
@@ -81,7 +81,8 @@ public class Core implements EntryPoint {
 					public void onFailure(Throwable caught) {
 					}
 				});
-				SalleService.Util.getInstance().envoiMessageFromClient(userEnCours.getLogin()+" à quitté la salle", 
+				SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
+						userEnCours.getLogin()+" à quitté la salle", 
 						"Message automatique", new AsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {

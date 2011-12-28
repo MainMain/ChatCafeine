@@ -28,7 +28,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 	public ChatBoxPanel(){
 		// CONFIGURATION DU PANEL
-		setHeight("560px");
+		setHeight("490px");
 		setWidth("360px");
 		setStyleName("chatboxPan");
 		// Wrap the contents in a DecoratorPanel
@@ -40,13 +40,27 @@ public class ChatBoxPanel extends AbsolutePanel{
 		chatTitreLab.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		add(chatTitreLab);
 
+		// RECUPERATION DU COMPTEUR TCHAT DU SERVEUR
+		SalleService.Util.getInstance().getCptServeur(Core.userEnCours.getIdSalleEnCours(),
+				new AsyncCallback<Integer>(){
+			@Override
+			public void onFailure(Throwable caught) {
+
+			}
+			@Override
+			public void onSuccess(Integer result) {
+				cptTchat = result;
+				System.out.println("[Client - Tchat] "+Core.userEnCours.getIdSalleEnCours()+" : Cpt tchat = "+cptTchat);
+			}
+		});
+
 		//CONFIG DU BOUTON 
 		bouton = new Button("Envoyer");
 		bouton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(!zone2Text.getText().isEmpty()){
-					SalleService.Util.getInstance().envoiMessageFromClient(zone2Text.getText(), 
-							Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
+					SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
+							zone2Text.getText(), Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
 						@Override
 						public void onFailure(Throwable caught) {
 						}
@@ -60,7 +74,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 		});
 
 		messPanel.setWidth("350px");
-		messPanel.setHeight("420px");
+		messPanel.setHeight("360px");
 		conversation = new HTML();
 		messPanel.add(conversation); 
 		add(messPanel);
@@ -78,88 +92,49 @@ public class ChatBoxPanel extends AbsolutePanel{
 		bouton.setEnabled(false); // Désactivé au lancement car user pas assis
 		add(bouton);
 
-		// RECUPERATION DU COMPTEUR TCHAT DU SERVEUR
-		SalleService.Util.getInstance().getCptServeur(new AsyncCallback<Integer>(){
-			@Override
-			public void onFailure(Throwable caught) {
-
-			}
-			@Override
-			public void onSuccess(Integer result) {
-				cptTchat = result;
-			}
-		});
-
 		// MESSAGE D'ACCUEIL + LANCEMENT METHODE REFRESH
 		historique[99] = "Message automatique : <font color=\"#FF0000\"><em>Bienvenue ! Reprise du dernier message ci dessous : </em></font>";
 		if (!erreurRecup) refresh();
-
 	}
 
 	/*
 	 * METHODE DE RAFRAICHISSEMENT POUR NOUVEAUX MESSAGES
 	 */
 	private void refresh() {
-		
-		SalleService.Util.getInstance().getNewMessage(cptTchat , new AsyncCallback<PaquetCom>() {
+		SalleService.Util.getInstance().getNewMessage(Core.userEnCours.getIdSalleEnCours(),
+				cptTchat , new AsyncCallback<PaquetCom>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				//Window.alert("Erreur lors de la récupération des messages ! \n Récupération stoppée !");
 				erreurRecup = true;
 			}
 			@Override
 			public void onSuccess(PaquetCom result) {
-				if (result.getMessage() != null){
-					if (!result.getMessage().equals(historique[99]) // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
-							&& (Core.userEnCours.isInstalle() || emetteur.equals("Message automatique"))) majHistorique(result.getMessage()); // On l'insère en tête de tableau
-					emetteur = result.getNomEmetteur();
-					cptTchat++;
+				if (result != null){
+					if (result.getIdSalleDestination() == Core.userEnCours.getIdSalleEnCours()){
+						System.out.println("[Client - Tchat] "+Core.userEnCours.getIdSalleEnCours()+" : Paquet n°"+result.getIdPaquet()+" recu !");
+						System.out.println("[Client - Tchat] "+Core.userEnCours.getIdSalleEnCours()+" : Message recu : "+result.getMessage());
+						if (result.getMessage() != null){
+							if (!result.getMessage().equals(historique[99]) // Si le msg le plus récent est différent de celui qu'on vient de recevoir
+									&& (Core.userEnCours.isInstalle() || emetteur.equals("Message automatique"))) majHistorique(result.getMessage()); // On l'insère en tête de tableau
+							emetteur = result.getNomEmetteur();
+							cptTchat++;
+							System.out.println("[Client - Tchat] "+Core.userEnCours.getIdSalleEnCours()+" : Cpt tchat = "+cptTchat);
+						}
+						if (Core.userEnCours.isInstalle() || emetteur.equals("Message automatique")){
+							String str = "";
+							for (int i = 0; i < 100; i++){
+								if (historique[i] != null) 
+									str += historique[i]+"<br>";
+							}
+							conversation.setHTML(str);
+							messPanel.scrollToBottom();
+						}
+					}
 				}
-				refresh();
+				if (Core.userEnCours.isInSalle()) refresh();			// Arreter la récursivité s'il n'est plus dans une salle
 			}
 		});
-		if (Core.userEnCours.isInstalle() || emetteur.equals("Message automatique")){
-			String str = "";
-			for (int i = 0; i < 100; i++){
-				if (historique[i] != null) 
-					str += historique[i]+"<br>";
-			}
-			conversation.setHTML(str);
-			messPanel.scrollToBottom();
-		}
 	}
-	/*
-	private void refresh() {
-		SalleService.Util.getInstance().getNewMessage(cptTchat , new AsyncCallback<String>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Erreur lors de la récupération des messages ! \n Récupération stoppée !");
-				erreurRecup = true;
-			}
-			@Override
-			public void onSuccess(String result) {
-				if (!result.equals(historique[99])) // Si le mesg le plus récent est différent de celui qu'on vient de recevoir
-					majHistorique(result); // On l'insère en tête de tableau
-				cpt++;
-				//System.out.println("refresh !");
-				refresh();
-			}
-		});
-		//messPanel.clear();
-		String str = "";
-		// Dans la boucle, on converti chaque String en HTML et chaque null en ""
-		for (int i = 0; i < 100; i++){
-			if (historique[i] != null) 
-				str += historique[i]+"<br>";
-			//if (historique[i] != null) str += historique[i];
-		}
-		conversation.setHTML(str);
-		messPanel.scrollToBottom();
-
-	}
-	 */
-
-
 
 	/*
 	 * MISE A JOUR DE L'HISTORIQUE
