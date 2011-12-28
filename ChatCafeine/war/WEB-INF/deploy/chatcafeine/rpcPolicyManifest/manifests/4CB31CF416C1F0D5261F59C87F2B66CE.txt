@@ -1,0 +1,2 @@
+serviceClass: sources.client.service.SalleService
+path: B680132330BBA9AF35DD90EEB304E089.gwt.rpc
