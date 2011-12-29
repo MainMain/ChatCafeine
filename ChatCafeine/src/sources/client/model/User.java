@@ -10,7 +10,7 @@ public class User implements Comparable<User>, Serializable {
 
 	private static final long serialVersionUID = -8860200820634715345L;
 	/**
-	 * The key provider that provides the unique ID of a user.
+	 * The key provider that provides the unique ID ofa user.
 	 */
 	private String idUser;
 	private int id;
