@@ -1,15 +1,13 @@
 package sources.client.vue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import sources.client.model.Salle;
 import sources.client.model.User;
 import sources.client.service.AdminService;
-import sources.client.service.AdminServiceAsync;
-
+import sources.client.service.SalleService;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -18,6 +16,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
@@ -25,7 +24,6 @@ import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.ActionCell.Delegate;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CompositeCell;
-import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
@@ -36,7 +34,7 @@ import com.google.gwt.user.client.ui.*;
 
 
 public class AdminPanel extends AbsolutePanel{
-
+	
 	public AdminPanel(){
 		configPanel();
 	}
@@ -49,13 +47,12 @@ public class AdminPanel extends AbsolutePanel{
 		StackLayoutPanel stackPanel = new StackLayoutPanel(Unit.EM);
 		stackPanel.setWidth("50%");
 		stackPanel.setHeight("575px");
-		// Add the list User.
-		/*Widget listUserPanelHeader = createHeaderWidget("Liste des utilisateurs");
-		stackPanel.add(new ListeUser().onInitialize(), listUserPanelHeader, 4);*/
 
+		// Add the list user
+		Widget presentationPanelHeader = createHeaderWidget("Présentation de l'administration");
+		stackPanel.add(creerPresentationPanel(),presentationPanelHeader, 4);
 
-
-
+		
 		// Add the list user
 		Widget listUserPanelHeader = createHeaderWidget("Liste des utilisateurs");
 		stackPanel.add(creerListeUserPanel(),listUserPanelHeader, 4);
@@ -74,32 +71,61 @@ public class AdminPanel extends AbsolutePanel{
 	 * @return
 	 */
 
+	private ArrayList<Salle> listeSalles = new ArrayList<Salle>();
+	
+	private Widget creerPresentationPanel(){
+		SimplePanel a = new SimplePanel();
+		setWidth("100%");
+		setHeight("100%");
+		a.isVisible();
+		a.setTitle("Présentation de l'administration");
+		HTML textFiche = new HTML();
+		textFiche.setHTML("<h3>Vous pouvez à partir de cet onglet : </h3> <BR><h5>- supprimer un utilisateur </h5><BR><h5> - supprimer une salle </h5><BR><h5> - modifier le nom et le thème d'une salle</h5> <BR><h5> - Ajouter une nouvelle Salle</h5>");
+		a.add(textFiche);
+		return a;
+	}
+	
 	private Widget creerListeSallePanel() {
 		SimplePanel a = new SimplePanel();
 		setWidth("100%");
 		setHeight("100%");
 		a.isVisible();
 		a.setTitle("Liste des salles");
-		class Salle {
-			private final String nom;
-			private final String theme;
-			private final int nbPlaces;
+		
+		final CellTable<Salle> table = new CellTable<Salle>();
+		
+		// RECUPERER LES INSTANCES DES SALLES
+		SalleService.Util.getInstance().getToutesSalles(new AsyncCallback<ArrayList<Salle>>() {
+			@Override
+			public void onSuccess(ArrayList<Salle> result) {
+				if (result==null)
+					Window.alert("Erreur lors de la récupération de la liste des utilisateurs");
+				listeSalles = result;
+				// The list of data to display.
+				List<Salle> SALLES = listeSalles;
+				// Create a data provider.
+				ListDataProvider<Salle> dataProvider = new ListDataProvider<Salle>();
 
-			public Salle(String nom, String theme, int nbPlaces) {
-				this.nom = nom;
-				this.theme = theme;
-				this.nbPlaces = nbPlaces;
-			}
+				// Connect the table to the data provider.
+				dataProvider.addDataDisplay(table);
 
-			public String getNom() {
-				return nom;
+				// Add the data to the data provider, which automatically pushes it to the
+				// widget.
+				List<Salle> list = dataProvider.getList();
+				for (Salle salle : SALLES) {
+					list.add(salle);
+				}
+				// Add a ColumnSortEvent.ListHandler to connect sorting to the
+				// java.util.List.
+				ListHandler<Salle> columnSortHandler = new ListHandler<Salle>(
+						list);
+				table.addColumnSortHandler(columnSortHandler);
 			}
-		}
-		
-		
-		
-		// The list of data to display.
-		List<Salle> SALLES = Arrays.asList(new Salle("geekmania","informatique",10), new Salle("naturaForm","sport",10));
+			@Override
+			public void onFailure(Throwable caught) {
+				System.out.println("Erreur lors de la récupération de la liste des salles");
+			}
+		});
 		
 		class HasCellImpl implements HasCell<Salle, Salle> {
 			private ActionCell<Salle> fCell;
@@ -123,10 +149,6 @@ public class AdminPanel extends AbsolutePanel{
 				return object;
 			}
 		}
-		
-
-		CellTable<Salle> table = new CellTable<Salle>();
-
 		List<HasCell<Salle, ?>> cells = new LinkedList<HasCell<Salle, ?>>();
 		cells.add(new HasCellImpl("supprimer", new Delegate<Salle>() {
 
@@ -144,14 +166,14 @@ public class AdminPanel extends AbsolutePanel{
 		// Create nom column.
 		table.addColumn(new Column<Salle, String>(editTextColumn) {
 			public String getValue(Salle salle) {
-	            return salle.nom;
+	            return salle.getNom();
 	          }
 		},"Nom");
 		
 		// Create theme column.
 		table.addColumn(new Column<Salle, String>(editTextColumn) {
 			public String getValue(Salle salle) {
-	            return salle.theme;
+	            return salle.getTheme();
 	          }
 		},"Theme");
 		
@@ -161,7 +183,7 @@ public class AdminPanel extends AbsolutePanel{
 
 			@Override
 			public Number getValue(Salle salle) {
-				return salle.nbPlaces;
+				return salle.getNbrPlaceMax();
 			}
 		},"nb Places Max");
 		
@@ -174,26 +196,6 @@ public class AdminPanel extends AbsolutePanel{
 			}
 		},"Suprimer Salle");
 		
-		
-
-		// Create a data provider.
-		ListDataProvider<Salle> dataProvider = new ListDataProvider<Salle>();
-
-		// Connect the table to the data provider.
-		dataProvider.addDataDisplay(table);
-
-		// Add the data to the data provider, which automatically pushes it to the
-		// widget.
-		List<Salle> list = dataProvider.getList();
-		for (Salle contact : SALLES) {
-			list.add(contact);
-		}
-
-		// Add a ColumnSortEvent.ListHandler to connect sorting to the
-		// java.util.List.
-		ListHandler<Salle> columnSortHandler = new ListHandler<Salle>(
-				list);
-		table.addColumnSortHandler(columnSortHandler);
 
 		// Add it to the root panel.
 		a.add(table);
@@ -201,37 +203,17 @@ public class AdminPanel extends AbsolutePanel{
 		return a;
 	}
 
+	private ArrayList<User> listeUtilisateurs = new ArrayList<User>();
+	CellTable<User> table = new CellTable<User>();
 	private Widget creerListeUserPanel() {
 		SimplePanel a = new SimplePanel();
 		setWidth("100%");
 		setHeight("100%");
 		a.isVisible();
-		a.setTitle("Liste des utilisateurs");
-		class Contact {
-			private final String pseudo;
-			private final String nbBanni;
-			private final String nbEjection;
-			private final Date dateLast;
-
-			public Contact(String pseudo, String nbBanni, String nbEjection,Date dateLast) {
-				this.dateLast = dateLast;
-				this.nbBanni = nbBanni;
-				this.nbEjection = nbEjection;
-				this.pseudo = pseudo;
-			}
-
-			public String getPseudo() {
-				return pseudo;
-			}
-
-			/**
-			 * @return
-			 */
-		}
-		
-		// Créer la liste des utilisateurs
-		ArrayList<User> listUsers;
+		a.setTitle("Liste des utilisateurs");	
+	
 		AdminService.Util.getInstance().getAllUsers(new AsyncCallback<ArrayList<User>>(){
+			 
 							@Override
 							public void onFailure(Throwable caught) {
 								Window.alert("Erreur : "+ caught.getMessage());
@@ -240,114 +222,118 @@ public class AdminPanel extends AbsolutePanel{
 							public void onSuccess(ArrayList<User> result) {
 								if (result==null)
 									Window.alert("Erreur lors de la récupération de la liste des utilisateurs");
+								listeUtilisateurs = result;
+								// The list of data to display.
+								List<User> USERS = listeUtilisateurs;
+								// Create a data provider.
+								ListDataProvider<User> dataProvider = new ListDataProvider<User>();
+
+								// Connect the table to the data provider.
+								dataProvider.addDataDisplay(table);
+
+								// Add the data to the data provider, which automatically pushes it to the
+								// widget.
+								List<User> list = dataProvider.getList();
+								for (User user : USERS) {
+									list.add(user);
+								}
+								// Add a ColumnSortEvent.ListHandler to connect sorting to the
+								// java.util.List.
+								ListHandler<User> columnSortHandler = new ListHandler<User>(
+										list);
+								table.addColumnSortHandler(columnSortHandler);
 							}
+								
 						});
 		
-		
+		class HasCellImpl implements HasCell<User, User> {
+			private ActionCell<User> fCell;
 
-		// The list of data to display.
-		List<Contact> CONTACTS = Arrays.asList(new Contact("John","0","0",
-				new Date(80, 4, 12)), new Contact("Mary","5","2", new Date(11, 6, 11)));
-
-
-		class HasCellImpl implements HasCell<Contact, Contact> {
-			private ActionCell<Contact> fCell;
-
-			public HasCellImpl(String text, Delegate<Contact> delegate) {
-				fCell = new ActionCell<Contact>(text, delegate);
+			public HasCellImpl(String text, Delegate<User> delegate) {
+				fCell = new ActionCell<User>(text, delegate);
 			}
 
 			@Override
-			public Cell<Contact> getCell() {
+			public Cell<User> getCell() {
 				return fCell;
 			}
 
 			@Override
-			public FieldUpdater<Contact, Contact> getFieldUpdater() {
+			public FieldUpdater<User, User> getFieldUpdater() {
 				return null;
 			}
 
 			@Override
-			public Contact getValue(Contact object) {
+			public User getValue(User object) {
 				return object;
 			}
 		}
 
-		CellTable<Contact> table = new CellTable<Contact>();
-
-		List<HasCell<Contact, ?>> cells = new LinkedList<HasCell<Contact, ?>>();
-		cells.add(new HasCellImpl("supprimer", new Delegate<Contact>() {
+		List<HasCell<User, ?>> cells = new LinkedList<HasCell<User, ?>>();
+		cells.add(new HasCellImpl("supprimer", new Delegate<User>() {
 
 			// SUPPRIMER ICI LE USER SELECTIONNE DE LA BDD
 			@Override
-			public void execute(Contact object) {
-				Window.alert(object.getPseudo());
+			public void execute(User object) {
+				Window.alert(object.getLogin());
 			}
 		}));
 
-		CompositeCell<Contact> pseudoColumn = new CompositeCell<Contact>(cells);
-		table.addColumn(new TextColumn<Contact>() {
+		CompositeCell<User> pseudoColumn = new CompositeCell<User>(cells);
+		table.addColumn(new TextColumn<User>() {
 
 			@Override
-			public String getValue(Contact object) {
-				return object.getPseudo();
+			public String getValue(User object) {
+				return object.getLogin();
 			}
 		}, "Pseudo");
 
 		// Create nombre de fois ejecter column.
-		TextColumn<Contact> nbEjectionColumn = new TextColumn<Contact>() {
+		Cell<Number> nbEjectionColumn = new NumberCell();
+		table.addColumn(new Column<User, Number>(nbEjectionColumn) {
+
 			@Override
-			public String getValue(Contact contact) {
-				return contact.nbEjection;
+			public Number getValue(User user) {
+				return user.getNbEjections();
 			}
-		};
-		table.addColumn(nbEjectionColumn, "nb Ejections");
+		},"nb Ejections");
 
 		// Create nombre de fois bannis column.
-		TextColumn<Contact> nbBanniColumn = new TextColumn<Contact>() {
+		Cell<Number> nbBanniColumn = new NumberCell();
+		table.addColumn(new Column<User, Number>(nbBanniColumn) {
+
 			@Override
-			public String getValue(Contact contact) {
-				return contact.nbBanni;
+			public Number getValue(User user) {
+				return user.getNbBannissements();
 			}
-		};
-		table.addColumn(nbBanniColumn, "nb Bannis");
+		},"nb Bannis");
 
-
-		DateCell dateLastColumn = new DateCell();
-		Column<Contact, Date> dateColumn = new Column<Contact, Date>(dateLastColumn) {
+		// En format data aux cas ou on modifie :
+		/*DateCell dateLastColumn = new DateCell();
+		Column<User, Date> dateColumn = new Column<User, Date>(dateLastColumn) {
 			@Override
-			public Date getValue(Contact object) {
-				return object.dateLast;
+			public Date getValue(User object) {
+				return object.getDateLastConnexion();
 			}
 		};
 		table.addColumn(dateColumn, "Date de derniere connexion");
-
-		table.addColumn(new Column<Contact, Contact>(pseudoColumn) {
+*/
+		
+		TextColumn<User> dateLastColumn = new TextColumn<User>() {
+			@Override
+			public String getValue(User user) {
+				return user.getDateLastConnexion();
+			}
+		};
+		table.addColumn(dateLastColumn, "Date de derniere connexion");
+		
+		table.addColumn(new Column<User, User>(pseudoColumn) {
 
 			@Override
-			public Contact getValue(Contact object) {
+			public User getValue(User object) {
 				return object;
 			}
 		},"Suprimer User");
-
-		// Create a data provider.
-		ListDataProvider<Contact> dataProvider = new ListDataProvider<Contact>();
-
-		// Connect the table to the data provider.
-		dataProvider.addDataDisplay(table);
-
-		// Add the data to the data provider, which automatically pushes it to the
-		// widget.
-		List<Contact> list = dataProvider.getList();
-		for (Contact contact : CONTACTS) {
-			list.add(contact);
-		}
-
-		// Add a ColumnSortEvent.ListHandler to connect sorting to the
-		// java.util.List.
-		ListHandler<Contact> columnSortHandler = new ListHandler<Contact>(
-				list);
-		table.addColumnSortHandler(columnSortHandler);
 
 		// Add it to the root panel.
 		a.add(table);

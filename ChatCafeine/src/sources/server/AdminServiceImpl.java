@@ -28,13 +28,13 @@ public class AdminServiceImpl extends RemoteServiceServlet implements AdminServi
 	 */
 	@Override
 	public ArrayList<User> getAllUsers() {	
-			String url = "//127.0.0.1:3306/chatcafeine";		
+			String url = "//127.0.0.1:3306/ChatCafeine";		
 			String login = "root";		
 			String password = "";		
 			ConBDD connexion=new ConBDD(url,login,password);	
 			ArrayList<User> a = new ArrayList<User> ();		
 			try{			
-				String requete = "SELECT * FROM utilisateur";			
+				String requete = "SELECT * FROM Utilisateur";			
 				ResultSet result = connexion.getData(requete);			
 				while (result.next()){				
 					a.add(new User(result.getString("Login"), result.getInt("NbEjections"), result.getInt("NbBannissements")));			

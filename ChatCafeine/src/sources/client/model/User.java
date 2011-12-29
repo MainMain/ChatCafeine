@@ -38,7 +38,7 @@ public class User implements Comparable<User>, Serializable {
 		this.nbBannissements = nbBannissements;
 		
 	}
-	
+
 	public User(){
 		super();
 	}
@@ -99,6 +99,15 @@ public class User implements Comparable<User>, Serializable {
 	public void setLogin(String login) {
 		this.login = login;
 		idUser = login;
+	}
+	
+	
+	public int getNbEjections() {
+		return nbEjections;
+	}
+
+	public int getNbBannissements() {
+		return nbBannissements;
 	}
 
 	public String getMdp() {
