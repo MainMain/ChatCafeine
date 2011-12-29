@@ -26,13 +26,23 @@ public class User implements Comparable<User>, Serializable {
 
 	private int pos_x = -1;
 	private int pox_y = -1;
-
+	private int nbEjections, nbBannissements;
+	
 	/*
 	 * Constructeur 
 	 */
-	public User() {
+	public User(String login, int nbEjections, int nbBannissements){
+		super();
+		this.login = login;
+		this.nbEjections = nbEjections;
+		this.nbBannissements = nbBannissements;
+		
+	}
+	
+	public User(){
 		super();
 	}
+
 
 	/* 
 	 * Méthodes de classe

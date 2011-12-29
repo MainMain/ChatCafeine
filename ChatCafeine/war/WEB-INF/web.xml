@@ -61,6 +61,16 @@
 		<servlet-name>gestionProfil</servlet-name> <!--Remettre le meme nom au hasard -->
 		<url-pattern>/chatcafeine/ProfilService</url-pattern> <!-- Mettre /chatcafeine/cheminRelatif -->
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>adminService</servlet-name> <!-- Mettre nom au hasard -->
+		<servlet-class>sources.server.AdminServiceImpl</servlet-class><!-- Mettre 
+			chemin du servlet -->
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminService</servlet-name> <!--Remettre le meme nom au hasard -->
+		<url-pattern>/chatcafeine/AdminService</url-pattern> <!-- Mettre /chatcafeine/cheminRelatif -->
+	</servlet-mapping>
 
 
 
