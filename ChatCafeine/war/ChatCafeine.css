@@ -63,13 +63,18 @@ h1 {
 	margin-left: 6px;
 	background-color: #FF0000;
 }
-
+.choixSallePan{
+	background-image: url("images/chat2.jpg");	}
 .tabApplication {background-color: #4D9ACD;}
-
+.boutonChoixSalle {background-color: #4D9ACD;
+	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial,
+		sans-serif;
+	color: #f1f3f9;
+}
 .coffeRoomPanel {background-color: #CCCCCC;}
 .sallePan {background-color: #f1f3f9	;}
 .listUserPanel {background-color: #DDDDDD;}
-.chatboxPan {background-color: #f1f3f9;}
+.chatboxPan {background-image: url("images/tasse.jpg");}
 .vueSalle {background-color: #000000;}
 .infosSalle{background-color: #f1f3f9;}
 .envoiButton {
@@ -101,7 +106,9 @@ h1 {
 .caseCafe {background-color: #A9A9A9;}
 .caseSortie {background-color: #FFD700;}
 .testImg {background-color: #FFFFFF;}
-
+.infosBox{
+	background-image: url("images/grains.png");
+	}
 /************************************************** AccueilPanel **************************************************/
 .accueilPanel {
 	margin: 5px;
