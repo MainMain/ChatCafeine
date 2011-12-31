@@ -3,13 +3,10 @@
  */
 package sources.client.vue;
 
-import java.util.ArrayList;
+import sources.client.vue.administration.AdminPanel;
+import sources.client.vue.coffeeRoom.CoffeeRoomPanel;
+import sources.client.vue.profil.ProfilPanel;
 
-import sources.client.model.Salle;
-import sources.client.model.User;
-import sources.client.service.SalleService;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TabPanel;

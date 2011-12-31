@@ -5,6 +5,7 @@ import sources.client.GreetingService;
 import sources.client.GreetingServiceAsync;
 import sources.client.model.User;
 import sources.client.service.SalleService;
+import sources.client.vue.accueil.AccueilPanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
