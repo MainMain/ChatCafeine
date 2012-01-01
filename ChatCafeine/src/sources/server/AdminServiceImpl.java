@@ -28,10 +28,7 @@ public class AdminServiceImpl extends RemoteServiceServlet implements AdminServi
 	 */
 	@Override
 	public ArrayList<User> getAllUsers() {	
-			String url = "//127.0.0.1:3306/ChatCafeine";		
-			String login = "root";		
-			String password = "";		
-			ConBDD connexion=new ConBDD(url,login,password);	
+			ConBDD connexion=new ConBDD();	
 			ArrayList<User> a = new ArrayList<User> ();		
 			try{			
 				String requete = "SELECT * FROM Utilisateur";			

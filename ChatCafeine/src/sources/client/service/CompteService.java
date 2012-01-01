@@ -27,9 +27,8 @@ public interface CompteService extends RemoteService {
 			return instance;
 		}
 	}
-	boolean desincription(String url, String login, String password, int idUser);
-	boolean inscription(String url, String login, String password,
-			String loginUser, String mdp, int age, String sexe, String email);
+	boolean desincription(int idUser);
+	boolean inscription(String loginUser, String mdp, int age, String sexe, String email);
 	boolean majDateLastConnexion(String login);
 	boolean isBanniSalle(String login, String nomSalle);
 	boolean bannirUser(String login, String nomSalle, int temps);

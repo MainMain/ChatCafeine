@@ -17,11 +17,10 @@ public class ConnexionServiceImpl extends RemoteServiceServlet implements Connex
 	/**
 	 * 
 	 */
-	public User authentifier(String url, String login, String password,
-			String id, String mdp) {
+	public User authentifier(String id, String mdp) {
 		String requete= "SELECT ID_user, ID_Salle, Login, Pass, Age, Sexe, Email, Aime, AimePas, Droit, Avatar " +
 				"FROM Utilisateur WHERE Login = '"+id+"' AND pass = '"+mdp+"'";
-		ConBDD connexion=new ConBDD(url,login,password);
+		ConBDD connexion=new ConBDD();
 		ResultSet resultat=connexion.getData(requete);
 		if (resultat==null)
 			return null;

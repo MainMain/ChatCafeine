@@ -6,24 +6,26 @@ public class ConBDD {
 
 	private Connection connOjbect = null;
 
-	private static String URL      = "";
-	private static String userName = "";
+	private static String URL      = "//127.0.0.1:3306/ChatCafeine";
+	private static String userName = "root";
 	private static String userPWD  = "";
+	
+	//private static String URL      = "//lerelou.dyndns.org:3306/ChatCafeine";
+	//private static String userName = "MainMain";
+	//private static String userPWD  = "azerty";
+	
 	public static boolean DEBUG = true;
 
-	public ConBDD(String URLparam, String userNameparam, String userPWDparam) {
+	public ConBDD() {
 		super();
-		URL = URLparam;
-		userName = userNameparam; 
-		userPWD = userPWDparam; 
 		connectToDB();
 	}
 
-	private void setConnexionData(String URLparam, String userNameparam, String userPWDparam){
+	/*private void setConnexionData(String URLparam, String userNameparam, String userPWDparam){
 		URL = URLparam;
 		userName = userNameparam; 
 		userPWD = userPWDparam; 
-	}
+	}*/
 
 	private boolean connectToDB(){
 		try{
@@ -32,8 +34,8 @@ public class ConBDD {
 			e.printStackTrace();
 		} 
 		try {
-			//connOjbect = DriverManager.getConnection("jdbc:mysql:"+URL,userName, userPWD);
-			connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ChatCafeine", "root", "");
+			connOjbect = DriverManager.getConnection("jdbc:mysql:"+URL, userName, userPWD);
+			//connOjbect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/ChatCafeine", "root", "");
 			return true;
 		} catch (SQLException e) {
 			System.err.println("Mysql Connection Error: ");

@@ -10,17 +10,19 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 public class CompteServiceImpl extends RemoteServiceServlet implements CompteService {
-
+	String url = "//127.0.0.1:3306/chatcafeine";
+	String login = "root";
+	String password = "";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3597453029675338488L;
 
 	@Override
-	public boolean inscription(String url, String login, String password,String loginUser, String mdp, int age, String sexe,
+	public boolean inscription(String loginUser, String mdp, int age, String sexe,
 			String email) { // Tu me retourne true si ca fonctionne, false sinon. C'est pas lors de l'inscription que j'identifie l'user, mais quand il se connecte.
 
-		ConBDD connexion=new ConBDD(url,login,password);
+		ConBDD connexion=new ConBDD();
 		String requete="INSERT INTO Utilisateur (ID_user, ID_salle, Login, Pass, Age, Sexe, Email, Aime, AimePas, Droit, Avatar, NbBannissements, DateInscription, DateLastConnexion, CompteurChat) " +
 		"VALUES (null,null,'"+loginUser+"'"+", '"+mdp+"'"+", '"+age+"'"+", '"+sexe+"'"+", '"+email+"'"+", null, null,'utilisateur', null,0, null, null, null);";
 		String resultat=connexion.setData(requete);
@@ -35,9 +37,8 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	 * 
 	 */
 	@Override
-	public boolean desincription(String url, String login, String password,
-			int idUser) {
-		ConBDD connexion=new ConBDD(url,login,password);
+	public boolean desincription(int idUser) {
+		ConBDD connexion=new ConBDD();
 		String requete="DELETE FROM Utilisateur WHERE ID_user LIKE '"+idUser+"'";
 		String resultat=connexion.setData(requete);
 		connexion.fermer();

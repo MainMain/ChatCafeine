@@ -298,7 +298,7 @@ public class ProfilPanel extends AbsolutePanel{
 		Button supprButton = new Button(
 				"Supprimer mon compte", new ClickHandler(){
 					public void onClick(ClickEvent event) {
-						CompteService.Util.getInstance().desincription("//127.0.0.1:3306/chatcafeine", "root", "", 4, new AsyncCallback<Boolean>(){
+						CompteService.Util.getInstance().desincription(4, new AsyncCallback<Boolean>(){
 							@Override
 							public void onFailure(Throwable caught) {
 								Window.alert("Erreur : "+ caught.getMessage());

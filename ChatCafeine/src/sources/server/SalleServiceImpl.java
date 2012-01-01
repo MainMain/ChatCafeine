@@ -251,10 +251,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	@Override
 	public ArrayList<Salle> getToutesSalles() {
-		String url = "//127.0.0.1:3306/chatcafeine";
-		String login = "root";
-		String password = "";
-		ConBDD connexion=new ConBDD(url,login,password);
+		ConBDD connexion=new ConBDD();
 		ArrayList<Salle> a = new ArrayList<Salle> ();
 		try{
 			String requete = "SELECT * FROM Salle";

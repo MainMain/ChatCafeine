@@ -87,7 +87,7 @@ public class AccueilPanel extends VerticalPanel{
 				"Connexion", new ClickHandler(){
 					public void onClick(ClickEvent event) {
 						if(casesRemplies()){
-							ConnexionService.Util.getInstance().authentifier("//127.0.0.1:3306/chatcafeine", "root", "",loginBox.getText(), mdpBox.getText(), 
+							ConnexionService.Util.getInstance().authentifier(loginBox.getText(), mdpBox.getText(), 
 									new AsyncCallback<User>(){
 								@Override
 								public void onFailure(Throwable caught) {
@@ -234,7 +234,7 @@ public class AccueilPanel extends VerticalPanel{
 										int age = Integer.parseInt(ageBox.getItemText(ageBox.getSelectedIndex()).substring(0,2));
 										error2HTML.setHTML("<font color=\"green\"><em><small>Inscription complétée !</small></em></font>");
 										if(hRadio.getValue()!=null){
-											CompteService.Util.getInstance().inscription("//127.0.0.1:3306/chatcafeine", "root", "",login2Box.getText(), pass2Box.getText(), age,
+											CompteService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), age,
 													hRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
 												@Override
 												public void onFailure(Throwable caught) {
@@ -248,7 +248,7 @@ public class AccueilPanel extends VerticalPanel{
 											});
 										}
 										else{
-											CompteService.Util.getInstance().inscription("//127.0.0.1:3306/chatcafeine", "root", "",login2Box.getText(), pass2Box.getText(), age,
+											CompteService.Util.getInstance().inscription(login2Box.getText(), pass2Box.getText(), age,
 													fRadio.getText(), mailBox.getText(), new AsyncCallback<Boolean>(){
 												@Override
 												public void onFailure(Throwable caught) {
