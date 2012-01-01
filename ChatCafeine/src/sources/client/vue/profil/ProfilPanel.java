@@ -188,6 +188,10 @@ public class ProfilPanel extends AbsolutePanel{
 							catch (Exception e) {
 								age = 0;
 							}
+<<<<<<< HEAD
+=======
+							
+>>>>>>> 4c4a9a422e3720db36fbeb5c6825c2892592fc54
 						}
 						if(boxActivite.getValue()!=""){
 							Core.userEnCours.setActivite(boxActivite.getValue());
