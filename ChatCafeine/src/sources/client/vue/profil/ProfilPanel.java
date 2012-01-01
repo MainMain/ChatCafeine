@@ -1,6 +1,9 @@
 package sources.client.vue.profil;
 
+import sources.client.model.User;
 import sources.client.service.CompteService;
+import sources.client.service.ProfilService;
+import sources.client.service.ProfilServiceAsync;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -68,15 +71,15 @@ public class ProfilPanel extends AbsolutePanel{
 		avatarPan.add(avatarImg);
 		fichePan.add(avatarPan);
 		fichePan.setWidgetPosition(avatarPan, 220, 65);
-		
+
 		// BOUTON CHANGE AVATAR
 		Button changeA = new Button("Changer d'avatar");
 		changeA.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		fichePan.add(changeA, 250, 270);
@@ -175,9 +178,15 @@ public class ProfilPanel extends AbsolutePanel{
 		Button modifButton = new Button(
 				"Modifier", new ClickHandler(){
 					public void onClick(ClickEvent event) {
+						int age = 0;
 						//actions click mod
 						if(boxAge.getValue()!=""){
-							// a faire : verification sur l'age pour verifier si c'est un nombre
+							try {
+								age = Integer.parseInt(boxAge.getValue());
+							}
+							catch (Exception e) {
+								age = 0;
+							}
 							Core.userEnCours.setAge(boxAge.getValue());
 						}
 						if(boxActivite.getValue()!=""){
@@ -191,7 +200,18 @@ public class ProfilPanel extends AbsolutePanel{
 						}
 						fichePan.clear();
 						configFichePan();
-					}				
+						ProfilService.Util.getInstance().modifInfos(Core.userEnCours.getIdInt(), 
+								boxAime.getValue(), boxAimePas.getValue(), age, boxActivite.getValue(), new AsyncCallback<Boolean>(){
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Erreur : "+ caught.getMessage());
+							}
+							@Override
+							public void onSuccess(Boolean result) {
+							}
+						});				
+					}
+
 				});
 
 		modifButton.setWidth("200px");
@@ -246,12 +266,21 @@ public class ProfilPanel extends AbsolutePanel{
 						if(boxMdp.getValue().equals(Core.userEnCours.getMdp())){
 							if(boxNewMdp.getValue().equals(boxConfMdp.getValue())){
 								if(boxNewMdp.getValue()!=""){
+									Window.alert("Votre mot de passe à été modifié");
+									ProfilService.Util.getInstance().modifMdp(Core.userEnCours.getIdInt(), 
+											boxMdp.getValue(), new AsyncCallback<Boolean>() {
+										@Override
+										public void onFailure(Throwable caught) {
+											Window.alert("Erreur : "+ caught.getMessage());
+										}
+										@Override
+										public void onSuccess(Boolean result) {
+										}
+									});
 									Core.userEnCours.setMdp(boxMdp.getValue());
 									boxNewMdp.setValue("");
 									boxMdp.setValue("");
 									boxConfMdp.setValue("");
-									Window.alert("Votre mot de passe à été modifié");
-
 								}else{
 									//popup nouveau mot de passe incorrect
 									Window.alert("Nouveau mot de passe incorrect");
@@ -289,7 +318,7 @@ public class ProfilPanel extends AbsolutePanel{
 		/* author Audrey */
 
 		supprPan.add(new HeaderPanels("Supprimer mon compte"));
-		
+
 		HTML textSuppr2 = new HTML();
 		textSuppr2.setHTML("Attention, cette action est irreversible.Toutes les informations li&eacute;es &agrave; votre " +
 		"compte seront supprim&eacute;es.");

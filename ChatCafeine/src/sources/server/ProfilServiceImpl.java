@@ -36,7 +36,8 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	 */
 	@Override
 	public boolean modifInfos(int idUser, String aime, String aimePas, int age,
-			String avatar) {
+			String activite) {
+		// Controle que les infos ne soient pas vides et insére que ceux complétés. (et que age > 10 et < 99)
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 		
 		

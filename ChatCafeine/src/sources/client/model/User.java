@@ -79,6 +79,9 @@ public class User implements Comparable<User>, Serializable {
 	 * Getters & Setters
 	 */
 
+	public int getIdInt(){
+		return id;
+	}
 	public String getIdUser() {
 		return idUser;
 	}
