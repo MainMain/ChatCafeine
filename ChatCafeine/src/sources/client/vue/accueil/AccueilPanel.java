@@ -1,7 +1,6 @@
 package sources.client.vue.accueil;
 
 import sources.client.model.User;
-import sources.client.service.ChatService;
 import sources.client.service.CompteService;
 import sources.client.service.ConnexionService;
 import sources.client.service.SalleService;

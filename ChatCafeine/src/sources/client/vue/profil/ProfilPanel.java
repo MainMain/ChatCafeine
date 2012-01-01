@@ -26,7 +26,7 @@ import sources.client.vue.outils.HeaderPanels;
 public class ProfilPanel extends AbsolutePanel{
 	private static final AbsolutePanel fichePan = new AbsolutePanel();
 	private static final AbsolutePanel modifPan = new AbsolutePanel();
-	private static final AbsolutePanel supprPan = new AbsolutePanel();
+	private static final VerticalPanel supprPan = new VerticalPanel();
 
 	public ProfilPanel(){
 		configPanel();
@@ -280,6 +280,7 @@ public class ProfilPanel extends AbsolutePanel{
 		supprPan.setHeight("165px");
 		supprPan.setWidth("450px");
 		supprPan.setStyleName("supprPan");
+		supprPan.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec3Panel = new DecoratorPanel();
 		dec3Panel.setWidget(supprPan);
@@ -293,7 +294,7 @@ public class ProfilPanel extends AbsolutePanel{
 		textSuppr2.setHTML("Attention, cette action est irreversible.Toutes les informations li&eacute;es &agrave; votre " +
 		"compte seront supprim&eacute;es.");
 		supprPan.add(textSuppr2);
-		supprPan.setWidgetPosition(textSuppr2, 10, 60);
+		//supprPan.setWidgetPosition(textSuppr2, 10, 60);
 
 		Button supprButton = new Button(
 				"Supprimer mon compte", new ClickHandler(){
@@ -313,7 +314,7 @@ public class ProfilPanel extends AbsolutePanel{
 				});
 		supprButton.setWidth("200px");
 		supprPan.add(supprButton);
-		supprPan.setWidgetPosition(supprButton, 80, 110);
+		//supprPan.setWidgetPosition(supprButton, 80, 110);
 		/* fin audrey */
 	}
 

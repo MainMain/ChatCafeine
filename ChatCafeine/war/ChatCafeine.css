@@ -87,11 +87,13 @@ h1 {
 	margin-right: 25px;
 }
 .listeSalle{background-color: #DDDDDD;}
+.recherchePan{background-image: url("images/cafe3.png");}
+
 /************************************************** ProfilPanel ******************************************************/
 .profilPanel {background-color: #CCCCCC;}
-.fichePan {background-color: #f1f3f9;}
-.modifPan {background-color: #f1f3f9;}
-.supprPan {background-color: #f1f3f9;}
+.fichePan {background-image: url("images/cafe3.png");}
+.modifPan {background-image: url("images/cafe3.png");}
+.supprPan {background-image: url("images/cafe3.png");}
 .avatarPan {background-color: #DDDDDD;}
 .adminPanel {background-color: #f1f3f9;}
 .headerProfilPan {background-color: #4D9ACD;}
