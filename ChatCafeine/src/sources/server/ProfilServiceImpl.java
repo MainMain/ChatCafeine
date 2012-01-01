@@ -25,7 +25,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		
 		
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Pass="+"\'"+newMdp+"\'"+" WHERE ID_user = \'"+idUser+"\' ";
+		String requete="UPDATE Utilisateur SET Pass="+"\'"+newMdp+"\'"+" WHERE ID_user = \'"+idUser+"\' ";
 		System.out.println("TESTTEST : requete = "+requete);
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
