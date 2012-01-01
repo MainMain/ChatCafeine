@@ -41,18 +41,6 @@
 
 
 	<servlet>
-		<servlet-name>gestionChat</servlet-name> <!-- Mettre nom au hasard -->
-		<servlet-class>sources.server.ChatServiceImpl</servlet-class><!-- Mettre 
-			chemin du servlet -->
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>gestionChat</servlet-name> <!--Remettre le meme nom au hasard -->
-		<url-pattern>/chatcafeine/ChatService</url-pattern> <!-- Mettre /chatcafeine/cheminRelatif -->
-	</servlet-mapping>
-
-
-
-	<servlet>
 		<servlet-name>gestionProfil</servlet-name> <!-- Mettre nom au hasard -->
 		<servlet-class>sources.server.ProfilServiceImpl</servlet-class><!-- Mettre 
 			chemin du servlet -->
