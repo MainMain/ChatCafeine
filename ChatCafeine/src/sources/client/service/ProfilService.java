@@ -27,6 +27,6 @@ public interface ProfilService extends RemoteService {
 		}
 	}
 	boolean modifMdp(int idUser, String newMdp);
-	boolean modifInfos(int idUser, String aime, String aimePas, int age, String avatar);
+	boolean modifInfos(int idUser, String aime, String aimePas, int age, String activite);
 	boolean modifDroit(int idUser, String newDroit);
 }
