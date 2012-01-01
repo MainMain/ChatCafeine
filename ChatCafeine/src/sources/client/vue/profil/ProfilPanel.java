@@ -188,10 +188,7 @@ public class ProfilPanel extends AbsolutePanel{
 							catch (Exception e) {
 								age = 0;
 							}
-<<<<<<< HEAD
-=======
-							
->>>>>>> 4c4a9a422e3720db36fbeb5c6825c2892592fc54
+
 						}
 						if(boxActivite.getValue()!=""){
 							Core.userEnCours.setActivite(boxActivite.getValue());
@@ -272,7 +269,7 @@ public class ProfilPanel extends AbsolutePanel{
 								if(boxNewMdp.getValue()!=""){
 									Window.alert("Votre mot de passe à été modifié");
 									ProfilService.Util.getInstance().modifMdp(Core.userEnCours.getIdInt(), 
-											boxMdp.getValue(), new AsyncCallback<Boolean>() {
+											boxNewMdp.getValue(), new AsyncCallback<Boolean>() {
 										@Override
 										public void onFailure(Throwable caught) {
 											Window.alert("Erreur : "+ caught.getMessage());

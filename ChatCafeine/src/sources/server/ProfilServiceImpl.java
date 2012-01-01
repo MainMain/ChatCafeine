@@ -3,6 +3,9 @@
  */
 package sources.server;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import sources.client.service.ProfilService;
 
 import com.google.gwt.user.client.Window;
@@ -17,16 +20,19 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	
 	@Override
 	public boolean modifMdp(int idUser, String newMdp) {
+		System.out.println("TEST");
 		// LA METHODE SERA CODEE PAR AUDREY *********************
+		
+		
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Pass = "+newMdp+" WHERE ID_user = "+idUser;
-		System.out.println("TEST : requete = "+requete);
+		String requete="UPDATE utilisateur SET Pass="+"\'"+newMdp+"\'"+" WHERE ID_user = \'"+idUser+"\' ";
+		System.out.println("TESTTEST : requete = "+requete);
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
 			return false;
 		else{
-			Window.alert("Votre mot de passe à bien été changé");
+			Window.alert("Votre mot de passe à bien été changé test");
 			return true;
 		}
 		
@@ -42,7 +48,8 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		
 		
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Aime = "+aime+" AND AimePas = "+aimePas+" AND Age = "+age+" AND Activite = "+activite+" WHERE ID_user = "+idUser;
+		String requete="UPDATE utilisateur SET Aime = '"+aime+"' AND AimePas = '"+aimePas+"' AND Age = '"+age+"' AND Activite = '"+activite+"' WHERE ID_user = '"+idUser+"'";
+		System.out.println("TEST : requete = "+requete);
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
@@ -59,7 +66,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	public boolean modifDroit(int idUser, String newDroit) {
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Droit = "+newDroit+" WHERE ID_user = "+idUser;
+		String requete="UPDATE utilisateur SET Droit = '"+newDroit+"' WHERE ID_user = '"+idUser+"'";
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
