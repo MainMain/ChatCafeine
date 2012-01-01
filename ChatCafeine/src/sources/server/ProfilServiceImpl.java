@@ -42,7 +42,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		
 		
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Aime = "+aime+" AND AimePas = "+aimePas+" AND Age = "+age+" AND Avatar = "+avatar+" WHERE ID_user = "+idUser;
+		String requete="UPDATE utilisateur SET Aime = "+aime+" AND AimePas = "+aimePas+" AND Age = "+age+" AND Activite = "+activite+" WHERE ID_user = "+idUser;
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
