@@ -189,28 +189,28 @@ public class ProfilPanel extends AbsolutePanel{
 								age = 0;
 							}
 
-						}
-						if(boxActivite.getValue()!=""){
-							Core.userEnCours.setActivite(boxActivite.getValue());
-						}
-						if(boxAime.getValue()!=""){
-							Core.userEnCours.setAime(boxAime.getValue());
-						}
-						if(boxAimePas.getValue()!=""){
-							Core.userEnCours.setAimePas(boxAimePas.getValue());
-						}
-						fichePan.clear();
-						configFichePan();
-						ProfilService.Util.getInstance().modifInfos(Core.userEnCours.getIdInt(), 
-								boxAime.getValue(), boxAimePas.getValue(), age, boxActivite.getValue(), new AsyncCallback<Boolean>(){
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert("Erreur : "+ caught.getMessage());
+							if(boxActivite.getValue()!=""){
+								Core.userEnCours.setActivite(boxActivite.getValue());
 							}
-							@Override
-							public void onSuccess(Boolean result) {
+							if(boxAime.getValue()!=""){
+								Core.userEnCours.setAime(boxAime.getValue());
 							}
-						});				
+							if(boxAimePas.getValue()!=""){
+								Core.userEnCours.setAimePas(boxAimePas.getValue());
+							}
+							fichePan.clear();
+							configFichePan();
+							ProfilService.Util.getInstance().modifInfos(Core.userEnCours.getIdInt(), 
+									boxAime.getValue(), boxAimePas.getValue(), age, boxActivite.getValue(), new AsyncCallback<Boolean>(){
+								@Override
+								public void onFailure(Throwable caught) {
+									Window.alert("Erreur : "+ caught.getMessage());
+								}
+								@Override
+								public void onSuccess(Boolean result) {
+								}
+							});				
+						}
 					}
 
 				});
