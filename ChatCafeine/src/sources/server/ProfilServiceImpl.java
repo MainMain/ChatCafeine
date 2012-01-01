@@ -15,7 +15,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	private static final long serialVersionUID = 71298666683531087L;
 	
 	@Override
-	public boolean modifMdp(String newMdp) {
+	public boolean modifMdp(int idUser, String newMdp) {
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 		return false;
 	}
@@ -23,7 +23,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	 * 
 	 */
 	@Override
-	public boolean modifInfos(String aime, String aimePas, int age,
+	public boolean modifInfos(int idUser, String aime, String aimePas, int age,
 			String avatar) {
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 		return false;
@@ -32,7 +32,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	 * 
 	 */
 	@Override
-	public boolean modifDroit(String newDroit) {
+	public boolean modifDroit(int idUser, String newDroit) {
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 		return false;
 	}

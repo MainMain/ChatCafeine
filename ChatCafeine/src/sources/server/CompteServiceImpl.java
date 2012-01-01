@@ -45,7 +45,7 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 		if (resultat==null || resultat.equals("Error"))
 			return false;
 		if (resultat.equals("OK")){
-			Window.alert("Votre compte a �t� supprim�");
+			Window.alert("Votre compte a été supprimé");
 			return true;
 		}
 		else return false;
@@ -54,13 +54,13 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	 * 
 	 */
 	@Override
-	public boolean isBanniSalle(String login, String nomSalle) {
+	public boolean isBanniSalle(int idUser, String nomSalle) {
 		// TRAVAIL D'AUDREY
 		// RETOURNE SI LE LOGIN EST BANNI DE LA SALLE
 		return false;
 	}
 	@Override
-	public boolean bannirUser(String login, String nomSalle, int temps) {
+	public boolean bannirUser(int idUser, String nomSalle, int temps) {
 		// TRAVAIL D'AUDREY
 		// BANNI UN USER DE LA SALLE
 		// LE TEMPS EST EN MINUTES
@@ -68,7 +68,7 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 		return false;
 	}
 	@Override
-	public boolean majDateLastConnexion(String login) {
+	public boolean majDateLastConnexion(int idUser) {
 		// TRAVAIL D'AUDREY
 		// RECUPERE LA DATE ACTUELLE ET INSERE LA DANS "DateLastConnexion"
 		return false;
