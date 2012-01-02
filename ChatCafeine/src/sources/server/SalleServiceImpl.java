@@ -12,6 +12,7 @@ import sources.client.model.Salle;
 import sources.client.model.User;
 
 import com.google.gwt.dev.util.collect.HashMap;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -137,7 +138,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 	private HashMap<Integer,User[][]> matriceUser = new HashMap<Integer, User[][]>();
 
 	private HashMap<Integer, ArrayList<User>> listeUtilisateurs = 
-		new HashMap<Integer,  ArrayList<User>>();
+			new HashMap<Integer,  ArrayList<User>>();
 	private HashMap<Integer, Integer> cptVueSalle = new HashMap<Integer, Integer>();
 
 	@Override
@@ -246,7 +247,23 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 			int nbPlaceMax) {
 		// METHODE A CODER PAR AUDREY
 		// CONTRAINTE : DEUX SALLES NE PEUVENT AVOIR LE MEME NOM
-		return false;
+		String requete= "SELECT * FROM Salle Where Nom Like '"+nom+"'";
+		ConBDD connexion=new ConBDD();
+		ResultSet resultat=connexion.getData(requete);
+		if (resultat==null){
+			connexion.fermer();
+			return false;
+		}else{
+			String requete2="INSERT INTO Salle (Nom,Theme,Description,NbPlaceMax) VALUES ('"+nom+"','"+theme+"','"+description+"','"+nbPlaceMax+"', );";
+			String resultat2=connexion.setData(requete2);
+			connexion.fermer();
+			if (resultat2==null || resultat2.equals("Error"))
+				return false;
+			if (resultat2.equals("OK"))
+				return true;
+			else return false;
+		}
+		//return false;
 	}
 
 	@Override
@@ -267,8 +284,18 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	@Override
 	public boolean supprimerSalle(String nom) {
-		// METHODE A CODER PAR AUDREY
-		return false;
+		//par audrey.
+		ConBDD connexion=new ConBDD();
+		String requete="DELETE FROM Salle WHERE Nom LIKE '"+nom+"'";
+		String resultat=connexion.setData(requete);
+		connexion.fermer();
+		if (resultat==null || resultat.equals("Error"))
+			return false;
+		if (resultat.equals("OK")){
+			Window.alert("la salle a bien été supprimée");
+			return true;
+		}
+		else return false;
 	}
 
 

@@ -17,25 +17,20 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilService{
 	private static final long serialVersionUID = 71298666683531087L;
-	
+
 	@Override
 	public boolean modifMdp(int idUser, String newMdp) {
-		System.out.println("TEST");
 		// LA METHODE SERA CODEE PAR AUDREY *********************
-		
-		
+
+
 		ConBDD connexion=new ConBDD();
 		String requete="UPDATE Utilisateur SET Pass="+"\'"+newMdp+"\'"+" WHERE ID_user = \'"+idUser+"\' ";
 		System.out.println("TESTTEST : requete = "+requete);
-		String resultat=connexion.setData(requete);
+		connexion.setData(requete);
 		connexion.fermer();
-		if (resultat==null || resultat.equals("Error"))
-			return false;
-		else{
-			Window.alert("Votre mot de passe à bien été changé test");
-			return true;
-		}
-		
+		Window.alert("Votre mot de passe à bien été changé");
+		return true;
+
 	}
 	/**
 	 * 
@@ -45,19 +40,16 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 			String activite) {
 		// Controle que les infos ne soient pas vides et insére que ceux complétés. (et que age > 10 et < 99)
 		// LA METHODE SERA CODEE PAR AUDREY *********************
-		
-		
+
+		//pas de champ activité dans la BDD pour le moment donc activite non traitee.
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Aime = '"+aime+"' AND AimePas = '"+aimePas+"' AND Age = '"+age+"' AND Activite = '"+activite+"' WHERE ID_user = '"+idUser+"'";
+		String requete="UPDATE Utilisateur SET Aime = '"+aime+"', AimePas = '"+aimePas+"', Activite = '"+activite+"', Age = '"+age+"' WHERE ID_user = '"+idUser+"'";
 		System.out.println("TEST : requete = "+requete);
-		String resultat=connexion.setData(requete);
+		connexion.setData(requete);
 		connexion.fermer();
-		if (resultat==null || resultat.equals("Error"))
-			return false;
-		else{
-			Window.alert("Vos informations ont été changées");
-			return true;
-		}
+		Window.alert("Vos informations ont été changées");
+		return true;
+		
 	}
 	/**
 	 * 
@@ -66,15 +58,11 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	public boolean modifDroit(int idUser, String newDroit) {
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 		ConBDD connexion=new ConBDD();
-		String requete="UPDATE utilisateur SET Droit = '"+newDroit+"' WHERE ID_user = '"+idUser+"'";
-		String resultat=connexion.setData(requete);
+		String requete="UPDATE Utilisateur SET Droit = '"+newDroit+"' WHERE ID_user = '"+idUser+"'";
+		connexion.setData(requete);
 		connexion.fermer();
-		if (resultat==null || resultat.equals("Error"))
-			return false;
-		else {
-			Window.alert("Vos droits ont bien été changés");
-			return true;
-		}
+		Window.alert("Vos droits ont bien été changés");
+		return true;
 	}
 
 }
