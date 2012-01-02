@@ -27,15 +27,10 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		ConBDD connexion=new ConBDD();
 		String requete="UPDATE Utilisateur SET Pass="+"\'"+newMdp+"\'"+" WHERE ID_user = \'"+idUser+"\' ";
 		System.out.println("TESTTEST : requete = "+requete);
-		String resultat=connexion.setData(requete);
+		connexion.setData(requete);
 		connexion.fermer();
-		if (resultat==null || resultat.equals("Error"))
-			return false;
-		else{
 			Window.alert("Votre mot de passe à bien été changé test");
 			return true;
-		}
-		
 	}
 	/**
 	 * 
