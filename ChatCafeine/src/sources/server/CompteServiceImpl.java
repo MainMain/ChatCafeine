@@ -1,5 +1,7 @@
 package sources.server;
 
+import java.sql.ResultSet;
+
 import sources.client.service.CompteService;
 
 import com.google.gwt.user.client.Window;
@@ -57,8 +59,18 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	public boolean isBanniSalle(int idUser, String nomSalle) {
 		// TRAVAIL D'AUDREY
 		// RETOURNE SI LE LOGIN EST BANNI DE LA SALLE
-		return false;
+		
+		String requete = "Select * from Bannir, Salle WHERE Salle.ID_salle = bannir.ID_Salle AND Bannir.ID_user ='"+idUser+"' AND Salle.Nom LIKE '"+nomSalle+"'";
+		ConBDD connexion=new ConBDD();
+		ResultSet resultat=connexion.getData(requete);
+		connexion.fermer();
+		if (resultat==null){
+			return false;
+		}else{
+			return true;
+		}
 	}
+	
 	@Override
 	public boolean bannirUser(int idUser, String nomSalle, int temps) {
 		// TRAVAIL D'AUDREY
