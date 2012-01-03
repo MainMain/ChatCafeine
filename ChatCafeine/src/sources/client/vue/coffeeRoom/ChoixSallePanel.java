@@ -124,7 +124,7 @@ public class ChoixSallePanel extends AbsolutePanel{
 		for (Salle s : listeSalles){
 			System.out.println("[Client] : "+s.getIdSalle()+" - "+s.getNom()+" - "+s.getDescription());
 			flextable.setWidget(j, i, new CarreChoixSalle(s.getNom(), s));
-			System.out.println("**** Salle "+s.getNom()+" instalé en "+j+" - "+i);
+			System.out.println("**** Salle "+s.getNom()+" installée en "+j+" - "+i);
 			i++;
 			if (i == 4) { j++; i = 0;}
 		}

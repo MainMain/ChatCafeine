@@ -23,10 +23,6 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 	private static final long serialVersionUID = 986767859747034195L;
 
 
-
-
-
-
 	/*
 	 * METHODE LIEE AUX PAQUETS
 	 */
@@ -268,6 +264,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	@Override
 	public ArrayList<Salle> getToutesSalles() {
+		// par audrey
 		ConBDD connexion=new ConBDD();
 		ArrayList<Salle> a = new ArrayList<Salle> ();
 		try{
@@ -292,7 +289,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		if (resultat==null || resultat.equals("Error"))
 			return false;
 		if (resultat.equals("OK")){
-			Window.alert("la salle a bien été supprimée");
+			System.out.println("La salle a bien été supprimée");
 			return true;
 		}
 		else return false;

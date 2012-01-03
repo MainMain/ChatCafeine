@@ -28,7 +28,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		System.out.println("TESTTEST : requete = "+requete);
 		connexion.setData(requete);
 		connexion.fermer();
-		Window.alert("Votre mot de passe à bien été changé");
+		System.out.println("Votre mot de passe à bien été changé");
 		return true;
 
 	}
@@ -47,7 +47,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		System.out.println("TEST : requete = "+requete);
 		connexion.setData(requete);
 		connexion.fermer();
-		Window.alert("Vos informations ont été changées");
+		System.out.println("Vos informations ont été changées");
 		return true;
 		
 	}
@@ -61,7 +61,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		String requete="UPDATE Utilisateur SET Droit = '"+newDroit+"' WHERE ID_user = '"+idUser+"'";
 		connexion.setData(requete);
 		connexion.fermer();
-		Window.alert("Vos droits ont bien été changés");
+		System.out.println("Vos droits ont bien été changés");
 		return true;
 	}
 

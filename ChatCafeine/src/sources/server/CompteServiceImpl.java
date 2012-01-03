@@ -58,7 +58,7 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	@Override
 	public boolean isBanniSalle(int idUser, String nomSalle) {
 		// TRAVAIL D'AUDREY
-		// RETOURNE SI LE LOGIN EST BANNI DE LA SALLE
+		// RETOURNE FALSE SI LE LOGIN EST BANNI DE LA SALLE
 		
 		String requete = "Select * from Bannir, Salle WHERE Salle.ID_salle = bannir.ID_Salle AND Bannir.ID_user ='"+idUser+"' AND Salle.Nom LIKE '"+nomSalle+"'";
 		ConBDD connexion=new ConBDD();
