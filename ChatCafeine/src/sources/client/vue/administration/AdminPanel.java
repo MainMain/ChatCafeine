@@ -46,7 +46,7 @@ public class AdminPanel extends AbsolutePanel{
 
 		//Create a new stack layout panel.
 		StackLayoutPanel stackPanel = new StackLayoutPanel(Unit.EM);
-		stackPanel.setWidth("100%");
+		stackPanel.setWidth("1310px");
 		stackPanel.setHeight("575px");
 
 		// Add the list user

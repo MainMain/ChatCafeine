@@ -267,15 +267,15 @@ public class ProfilPanel extends AbsolutePanel{
 						if(boxMdp.getValue().equals(Core.userEnCours.getMdp())){
 							if(boxNewMdp.getValue().equals(boxConfMdp.getValue())){
 								if(boxNewMdp.getValue()!=""){
-									Window.alert("Votre mot de passe à été modifié");
 									ProfilService.Util.getInstance().modifMdp(Core.userEnCours.getIdInt(), 
 											boxNewMdp.getValue(), new AsyncCallback<Boolean>() {
 										@Override
 										public void onFailure(Throwable caught) {
-											Window.alert("Erreur : "+ caught.getMessage());
+											Window.alert("Erreur mdp : "+ caught.getMessage());
 										}
 										@Override
 										public void onSuccess(Boolean result) {
+											Window.alert("Votre mot de passe à été modifié");
 										}
 									});
 									Core.userEnCours.setMdp(boxMdp.getValue());
@@ -347,5 +347,4 @@ public class ProfilPanel extends AbsolutePanel{
 		//supprPan.setWidgetPosition(supprButton, 80, 110);
 		/* fin audrey */
 	}
-
 }

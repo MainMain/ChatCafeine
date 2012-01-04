@@ -21,16 +21,12 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 	@Override
 	public boolean modifMdp(int idUser, String newMdp) {
 		// LA METHODE SERA CODEE PAR AUDREY *********************
-
-
 		ConBDD connexion=new ConBDD();
 		String requete="UPDATE Utilisateur SET Pass="+"\'"+newMdp+"\'"+" WHERE ID_user = \'"+idUser+"\' ";
-		System.out.println("TESTTEST : requete = "+requete);
+		System.out.println("TESTdsfTEST : requete = "+requete);
 		connexion.setData(requete);
 		connexion.fermer();
-		Window.alert("Votre mot de passe à bien été changé test");
 		return true;
-
 	}
 	/**
 	 * 
@@ -41,13 +37,13 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		// Controle que les infos ne soient pas vides et insére que ceux complétés. (et que age > 10 et < 99)
 		// LA METHODE SERA CODEE PAR AUDREY *********************
 
-		//pas de champ activité dans la BDD pour le moment donc activite non traitee.
+		//pas de champ activité dans la	 BDD pour le moment donc activite non traitee.
 		ConBDD connexion=new ConBDD();
 		String requete="UPDATE Utilisateur SET Aime = '"+aime+"', AimePas = '"+aimePas+"', Activite = '"+activite+"', Age = '"+age+"' WHERE ID_user = '"+idUser+"'";
 		System.out.println("TEST : requete = "+requete);
 		connexion.setData(requete);
 		connexion.fermer();
-		Window.alert("Vos informations ont été changées");
+		//Window.alert("Vos informations ont été changées"); -> WINDOWS NON DEPLOYABLE SUR SERVEUR !!!
 		return true;
 
 	}
@@ -61,7 +57,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		String requete="UPDATE Utilisateur SET Droit = '"+newDroit+"' WHERE ID_user = '"+idUser+"'";
 		connexion.setData(requete);
 		connexion.fermer();
-		Window.alert("Vos droits ont bien été changés");
+		//Window.alert("Vos droits ont bien été changés");
 		return true;
 	}
 
