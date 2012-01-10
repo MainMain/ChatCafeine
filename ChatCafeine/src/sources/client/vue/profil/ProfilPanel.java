@@ -329,7 +329,7 @@ public class ProfilPanel extends AbsolutePanel{
 		Button supprButton = new Button(
 				"Supprimer mon compte", new ClickHandler(){
 					public void onClick(ClickEvent event) {
-						CompteService.Util.getInstance().desincription(4, new AsyncCallback<Boolean>(){
+						CompteService.Util.getInstance().desincription(Core.userEnCours.getIdInt(), new AsyncCallback<Boolean>(){
 							@Override
 							public void onFailure(Throwable caught) {
 								Window.alert("Erreur : "+ caught.getMessage());
@@ -338,6 +338,9 @@ public class ProfilPanel extends AbsolutePanel{
 							public void onSuccess(Boolean result) {
 								if (result==null)
 									Window.alert("Erreur lors de la suppression du compte !");
+								else{
+									
+								}
 							}
 						});
 					}				

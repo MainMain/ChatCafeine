@@ -250,7 +250,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 			connexion.fermer();
 			return false;
 		}else{
-			String requete2="INSERT INTO Salle (Nom,Theme,Description,NbPlaceMax) VALUES ('"+nom+"','"+theme+"','"+description+"','"+nbPlaceMax+"', );";
+			String requete2="INSERT INTO Salle (ID_salle,Nom,Theme,Description,NbPlaceMax) VALUES (null,'"+nom+"','"+theme+"','"+description+"','"+nbPlaceMax+"');";
 			String resultat2=connexion.setData(requete2);
 			connexion.fermer();
 			if (resultat2==null || resultat2.equals("Error"))
@@ -285,14 +285,16 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		ConBDD connexion=new ConBDD();
 		String requete="DELETE FROM Salle WHERE Nom LIKE '"+nom+"'";
 		String resultat=connexion.setData(requete);
+		System.out.println(resultat);
+		
 		connexion.fermer();
-		if (resultat==null || resultat.equals("Error"))
-			return false;
-		if (resultat.equals("OK")){
-			System.out.println("La salle a bien été supprimée");
+		if (resultat.equals("Error"))
 			return true;
+		else {
+			System.out.println(resultat);
+			return false;
 		}
-		else return false;
+
 	}
 
 

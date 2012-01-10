@@ -1,0 +1,2 @@
+serviceClass: sources.client.service.ProfilService
+path: 20D253A32B20A3152E00969D2D59DFAA.gwt.rpc
