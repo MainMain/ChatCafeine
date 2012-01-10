@@ -26,6 +26,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		System.out.println("TESTdsfTEST : requete = "+requete);
 		connexion.setData(requete);
 		connexion.fermer();
+		System.out.println("Votre mot de passe à bien été changé");
 		return true;
 	}
 	/**
@@ -43,7 +44,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		System.out.println("TEST : requete = "+requete);
 		connexion.setData(requete);
 		connexion.fermer();
-		//Window.alert("Vos informations ont été changées"); -> WINDOWS NON DEPLOYABLE SUR SERVEUR !!!
+		System.out.println("Vos informations ont été changées");
 		return true;
 
 	}
@@ -58,6 +59,7 @@ public class ProfilServiceImpl extends RemoteServiceServlet implements ProfilSer
 		connexion.setData(requete);
 		connexion.fermer();
 		//Window.alert("Vos droits ont bien été changés");
+		System.out.println("Vos droits ont bien été changés");
 		return true;
 	}
 

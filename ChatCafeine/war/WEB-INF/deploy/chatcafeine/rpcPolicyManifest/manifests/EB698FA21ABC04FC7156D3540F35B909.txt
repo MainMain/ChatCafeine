@@ -1,0 +1,2 @@
+serviceClass: sources.client.service.AdminService
+path: 12418831FA36861F35570A0630454C69.gwt.rpc

@@ -46,7 +46,13 @@ public class Core implements EntryPoint {
 	private static AccueilPanel accPan = new AccueilPanel();
 	private static ApplicationPanel appPan;
 	private static DockPanel dockPanel = new DockPanel();
-
+	private static Core instance = null;
+	
+	public static Core getInstance(){
+		if (instance == null)
+			instance = GWT.create(Core.class);
+		return instance;
+	}
 	public void onModuleLoad() {
 		Window.setMargin("0px");
 
@@ -103,7 +109,9 @@ public class Core implements EntryPoint {
 			public void execute() {	Window.alert("You selected a menu item!"); }
 		};
 		Command cmdDeco = new Command() {
-			public void execute() {	 }
+			public void execute() {	 
+				deconnexion();
+				}
 		};
 		MenuBar menu = new MenuBar();
 		//menu.addItem("Fichier", cmd);
@@ -127,6 +135,11 @@ public class Core implements EntryPoint {
 	public static void creerApplicationPanel(){
 		appPan = new ApplicationPanel();
 		appPan.setStyleName("applicationPanel");
+	}
+	public static void deconnexion(){
+		dockPanel.remove(0);
+		dockPanel.remove(appPan);
+		Core.getInstance().onModuleLoad();
 	}
 
 

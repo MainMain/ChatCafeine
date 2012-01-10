@@ -35,7 +35,7 @@ public interface SalleServiceAsync {
 	void supprimerSalle(String nom, AsyncCallback<Boolean> callback);
 
 	void sinstaller(int idSalle, int x_case, int y_case, int x_last,
-			int y_last, User userEnCours, AsyncCallback<Boolean> callback);
+			int y_last, boolean b, User userEnCours, AsyncCallback<Boolean> callback);
 	void getNewMatrice(int idSalle, int cptVueSalle,
 			AsyncCallback<PaquetCom> asyncCallback);
 	void getCptSalle(int idSalle, AsyncCallback<Integer> callback);
@@ -44,6 +44,7 @@ public interface SalleServiceAsync {
 	void sortie1User(int idSalle, User u, AsyncCallback<Void> callback);
 	void prendre1Cafe(int idSalle, int x_last, int y_last,
 			AsyncCallback<Boolean> callback);
+	void ejecter(int idSalle, User u, AsyncCallback<Void> callback);
 
 
 }

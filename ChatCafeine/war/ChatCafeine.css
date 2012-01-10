@@ -66,7 +66,7 @@ h1 {
 .choixSallePan{
 	background-image: url("images/chat2.jpg");	}
 .tabApplication {background-color: #4D9ACD;}
-.boutonChoixSalle {background-color: #4D9ACD;
+.boutonChoixSalle {background-color: #B22222;
 	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial,
 		sans-serif;
 	color: #f1f3f9;
@@ -88,13 +88,26 @@ h1 {
 }
 .listeSalle{background-color: #DDDDDD;}
 .recherchePan{background-image: url("images/cafe3.png");}
+.boutonRech{background-color: #B22222;
+	font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial,
+		sans-serif;
+	color: #f1f3f9;
+	height: 30px;
+	width: 100px;
+}
+.textRed{
+		font-family: "Comic Sans MS", "lucida grande", tahoma, verdana, arial,
+		sans-serif;
+	color: #B22222;
+	font-size: : 60px;
+}
 
 /************************************************** ProfilPanel ******************************************************/
 .profilPanel {background-color: #CCCCCC;}
-.fichePan {background-image: url("images/cafe3.png");}
-.modifPan {background-image: url("images/cafe3.png");}
-.supprPan {background-image: url("images/cafe3.png");}
-.avatarPan {background-color: #DDDDDD;}
+.fichePan {background-color: #f1f3f9;}
+.modifPan {background-color: #f1f3f9;}
+.supprPan {background-color: #f1f3f9;}
+.avatarPan {background-color: #f1f3f9;}
 .adminPanel {background-color: #f1f3f9;}
 .headerProfilPan {background-color: #4D9ACD;}
 .textHeaderProfilPan {color: #f1f3f9;}

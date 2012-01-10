@@ -49,7 +49,8 @@ public interface SalleService extends RemoteService {
 	ArrayList<Salle> getToutesSalles();
 	boolean supprimerSalle(String nom);
 	
-	boolean sinstaller(int idSalle, int x_case, int y_case, int x_last, int y_last, User userEnCours);
+	boolean sinstaller(int idSalle, int x_case, int y_case, int x_last,
+			int y_last, boolean b, User userEnCours);
 	PaquetCom getNewMatrice(int idSalle, int cptVueSalle);
 	/**
 	 * @return
@@ -68,4 +69,9 @@ public interface SalleService extends RemoteService {
 	 * @param u
 	 */
 	void sortie1User(int idSalle, User u);
+	/**
+	 * @param idSalle
+	 * @param u
+	 */
+	void ejecter(int idSalle, User u);
 }

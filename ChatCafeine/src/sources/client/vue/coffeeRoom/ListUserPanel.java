@@ -3,8 +3,10 @@
  */
 package sources.client.vue.coffeeRoom;
 
+import sources.client.service.SalleService;
 import sources.client.vue.Core;
 import sources.client.vue.outils.HeaderPanels;
+import sources.client.vue.profil.FichePan;
 
 import java.util.ArrayList;
 
@@ -12,7 +14,9 @@ import sources.client.model.User;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -49,12 +53,13 @@ public class ListUserPanel extends VerticalPanel{
 	public class loginHTML extends HTML{
 		private User user;
 		public loginHTML(User u){
-			super(" - "+u.getLogin()+" - "+u.getNbrCafePris()+" café(s) pris");
+			super(" - <u>"+u.getLogin()+"</u> - "+u.getNbrCafePris()+" café(s) pris");
 			user = u;
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					System.out.println("voir profil ");
+					DialogBoxVueUser vueP = new DialogBoxVueUser(user);
 				}
 			});
 		}
@@ -68,8 +73,18 @@ public class ListUserPanel extends VerticalPanel{
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					// TODO Auto-generated method stub
-					
+					SalleService.Util.getInstance().ejecter(Core.userEnCours.getIdSalleEnCours()
+							, user, new AsyncCallback<Void>(){
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+									
+								}
+								@Override
+								public void onSuccess(Void result) {
+									// TODO Auto-generated method stub
+								}
+					});					
 				}
 			});
 		}

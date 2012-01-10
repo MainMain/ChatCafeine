@@ -27,7 +27,7 @@ public class VisualisationSallePanel extends AbsolutePanel {
 
 		// Add elements
 		listUser = new ListUserPanel();
-		vueSalle = new VueSalle(listUser);
+		vueSalle = new VueSalle(listUser, salleEnCours.getNbrPlaceMax());
 		add(listUser);
 		add(vueSalle, 226, 0);
 		

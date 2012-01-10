@@ -36,7 +36,6 @@ public class ChoixSallePanel extends AbsolutePanel{
 	
 	public ChoixSallePanel(CoffeeRoomPanel coffeeRoomPanel){
 		setSize("100%", "100%");
-		
 		VerticalPanel sallesPan = new VerticalPanel();
 		sallesPan.setSize("960px", "555px");
 		sallesPan.add(new HeaderPanels("Choix de la salle"));	
@@ -83,14 +82,19 @@ public class ChoixSallePanel extends AbsolutePanel{
 		TextBox themeBox = new TextBox();
 		TextBox nomBox = new TextBox();
 		Button validerButton = new Button("Rechercher");
+		HTML a = new HTML("<B>Par thème :</B>");
+		HTML b = new HTML("<B>Par nom :</B>");
+		a.setStyleName("textRed");
+		b.setStyleName("textRed");
+		validerButton.setStyleName("boutonRech");
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		panel.setSize("300px", "300px");
 		panel.add(new HeaderPanels("Rechercher une salle"));
 		panel.setStyleName("recherchePan");
-		panel.add(new HTML("<B>Par thème :</B>"));
+		panel.add(a);
 		themeBox.setText("Thème à rechercher");
 		panel.add(themeBox);
-		panel.add(new HTML("<B>Par nom :</B>"));
+		panel.add(b);
 		nomBox.setText("Nom à rechercher");
 		panel.add(nomBox);
 		panel.add(validerButton);
@@ -106,11 +110,14 @@ public class ChoixSallePanel extends AbsolutePanel{
 		VerticalPanel panel = new VerticalPanel();
 		TextBox loginBox = new TextBox();
 		Button validerButton = new Button("Rechercher");
+		HTML a = new HTML("<B>Par thème :</B>");
+		a.setStyleName("textRed");
+		validerButton.setStyleName("boutonRech");
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		panel.setSize("300px", "235px");
 		panel.add(new HeaderPanels("Rechercher une personne"));
 		panel.setStyleName("recherchePan");
-		panel.add(new HTML("<B>Par thème :</B>"));
+		panel.add(a);
 		loginBox.setText("Login à rechercher");
 		panel.add(loginBox);
 		panel.add(validerButton);
@@ -124,7 +131,7 @@ public class ChoixSallePanel extends AbsolutePanel{
 		for (Salle s : listeSalles){
 			System.out.println("[Client] : "+s.getIdSalle()+" - "+s.getNom()+" - "+s.getDescription());
 			flextable.setWidget(j, i, new CarreChoixSalle(s.getNom(), s));
-			System.out.println("**** Salle "+s.getNom()+" instalé en "+j+" - "+i);
+			System.out.println("**** Salle "+s.getNom()+" installée en "+j+" - "+i);
 			i++;
 			if (i == 4) { j++; i = 0;}
 		}
@@ -134,11 +141,10 @@ public class ChoixSallePanel extends AbsolutePanel{
 		public Salle salle;
 		
 		public CarreChoixSalle(String nomSalle, Salle s){
-			super("<h2>"+nomSalle+"</h2><br>Thème : "+s.getTheme());
-			//add(new HTML("tt"));
+			super("<h2>"+nomSalle+"</h2><br>Thème : "+s.getTheme()+"<br>Nb places max : "+s.getNbrPlaceMax());
 			this.salle = s;
-			setSize("150px", "150px");
-			setStyleName("boutonChoixSalle");
+			setSize("150px", "160px");
+				setStyleName("boutonChoixSalle");
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event){

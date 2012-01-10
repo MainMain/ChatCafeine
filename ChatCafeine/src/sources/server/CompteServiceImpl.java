@@ -25,8 +25,8 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 			String email) { // Tu me retourne true si ca fonctionne, false sinon. C'est pas lors de l'inscription que j'identifie l'user, mais quand il se connecte.
 
 		ConBDD connexion=new ConBDD();
-		String requete="INSERT INTO Utilisateur (ID_user, ID_salle, Login, Pass, Age, Sexe, Email, Aime, AimePas, Droit, Avatar, NbBannissements, DateInscription, DateLastConnexion, CompteurChat) " +
-		"VALUES (null,null,'"+loginUser+"'"+", '"+mdp+"'"+", '"+age+"'"+", '"+sexe+"'"+", '"+email+"'"+", null, null,'utilisateur', null,0, null, null, null);";
+		String requete="INSERT INTO Utilisateur (ID_user, ID_salle, Login, Pass, Age, Sexe, Email, Aime, AimePas, Activite, Droit, Avatar, NbBannissements, DateInscription, DateLastConnexion) " +
+		"VALUES (null,null,'"+loginUser+"'"+", '"+mdp+"'"+", '"+age+"'"+", '"+sexe+"'"+", '"+email+"'"+", null, null,'', 'utilisateur', null,0, null, null);";
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
@@ -58,7 +58,7 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	@Override
 	public boolean isBanniSalle(int idUser, String nomSalle) {
 		// TRAVAIL D'AUDREY
-		// RETOURNE SI LE LOGIN EST BANNI DE LA SALLE
+		// RETOURNE FALSE SI LE LOGIN EST BANNI DE LA SALLE
 		
 		String requete = "Select * from Bannir, Salle WHERE Salle.ID_salle = bannir.ID_Salle AND Bannir.ID_user ='"+idUser+"' AND Salle.Nom LIKE '"+nomSalle+"'";
 		ConBDD connexion=new ConBDD();

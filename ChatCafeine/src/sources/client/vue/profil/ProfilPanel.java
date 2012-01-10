@@ -27,7 +27,7 @@ import sources.client.vue.outils.HeaderPanels;
  *
  */
 public class ProfilPanel extends AbsolutePanel{
-	private static final AbsolutePanel fichePan = new AbsolutePanel();
+	private static final FichePan fichePan = new FichePan(Core.userEnCours, false);
 	private static final AbsolutePanel modifPan = new AbsolutePanel();
 	private static final VerticalPanel supprPan = new VerticalPanel();
 
@@ -47,68 +47,10 @@ public class ProfilPanel extends AbsolutePanel{
 	 * configuration profil
 	 */
 	private void configFichePan() {
-		fichePan.setHeight("400px");
-		fichePan.setWidth("450px");
-		fichePan.setStyleName("fichePan");
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec1Panel = new DecoratorPanel();
 		dec1Panel.setWidget(fichePan);
 		add(dec1Panel, 10, 10);
-
-		fichePan.add(new HeaderPanels("Ma fiche utilisateur"));
-
-		// AVATAR
-		AbsolutePanel avatarPan = new AbsolutePanel();
-		avatarPan.setHeight("200px");
-		avatarPan.setWidth("200px");
-		avatarPan.setStyleName("avatarPan");
-		Image avatarImg;
-		if (Core.userEnCours.getCheminAvatar() != null) 
-			avatarImg = new Image("images/"+Core.userEnCours.getCheminAvatar());
-		else
-			avatarImg = new Image("images/anonyme.jpg");
-		avatarImg.setSize("100%", "100%");
-		avatarPan.add(avatarImg);
-		fichePan.add(avatarPan);
-		fichePan.setWidgetPosition(avatarPan, 220, 65);
-
-		// BOUTON CHANGE AVATAR
-		Button changeA = new Button("Changer d'avatar");
-		changeA.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		fichePan.add(changeA, 250, 270);
-		HTML textLogin = new HTML();
-		textLogin.setHTML("<b>Login : </b>"+Core.userEnCours.getLogin());
-		fichePan.add(textLogin);
-		fichePan.setWidgetPosition(textLogin, 10, 60);
-
-		HTML textSexe = new HTML();
-		textSexe.setHTML("<b>Sexe : </b>"+Core.userEnCours.getGenre());
-		fichePan.add(textSexe);
-		fichePan.setWidgetPosition(textSexe, 10, 90);
-
-		HTML textAge = new HTML();
-		textAge.setHTML("<b>Age : </b>"+Core.userEnCours.getAge());
-		fichePan.add(textAge);
-		fichePan.setWidgetPosition(textAge, 10, 120);
-
-		HTML textActivite = new HTML();
-		textActivite.setHTML("<b>Activit&eacute; : </b>"+Core.userEnCours.getActivite());
-		fichePan.add(textActivite);
-		fichePan.setWidgetPosition(textActivite, 10, 150);
-
-		HTML textAime = new HTML();
-		textAime.setHTML("<b>Aime : </b>"+Core.userEnCours.getAime()+"<br><br><b>N'aime pas : </b>"+Core.userEnCours.getAimePas());
-		fichePan.add(textAime);
-		fichePan.setWidgetPosition(textAime, 10, 200);
-
-
 	}
 	/**
 	 * modifications profil
@@ -214,8 +156,8 @@ public class ProfilPanel extends AbsolutePanel{
 					}
 
 				});
-
-		modifButton.setWidth("200px");
+		modifButton.setStyleName("boutonRech");
+		//modifButton.setWidth("200px");
 		modifPan.add(modifButton);
 		modifPan.setWidgetPosition(modifButton, 250, 300);
 		// fin mod generales
@@ -299,7 +241,7 @@ public class ProfilPanel extends AbsolutePanel{
 				});
 		// fin mod pass
 
-		modifPassButton.setWidth("200px");
+		modifPassButton.setStyleName("boutonRech");
 		modifPan.add(modifPassButton);
 		modifPan.setWidgetPosition(modifPassButton, 250,530);
 	}
@@ -342,7 +284,8 @@ public class ProfilPanel extends AbsolutePanel{
 						});
 					}				
 				});
-		supprButton.setWidth("200px");
+		supprButton.setStyleName("boutonRech");
+		supprButton.setHeight("50px");
 		supprPan.add(supprButton);
 		//supprPan.setWidgetPosition(supprButton, 80, 110);
 		/* fin audrey */

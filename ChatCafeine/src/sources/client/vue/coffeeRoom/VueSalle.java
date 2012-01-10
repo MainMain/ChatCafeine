@@ -19,24 +19,14 @@ import sources.client.vue.Core;
  */
 public class VueSalle extends AbsolutePanel {
 	private int[][] matriceSalle = 
-		new int[][]{
-			{ 7, 4, 6, 1, 1, 6, 6, 6, 6, 6, 6, 7 }, 
-			{ 6, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6 }, 
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6 }, 
-			{ 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 6 }, 
-			{ 6, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1 },  
-			{ 6, 1, 2, 3, 6, 6, 7, 6, 6, 3, 2, 1 },  
-			{ 6, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1 },  
-			{ 6, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 }, 
-			{ 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 
-			{ 7, 6, 6, 6, 6, 6, 1, 1, 6, 6, 1, 5 }
-	};
+		new int[12][10];
 	FlexTable flextable;
 	FlowPanel flowpanel;
 	private int cptVueSalle = 0;
 	private ListUserPanel listUserPanel;
 
-	public VueSalle(ListUserPanel a){
+	public VueSalle(ListUserPanel a, int nbPlaces){
+		matriceSalle = ListeMatriceSalle.getMatriceSalle(nbPlaces);
 		listUserPanel = a;
 		setHeight("100%");
 		setWidth("100%");
@@ -102,19 +92,46 @@ public class VueSalle extends AbsolutePanel {
 			@Override
 			public void onSuccess(PaquetCom pc) {
 				if (pc != null){
+					// SI USER EJECTE
+					if (pc.getUserAEjecter() != null)
+						if (!pc.getUserAEjecter().equals(Core.userEnCours.getLogin())){
+							// Coder ici l'ejection
+							System.out.println("[Client] : Ejection demandé !");
+							SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
+									Core.userEnCours.getLogin()+" à été éjecté la salle", 
+									"Message automatique", new AsyncCallback<Void>() {
+								@Override
+								public void onSuccess(Void result) {
+									CoffeeRoomPanel.getInstance().creerEcranChoixSalle();
+									Core.userEnCours.sortirFromSalle();
+								}
+								@Override
+								public void onFailure(Throwable caught) {
+								}
+							});
+						}
+
 					if (pc.getIdSalleDestination() == Core.userEnCours.getIdSalleEnCours()){
 						cptVueSalle++;
 						if (pc.getX_case() > -1 && pc.getY_case() > -1)
 							flextable.setWidget(pc.getX_case(), pc.getY_case(),
 									new SiegeButton("images/"+pc.getImgUser(), pc.getX_case(), 
 											pc.getX_case(),true));
-						if (pc.getX_last() > -1 && pc.getY_last() > -1)
-							flextable.setWidget(pc.getX_last(), pc.getY_last(),
-									new SiegeButton("images/siege2.png", pc.getX_last(), 
-											pc.getY_last(),false));
+						// SI IL VIENT D'UNE AUTRE PLACE
+						if (pc.getX_last() > -1 && pc.getY_last() > -1){
+							System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^ " +pc.getSiege_last());
+							if(pc.getSiege_last())
+								flextable.setWidget(pc.getX_last(), pc.getY_last(),
+										new SiegeButtonModo("images/siege2_modo.png", pc.getX_last(), 
+												pc.getY_last(),false));
+							else
+								flextable.setWidget(pc.getX_last(), pc.getY_last(),
+										new SiegeButton("images/siege2.png", pc.getX_last(), 
+												pc.getY_last(),false));
+						}
 						if (pc.getListeUtilisateurs() != null){
 							System.out.println("[Client - Vue] "+Core.userEnCours.getIdSalleEnCours()+
-									" : Liste des utilisateurs mise à jour !");
+							" : Liste des utilisateurs mise à jour !");
 							listUserPanel.maj(pc.getListeUtilisateurs());
 						}
 					}
@@ -135,6 +152,7 @@ public class VueSalle extends AbsolutePanel {
 			else if (a == 5) { add(new SortieButton()); 	}
 			else if (a == 6) { add(new DecoButton("/images/plante2.png")); 	}
 			else if (a == 7) { add(new DecoButton("/images/lampe1.png")); 	}
+			else if (a == 8) { add(new SiegeButtonModo("/images/siege2_modo.png", x, y, false)); 	}
 		}
 	}
 
@@ -180,13 +198,14 @@ public class VueSalle extends AbsolutePanel {
 						}
 						//System.out.println(x_case+" , "+ y_case+" , "+ x_last+" , "+ y_last);
 						SalleService.Util.getInstance().sinstaller(Core.userEnCours.getIdSalleEnCours(),						// Prévenir serveur
-								x_case, y_case, x_last, y_last, Core.userEnCours, 
+								x_case, y_case, x_last, y_last, Core.userEnCours.getTypeSiegeInstalle(), Core.userEnCours, 
 								new AsyncCallback<Boolean>(){
 							@Override
 							public void onFailure(Throwable caught) {
 							}
 							@Override
 							public void onSuccess(Boolean result) {
+								Core.userEnCours.setTypeSiegeInstalle(false);	
 							}
 						});
 						Core.userEnCours.sinstaller();									// User noté comme installé
@@ -195,6 +214,68 @@ public class VueSalle extends AbsolutePanel {
 			});
 		}
 	}
+
+	public class SiegeButtonModo extends Image{
+		private int x_case;
+		private int y_case;
+		// Les 2 attributs suivants serviront si l'user change de place.
+		private int x_last = -1;
+		private int y_last = -1;
+		private boolean occupee = false;
+
+		public SiegeButtonModo(String cheminImg, int x, int y, boolean oqp){
+			super(cheminImg);
+			setSize("54px", "54px");
+			setStyleName("caseSol");
+			occupee = oqp;
+			x_case = x;
+			y_case = y;
+			//setStyleName("caseSiege");
+			if (!Core.userEnCours.getDroit().equals("utilisateur")){
+				addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						if (!occupee){
+							System.out.println(Core.userEnCours.getDroit());
+
+
+							x_last = Core.userEnCours.getPos_x();							// On sauvegarde les anciennes positions...
+							y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
+							Core.userEnCours.setPos_x(x_case);								// On lui attribut celles....
+							Core.userEnCours.setPox_y(y_case);								// ... De la place qu'il vient de prendre
+							ChatBoxPanel.activerBoutonEnvoi();								// Activation du bouton d'envoi
+							if (!Core.userEnCours.isInstalle()){
+								SalleService.Util.getInstance().envoiMessageFromClient(			// Envoi du message pour prévenir
+										Core.userEnCours.getIdSalleEnCours(),Core.userEnCours.getLogin()+" vient de s'installer", 
+										"Message automatique", new AsyncCallback<Void>(){
+											@Override
+											public void onFailure(Throwable caught) {
+											}
+											@Override
+											public void onSuccess(Void result) {
+											}
+										});
+							}
+							//System.out.println(x_case+" , "+ y_case+" , "+ x_last+" , "+ y_last);
+							SalleService.Util.getInstance().sinstaller(Core.userEnCours.getIdSalleEnCours(),						// Prévenir serveur
+									x_case, y_case, x_last, y_last, Core.userEnCours.getTypeSiegeInstalle(), Core.userEnCours, 
+									new AsyncCallback<Boolean>(){
+								@Override
+								public void onFailure(Throwable caught) {
+								}
+								@Override
+								public void onSuccess(Boolean result) {
+									Core.userEnCours.setTypeSiegeInstalle(true);
+								}
+							});
+							Core.userEnCours.sinstaller();									// User noté comme installé
+						}
+					}
+				});
+			}
+		}
+	}
+
 	public class CafeButton extends Image{
 		public CafeButton(){
 			super("images/MaC1.png");
@@ -265,6 +346,7 @@ public class VueSalle extends AbsolutePanel {
 						}
 					});
 					CoffeeRoomPanel.getInstance().creerEcranChoixSalle();
+					Core.userEnCours.sortirFromSalle();
 				}
 			});
 		}

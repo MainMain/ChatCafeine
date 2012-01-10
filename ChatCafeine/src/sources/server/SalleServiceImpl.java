@@ -23,10 +23,6 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 	private static final long serialVersionUID = 986767859747034195L;
 
 
-
-
-
-
 	/*
 	 * METHODE LIEE AUX PAQUETS
 	 */
@@ -160,17 +156,21 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		int a = -1;
 		for (int i = 0; i < listeUtilisateurs.size(); i++){ 		
 			if (listeUtilisateurs.get(idSalle).get(i).getLogin().equals(u.getLogin())){
-				System.out.println("[Serveur] : "+u.getLogin()+" sorti de la liste des users !");
+				System.out.println("[Serveur] : "+u.getLogin()+" sorti de la liste des users ! -> index : "+i);
 				a = i;
 				break;
 			}
 		}
-		if (a < -1) listeUtilisateurs.remove(a);					// Suppression de la liste des utilisateurs			
+		if (a > -1){ // Suppression de la liste des utilisateurs	
+			listeUtilisateurs.get(idSalle).remove(a);
+		}		
 		if (u.getPos_x() > -1 && u.getPox_y() > -1){				// Si utilisateur était installé
 			matriceUser.get(idSalle)[u.getPos_x()][u.getPox_y()] = null;
 			pc.setX_last(u.getPos_x());
 			pc.setY_last(u.getPox_y());
 		}
+		
+		System.out.println("[Serveur] : Taille liste user : "+listeUtilisateurs.size());
 		// On crée un nouveau paquet...
 		pc.setListeUtilisateurs(listeUtilisateurs.get(idSalle));
 		pc.setIdSalleDestination(idSalle);
@@ -178,7 +178,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
 	}
 	@Override
-	public boolean sinstaller(int idSalle, int x_case, int y_case, int x_last, int y_last, User u) {
+	public boolean sinstaller(int idSalle, int x_case, int y_case, int x_last, int y_last, boolean typeSiege , User u) {
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
 		pc.setX_case(x_case);										// ... avec la position x
 		pc.setY_case(y_case);										// ... la y...
@@ -189,6 +189,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 			matriceUser.get(idSalle)[x_last][y_last] = null;
 			pc.setX_last(x_last);
 			pc.setY_last(y_last);
+			pc.setSiege_last(typeSiege);
 		}
 		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
 		paquetTmpVue = pc;
@@ -226,6 +227,13 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 			matriceUser.put(idSalle, new User[10][12]);
 			return 0;
 		}
+	}
+	@Override
+	public void ejecter(int idSalle, User u) {
+		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
+		pc.setUserAEjecter(u.getLogin());
+		pc.setIdSalleDestination(idSalle);
+		paquetTmpVue = pc;
 	}
 
 
@@ -268,6 +276,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	@Override
 	public ArrayList<Salle> getToutesSalles() {
+		// par audrey
 		ConBDD connexion=new ConBDD();
 		ArrayList<Salle> a = new ArrayList<Salle> ();
 		try{
@@ -292,11 +301,16 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		if (resultat==null || resultat.equals("Error"))
 			return false;
 		if (resultat.equals("OK")){
-			Window.alert("la salle a bien été supprimée");
+			System.out.println("La salle a bien été supprimée");
 			return true;
 		}
 		else return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see sources.client.service.SalleService#ejecter(int, sources.client.model.User)
+	 */
+
 
 
 

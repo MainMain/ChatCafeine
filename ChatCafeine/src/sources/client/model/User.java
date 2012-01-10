@@ -27,7 +27,7 @@ public class User implements Comparable<User>, Serializable {
 	private int pos_x = -1;
 	private int pox_y = -1;
 	private int nbEjections, nbBannissements;
-	
+	private boolean typeSiegeInstalle;
 	/*
 	 * Constructeur 
 	 */
@@ -258,5 +258,19 @@ public class User implements Comparable<User>, Serializable {
 
 	public void setIdSalleEnCours(int idSalleEnCours) {
 		this.idSalleEnCours = idSalleEnCours;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean getTypeSiegeInstalle() {
+		return typeSiegeInstalle;
+	}
+
+	/**
+	 * @param b
+	 */
+	public void setTypeSiegeInstalle(boolean b) {
+		typeSiegeInstalle = b;
 	}
 }

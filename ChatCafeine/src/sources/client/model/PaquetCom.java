@@ -6,6 +6,7 @@ package sources.client.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -30,7 +31,14 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 	private String imgUser = null;
 	
 	private ArrayList<User> listeUtilisateurs = null;
+	public boolean siege_last;
 	
+	private String userAEjecter = null;
+	
+
+	
+
+
 	public PaquetCom(){
 		idPaquet = cpt++;
 	}
@@ -135,6 +143,23 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 	public long getIdPaquet(){
 		return idPaquet;
 	}
+	
+	public void setSiege_last(boolean b){
+		siege_last = b;
+	}
+	public boolean getSiege_last(){
+		return siege_last;
+	}
+	
+	public String getUserAEjecter() {
+		return userAEjecter;
+	}
+
+	public void setUserAEjecter(String userAEjecter) {
+		this.userAEjecter = userAEjecter;
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
