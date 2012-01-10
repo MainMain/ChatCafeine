@@ -45,6 +45,13 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 public class AdminPanel extends AbsolutePanel{
 
+	private static StackLayoutPanel stackPanel = new StackLayoutPanel(Unit.EM);
+	private SimplePanel presentationPan = new SimplePanel();
+	private SimplePanel listUserPan = new SimplePanel();
+	private SimplePanel listSallePan = new SimplePanel();
+	private SimplePanel addSallePan = new SimplePanel();
+	
+	
 	public AdminPanel(){
 		configPanel();
 	}
@@ -52,7 +59,13 @@ public class AdminPanel extends AbsolutePanel{
 		setWidth("100%");
 		setHeight(Core.HEIGHT+10+"px");
 		setStyleName("adminPanel");
-
+		
+		
+		// Vide les anciens panels.
+		presentationPan = new SimplePanel();
+		listUserPan = new SimplePanel();
+		listSallePan = new SimplePanel();
+		addSallePan = new SimplePanel();
 		//Create a new stack layout panel.
 		StackLayoutPanel stackPanel = new StackLayoutPanel(Unit.EM);
 		//stackPanel.setWidth("1310px");
@@ -85,24 +98,24 @@ public class AdminPanel extends AbsolutePanel{
 
 	private ArrayList<Salle> listeSalles = new ArrayList<Salle>();
 
+	// Méthode pour créer la panel de présentation.
 	private Widget creerPresentationPanel(){
-		SimplePanel a = new SimplePanel();
 		setWidth("100%");
 		setHeight("100%");
-		a.isVisible();
-		a.setTitle("Présentation de l'administration");
+		presentationPan.isVisible();
+		presentationPan.setTitle("Présentation de l'administration");
 		HTML textFiche = new HTML();
 		textFiche.setHTML("<h3>Vous pouvez à partir de cet onglet : </h3> <BR><h5>- supprimer un utilisateur </h5><BR><h5> - supprimer une salle </h5><BR><h5> - modifier le nom et le thème d'une salle</h5> <BR><h5> - Ajouter une nouvelle Salle</h5>");
-		a.add(textFiche);
-		return a;
+		presentationPan.add(textFiche);
+		return presentationPan;
 	}
 
+	// Méthode pour créer la panel de création de salle.
 	private Widget creerListeSallePanel() {
-		SimplePanel a = new SimplePanel();
 		setWidth("100%");
 		setHeight("100%");
-		a.isVisible();
-		a.setTitle("Liste des salles");
+		listSallePan.isVisible();
+		listSallePan.setTitle("Liste des salles");
 
 		final CellTable<Salle> table = new CellTable<Salle>();
 
@@ -167,7 +180,23 @@ public class AdminPanel extends AbsolutePanel{
 			// SUPPRIMER ICI LA SALLE SELECTIONNE DE LA BDD
 			@Override
 			public void execute(Salle object) {
-				Window.alert(object.getNom());
+				SalleService.Util.getInstance().supprimerSalle(object.getNom(), new AsyncCallback<Boolean>(){
+					public void onFailure(Throwable caught) {
+						Window.alert("Erreur : "+ caught.getMessage());
+					}
+					public void onSuccess(Boolean result) {
+						if (result==false)
+							Window.alert("La salle n'existe plus");
+						else{
+							Window.alert("La salle à été supprimée");
+							stackPanel.remove(presentationPan);
+							stackPanel.remove(listUserPan);
+							stackPanel.remove(listSallePan);
+							stackPanel.remove(addSallePan);
+							configPanel();
+						}
+					}
+				});
 			}
 		}));
 
@@ -210,19 +239,20 @@ public class AdminPanel extends AbsolutePanel{
 
 
 		// Add it to the root panel.
-		a.add(table);
+		listSallePan.add(table);
 
-		return a;
+		return listSallePan;
 	}
 
 	private ArrayList<User> listeUtilisateurs = new ArrayList<User>();
 	CellTable<User> table = new CellTable<User>();
+	
+	// Méthode pour créer la panel de création d'utilisateur.
 	private Widget creerListeUserPanel() {
-		SimplePanel a = new SimplePanel();
 		setWidth("100%");
 		setHeight("100%");
-		a.isVisible();
-		a.setTitle("Liste des utilisateurs");	
+		listUserPan.isVisible();
+		listUserPan.setTitle("Liste des utilisateurs");	
 
 		AdminService.Util.getInstance().getAllUsers(new AsyncCallback<ArrayList<User>>(){
 
@@ -287,7 +317,25 @@ public class AdminPanel extends AbsolutePanel{
 			// SUPPRIMER ICI LE USER SELECTIONNE DE LA BDD
 			@Override
 			public void execute(User object) {
-				Window.alert(object.getLogin());
+				CompteService.Util.getInstance().desincription(object.getIdInt(), new AsyncCallback<Boolean>(){
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Erreur : "+ caught.getMessage());
+					}
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result==null)
+							Window.alert("Erreur lors de la suppression du compte !");
+						else{
+							Window.alert("L'utilisateur à été supprimé");
+							stackPanel.remove(presentationPan);
+							stackPanel.remove(listUserPan);
+							stackPanel.remove(listSallePan);
+							stackPanel.remove(addSallePan);
+							configPanel();
+						}
+					}
+				});
 			}
 		}));
 
@@ -348,16 +396,16 @@ public class AdminPanel extends AbsolutePanel{
 		},"Suprimer User");
 
 		// Add it to the root panel.
-		a.add(table);
-		return a;
+		listUserPan.add(table);
+		return listUserPan;
 	}
 
+	// Méthode pour créer la panel de création de salle.
 	private Widget creerCreateRoomPanel() {
-		SimplePanel a = new SimplePanel();
 		setWidth("100%");
 		setHeight("100%");
-		a.isVisible();
-		a.setTitle("Ajouter une salle");
+		addSallePan.isVisible();
+		addSallePan.setTitle("Ajouter une salle");
 
 		// Create a table to layout the form options
 		FlexTable layout = new FlexTable();
@@ -379,7 +427,7 @@ public class AdminPanel extends AbsolutePanel{
 
 		// Add a drop box with the list types
 		final ListBox nbPlaceBox = new ListBox(false);
-		for (int i = 4; i <= 49; i++) {
+		for (int i = 2; i <= 23; i++) {
 			nbPlaceBox.addItem(""+i+" places");
 		}
 
@@ -396,8 +444,7 @@ public class AdminPanel extends AbsolutePanel{
 				"Ajouter Salle", new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						if (casesRemplies()){
-							int nbplace = Integer.parseInt(nbPlaceBox.getItemText(nbPlaceBox.getSelectedIndex()).substring(0,2));
-
+							int nbplace = Integer.parseInt(nbPlaceBox.getItemText(nbPlaceBox.getSelectedIndex()).substring(0,2).trim());
 							SalleService.Util.getInstance().creerSalle(nomSalle2Box.getText(), theme2Box.getText(),
 									description2Box.getText(),nbplace, new AsyncCallback<Boolean>(){
 								public void onFailure(Throwable caught) {
@@ -406,6 +453,9 @@ public class AdminPanel extends AbsolutePanel{
 								public void onSuccess(Boolean result) {
 									if (result==null)
 										Window.alert("Erreur lors de l'ajout de la salle !");
+									else{
+										Window.alert("Votre salle à été créée");
+									}
 								}
 							});
 						}else error2HTML.setHTML("<font color=\"#FF00\"><em><small>Erreur : Vous n'avez " +
@@ -421,10 +471,10 @@ public class AdminPanel extends AbsolutePanel{
 				}));
 		layout.setWidget(6, 0, error2HTML);
 
-		a.add(layout);
+		addSallePan.add(layout);
 
 
-		return a;
+		return addSallePan;
 	}
 
 	private static Widget createHeaderWidget(String text) {
