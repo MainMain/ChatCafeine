@@ -17,4 +17,8 @@ public interface AdminServiceAsync {
 
 	void getAllUsers(AsyncCallback<ArrayList<User>> callback);
 
+	void deleteUser(String login, AsyncCallback<Boolean> callback);
+
+	void majUser(String login, String droit, AsyncCallback<Boolean> callback);
+
 }

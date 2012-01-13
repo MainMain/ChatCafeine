@@ -7,7 +7,6 @@ import java.util.List;
 import sources.client.model.Salle;
 import sources.client.model.User;
 import sources.client.service.AdminService;
-import sources.client.service.CompteService;
 import sources.client.service.SalleService;
 import sources.client.vue.Core;
 
@@ -35,6 +34,7 @@ import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
 import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -50,8 +50,8 @@ public class AdminPanel extends AbsolutePanel{
 	private SimplePanel listUserPan = new SimplePanel();
 	private SimplePanel listSallePan = new SimplePanel();
 	private SimplePanel addSallePan = new SimplePanel();
-	
-	
+	private List<String> options = new ArrayList<String>();
+
 	public AdminPanel(){
 		configPanel();
 	}
@@ -59,17 +59,15 @@ public class AdminPanel extends AbsolutePanel{
 		setWidth("100%");
 		setHeight(Core.HEIGHT+10+"px");
 		setStyleName("adminPanel");
-		
-		
+
+
 		// Vide les anciens panels.
 		presentationPan = new SimplePanel();
 		listUserPan = new SimplePanel();
 		listSallePan = new SimplePanel();
 		addSallePan = new SimplePanel();
 		//Create a new stack layout panel.
-		StackLayoutPanel stackPanel = new StackLayoutPanel(Unit.EM);
-		//stackPanel.setWidth("1310px");
-		//stackPanel.setHeight("575px");
+
 		stackPanel.setWidth("100%");
 		stackPanel.setHeight("700px");
 
@@ -245,14 +243,14 @@ public class AdminPanel extends AbsolutePanel{
 	}
 
 	private ArrayList<User> listeUtilisateurs = new ArrayList<User>();
-	CellTable<User> table = new CellTable<User>();
-	
+
 	// Méthode pour créer la panel de création d'utilisateur.
 	private Widget creerListeUserPanel() {
 		setWidth("100%");
 		setHeight("100%");
 		listUserPan.isVisible();
-		listUserPan.setTitle("Liste des utilisateurs");	
+		listUserPan.setTitle("Liste des utilisateurs");
+		final CellTable<User> table = new CellTable<User>();
 
 		AdminService.Util.getInstance().getAllUsers(new AsyncCallback<ArrayList<User>>(){
 
@@ -317,7 +315,7 @@ public class AdminPanel extends AbsolutePanel{
 			// SUPPRIMER ICI LE USER SELECTIONNE DE LA BDD
 			@Override
 			public void execute(User object) {
-				CompteService.Util.getInstance().desincription(object.getIdInt(), new AsyncCallback<Boolean>(){
+				AdminService.Util.getInstance().deleteUser(object.getLogin(), new AsyncCallback<Boolean>(){
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Erreur : "+ caught.getMessage());
@@ -368,15 +366,154 @@ public class AdminPanel extends AbsolutePanel{
 			}
 		},"nb Bannis");
 
-		// En format data aux cas ou on modifie :
-		/*DateCell dateLastColumn = new DateCell();
-		Column<User, Date> dateColumn = new Column<User, Date>(dateLastColumn) {
+		options.add("utilisateur");
+		options.add("moderateur");
+		options.add("administrateur");
+		
+		// Create droit column.
+		SelectionCell dColumn = new SelectionCell(options);
+		Column<User, String>  droitColumn = new Column<User, String>(dColumn) {
+
 			@Override
-			public Date getValue(User object) {
-				return object.getDateLastConnexion();
+			public String getValue(User object) {
+				return object.getDroit();
 			}
 		};
-		table.addColumn(dateColumn, "Date de derniere connexion");
+		
+		table.addColumn(droitColumn, "Droit");
+	
+		
+		// Create modifier column.
+		List<HasCell<User, ?>> cellsModif2Admin = new LinkedList<HasCell<User, ?>>();
+		cellsModif2Admin.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
+
+			// Passe l'utilisateur en administrateur
+			@Override
+			public void execute(User object) {
+				AdminService.Util.getInstance().majUser(object.getLogin(),"administrateur", new AsyncCallback<Boolean>(){
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Erreur : "+ caught.getMessage());
+					}
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result==null)
+							Window.alert("Erreur lors de la suppression du compte !");
+						else{
+							Window.alert("Les droits de l'utilisateur ont ete modifies");
+							stackPanel.remove(presentationPan);
+							stackPanel.remove(listUserPan);
+							stackPanel.remove(listSallePan);
+							stackPanel.remove(addSallePan);
+							configPanel();
+						}
+					}
+				});
+			}
+		}));
+		
+		CompositeCell<User> mColumn = new CompositeCell<User>(cellsModif2Admin);
+		Column<User, User>  modifColumn = new Column<User, User>(mColumn){
+
+			@Override
+			public User getValue(User object) {
+				return object;
+			}
+			
+		};
+		table.addColumn(modifColumn,"Passer en administrateur");
+		
+		// Create modifier column2.
+		List<HasCell<User, ?>> cellsModif2User = new LinkedList<HasCell<User, ?>>();
+		cellsModif2User.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
+
+			// Passe l'utilisateur en administrateur
+			@Override
+			public void execute(User object) {
+				AdminService.Util.getInstance().majUser(object.getLogin(),"utilisateur", new AsyncCallback<Boolean>(){
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Erreur : "+ caught.getMessage());
+					}
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result==null)
+							Window.alert("Erreur lors de la suppression du compte !");
+						else{
+							Window.alert("Les droits de l'utilisateur ont ete modifies");
+							stackPanel.remove(presentationPan);
+							stackPanel.remove(listUserPan);
+							stackPanel.remove(listSallePan);
+							stackPanel.remove(addSallePan);
+							configPanel();
+						}
+					}
+				});
+			}
+		}));
+		
+		CompositeCell<User> mColumn2 = new CompositeCell<User>(cellsModif2User);
+		Column<User, User>  modifColumn2 = new Column<User, User>(mColumn2){
+
+			@Override
+			public User getValue(User object) {
+				return object;
+			}
+			
+		};
+		table.addColumn(modifColumn2,"Passer en utilisateur");
+		
+		
+		// Create modifier column3.
+		List<HasCell<User, ?>> cellsModif2Modo = new LinkedList<HasCell<User, ?>>();
+		cellsModif2Modo.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
+
+			// Passe l'utilisateur en administrateur
+			@Override
+			public void execute(User object) {
+				AdminService.Util.getInstance().majUser(object.getLogin(),"moderateur", new AsyncCallback<Boolean>(){
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Erreur : "+ caught.getMessage());
+					}
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result==null)
+							Window.alert("Erreur lors de la suppression du compte !");
+						else{
+							Window.alert("Les droits de l'utilisateur ont ete modifies");
+							stackPanel.remove(presentationPan);
+							stackPanel.remove(listUserPan);
+							stackPanel.remove(listSallePan);
+							stackPanel.remove(addSallePan);
+							configPanel();
+						}
+					}
+				});
+			}
+		}));
+		
+		CompositeCell<User> mColumn3 = new CompositeCell<User>(cellsModif2Modo);
+		Column<User, User>  modifColumn3 = new Column<User, User>(mColumn3){
+
+			@Override
+			public User getValue(User object) {
+				return object;
+			}
+			
+		};
+		table.addColumn(modifColumn3,"Passer en moderateur");
+		
+		
+		// En format data aux cas ou on modifie :
+		/*DateCell dateLastColumn = new DateCell();
+Column<User, Date> dateColumn = new Column<User, Date>(dateLastColumn) {
+@Override
+public Date getValue(User object) {
+return object.getDateLastConnexion();
+}
+};
+table.addColumn(dateColumn, "Date de derniere connexion");
 		 */
 
 		TextColumn<User> dateLastColumn = new TextColumn<User>() {
@@ -463,8 +600,8 @@ public class AdminPanel extends AbsolutePanel{
 					}
 
 					private boolean casesRemplies() {
-						return (nomSalle2Box.getText().length()!=0 && 
-								theme2Box.getText().length()!=0 && 
+						return (nomSalle2Box.getText().length()!=0 &&
+								theme2Box.getText().length()!=0 &&
 								description2Box.getText().length()!=0
 						);
 					}

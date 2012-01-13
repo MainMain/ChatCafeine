@@ -33,5 +33,7 @@ public interface AdminService extends RemoteService{
 	}
 
 	ArrayList<User> getAllUsers();
+	boolean deleteUser(String login);
+	boolean majUser(String login, String droit);
 	
 }
