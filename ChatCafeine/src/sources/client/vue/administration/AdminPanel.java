@@ -96,7 +96,7 @@ public class AdminPanel extends AbsolutePanel{
 
 	private ArrayList<Salle> listeSalles = new ArrayList<Salle>();
 
-	// Méthode pour créer la panel de présentation.
+	// Méthode pour créer le panel de présentation.
 	private Widget creerPresentationPanel(){
 		setWidth("100%");
 		setHeight("100%");
@@ -108,7 +108,7 @@ public class AdminPanel extends AbsolutePanel{
 		return presentationPan;
 	}
 
-	// Méthode pour créer la panel de création de salle.
+	// Méthode pour créer le panel de liste de salle.
 	private Widget creerListeSallePanel() {
 		setWidth("100%");
 		setHeight("100%");
@@ -200,21 +200,25 @@ public class AdminPanel extends AbsolutePanel{
 
 		CompositeCell<Salle> principaleColumn = new CompositeCell<Salle>(cells);
 		Cell<Number> numberColumn = new NumberCell();
-		Cell<String> editTextColumn = new EditTextCell();
+		
+		table.addColumn(new TextColumn<Salle>() {
 
-		// Create nom column.
-		table.addColumn(new Column<Salle, String>(editTextColumn) {
-			public String getValue(Salle salle) {
-				return salle.getNom();
+			@Override
+			public String getValue(Salle object) {
+				return object.getNom();
 			}
-		},"Nom");
-
+		}, "Nom");
+		
 		// Create theme column.
-		table.addColumn(new Column<Salle, String>(editTextColumn) {
-			public String getValue(Salle salle) {
-				return salle.getTheme();
+		table.addColumn(new TextColumn<Salle>() {
+
+			@Override
+			public String getValue(Salle object) {
+				return object.getTheme();
 			}
-		},"Theme");
+		}, "Theme");
+		
+		
 
 
 		// Create nb place max column.
@@ -244,7 +248,7 @@ public class AdminPanel extends AbsolutePanel{
 
 	private ArrayList<User> listeUtilisateurs = new ArrayList<User>();
 
-	// Méthode pour créer la panel de création d'utilisateur.
+	// Méthode pour créer le panel de liste d'utilisateur.
 	private Widget creerListeUserPanel() {
 		setWidth("100%");
 		setHeight("100%");
@@ -537,7 +541,7 @@ table.addColumn(dateColumn, "Date de derniere connexion");
 		return listUserPan;
 	}
 
-	// Méthode pour créer la panel de création de salle.
+	// Méthode pour créer le panel de création de salle.
 	private Widget creerCreateRoomPanel() {
 		setWidth("100%");
 		setHeight("100%");
