@@ -8,6 +8,9 @@ import sources.client.vue.profil.FichePan;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 
@@ -22,7 +25,7 @@ public class DialogBoxVueUser extends DialogBox{
 		setSize("400px", "450px");
 		add(new FichePan(user, true));
 		setVisible(true);
-		Button close = new Button("Fermer la fenètre");
+		/*Button close = new Button("Fermer la fenètre");
 		close.setStyleName("boutonRech");
 		close.setHeight("50px");
 		close.addClickHandler(new ClickHandler() {
@@ -31,8 +34,19 @@ public class DialogBoxVueUser extends DialogBox{
 				setVisible(false);
 			}
 		});
-		//add(close);
+		add(close);*/
 		show();
 		center();
 	}
+	@Override
+    protected void onPreviewNativeEvent(NativePreviewEvent event) {
+        super.onPreviewNativeEvent(event);
+        switch (event.getTypeInt()) {
+            case Event.ONKEYDOWN:
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+                    hide();
+                }
+                break;
+        }
+    }
 }

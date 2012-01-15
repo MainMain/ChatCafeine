@@ -3,7 +3,10 @@
  */
 package sources.server;
 
+import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import sources.client.service.SalleService;
@@ -57,7 +60,6 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	@Override
 	public PaquetCom getNewMatrice(int idSalle, int cpt) {
-		System.out.println("[Serveur] : Demande de maj de la vue, salle "+idSalle);
 		if (idSalle == -1) return null;					// Sécurité
 		while (cpt == cptVueSalle.get(idSalle)){
 			try {
@@ -134,7 +136,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 	private HashMap<Integer,User[][]> matriceUser = new HashMap<Integer, User[][]>();
 
 	private HashMap<Integer, ArrayList<User>> listeUtilisateurs = 
-			new HashMap<Integer,  ArrayList<User>>();
+		new HashMap<Integer,  ArrayList<User>>();
 	private HashMap<Integer, Integer> cptVueSalle = new HashMap<Integer, Integer>();
 
 	@Override
@@ -169,7 +171,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 			pc.setX_last(u.getPos_x());
 			pc.setY_last(u.getPox_y());
 		}
-		
+
 		System.out.println("[Serveur] : Taille liste user : "+listeUtilisateurs.size());
 		// On crée un nouveau paquet...
 		pc.setListeUtilisateurs(listeUtilisateurs.get(idSalle));
@@ -198,15 +200,18 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 	}
 
 	@Override
-	public boolean prendre1Cafe(int idSalle, int x_last, int y_last) {
+	public boolean prendre1Cafe(int idSalle, int x_last, int y_last, String clientCafe) {
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
 		pc.setX_last(x_last);
 		pc.setY_last(y_last);
 		matriceUser.get(idSalle)[x_last][y_last] = null;
 
 		cptVueSalle.put(idSalle, cptVueSalle.get(idSalle)+1);
+		pc.setIdSalleDestination(idSalle);
+		pc.setCafePris(true);
+		pc.setClientCafe(clientCafe);
 		paquetTmpVue = pc;
-		paquetTmpVue.setIdSalleDestination(idSalle);
+		
 		return true;
 	}
 
@@ -298,7 +303,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		String requete="DELETE FROM Salle WHERE Nom LIKE '"+nom+"'";
 		String resultat=connexion.setData(requete);
 		System.out.println(resultat);
-		
+
 		connexion.fermer();
 		if (resultat.equals("Error"))
 			return true;
@@ -309,35 +314,26 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	}
 
-	/* (non-Javadoc)
-	 * @see sources.client.service.SalleService#ejecter(int, sources.client.model.User)
-	 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//private HashMap<String, ArrayList<User>> listeUtilisateur = // String = nom de la salle
-	//new HashMap<String, ArrayList<User>>();
-	//private HashMap<String, int[][]> positionsUsers;
-
-
+	@Override
+	public Date isBanned(int idSalle, int idUser) {
+		ConBDD connexion=new ConBDD();
+		String requete="SELECT DateFin FROM Bannir WHERE ID_user LIKE '"+idUser+"' " +
+		"AND ID_salle LIKE '"+idSalle+"'";
+		ResultSet resultat = connexion.getData(requete);
+		if (resultat==null){
+			connexion.fermer();
+			return null;
+		}else{
+			try {
+				connexion.fermer();
+				System.out.println(resultat);
+				return resultat.getDate("DateFin");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 
 }

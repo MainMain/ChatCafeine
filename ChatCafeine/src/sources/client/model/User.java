@@ -14,8 +14,9 @@ public class User implements Comparable<User>, Serializable {
 	 */
 	private String idUser;
 	private int id;
-	private String login, mdp, email, genre, age, activite, droit, dateInscription,
+	private String login, mdp, email, genre, activite, droit, dateInscription,
 	dateLastConnexion, aime, aimePas, avatar;
+	int age;
 	private int compteurChat = 900, nbrCafe = 0;
 	private int idSalleEnCours;
 
@@ -137,12 +138,12 @@ public class User implements Comparable<User>, Serializable {
 		this.genre = genre;
 	}
 
-	public String getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(String age) {
-		this.age = age;
+	public void setAge(int age2) {
+		this.age = age2;
 	}
 
 	public String getActivite() {
@@ -209,12 +210,9 @@ public class User implements Comparable<User>, Serializable {
 	}
 	
 	public boolean prendreCafe(){
-		if (compteurChat < 100){
-			compteurChat += 900;
+			compteurChat = 25;
 			nbrCafe++;
 			return true;
-		}else
-			return false;
 	}
 	public int getNbrCafePris(){
 		return nbrCafe;

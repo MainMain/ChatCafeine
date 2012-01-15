@@ -3,6 +3,7 @@
  */
 package sources.client.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import sources.client.model.PaquetCom;
@@ -43,8 +44,9 @@ public interface SalleServiceAsync {
 			AsyncCallback<User[][]> asyncCallback);
 	void sortie1User(int idSalle, User u, AsyncCallback<Void> callback);
 	void prendre1Cafe(int idSalle, int x_last, int y_last,
-			AsyncCallback<Boolean> callback);
+			String string, AsyncCallback<Boolean> callback);
 	void ejecter(int idSalle, User u, AsyncCallback<Void> callback);
+	void isBanned(int idSalle, int idUser, AsyncCallback<Date> asyncCallback);
 
 
 }

@@ -26,7 +26,7 @@ public class FichePan extends AbsolutePanel {
 
 		if (fromListUser) add(new HeaderPanels("Fiche utilisateur"));
 		else add(new HeaderPanels("Ma fiche utilisateur"));
-		
+
 		// AVATAR
 		AbsolutePanel avatarPan = new AbsolutePanel();
 		avatarPan.setHeight("200px");
@@ -71,17 +71,69 @@ public class FichePan extends AbsolutePanel {
 		setWidgetPosition(textAge, 10, 120);
 
 		HTML textActivite = new HTML();
-		textActivite.setHTML("<b>Activit&eacute; : </b>"+u.getActivite());
+		if (u.getActivite().length() < 26)
+			textActivite.setHTML("<b>Activit&eacute; : </b>"+u.getActivite());
+
 		add(textActivite);
 		setWidgetPosition(textActivite, 10, 150);
 
 		HTML textAime = new HTML();
-		textAime.setHTML("<b>Aime : </b>"+u.getAime()+"<br><br><b>N'aime pas : </b>"+u.getAimePas());
+		if (u.getAime().length() < 26)
+			textAime.setHTML("<b>Aime : </b>"
+					+u.getAime());
+
+		else if (u.getAime().length() < 51){
+			textAime.setHTML("<b>Aime : </b>"
+					+u.getAime().substring(0, 25)+"<br>"
+					+u.getAime().substring(25, u.getAime().length()));
+		}
+		else if (u.getAime().length() < 76){
+			textAime.setHTML("<b>Aime : </b>"
+					+u.getAime().substring(0, 25)+"<br>"
+					+u.getAime().substring(25, 50)+"<br>"
+					+u.getAime().substring(50, u.getAime().length()));
+		}
+		else if (u.getAime().length() <= 91){
+			textAime.setHTML("<b>Aime : </b>"
+					+u.getAime().substring(0, 25)+"<br>"
+					+u.getAime().substring(25, 50)+"<br>"
+					+u.getAime().substring(50, 75)+"<br>"
+					+u.getAime().substring(75, u.getAime().length()));
+		}
 		add(textAime);
 		setWidgetPosition(textAime, 10, 200);
 
-		if (fromListUser){
+		HTML textAimePas = new HTML();
+		if (u.getAimePas().length() < 26)
+			textAimePas.setHTML("<b>N'aime pas : </b>"
+					+u.getAimePas());
+
+		else if (u.getAimePas().length() < 51){
+			textAimePas.setHTML("<b>N'aime pas : </b>"
+					+u.getAimePas().substring(0, 25)+"<br>"
+					+u.getAimePas().
+					substring(26, u.getAimePas().length()));
+		}
+		else if (u.getAimePas().length() < 76){
+			textAimePas.setHTML("<b>N'aime pas : </b>"
+					+u.getAimePas().substring(0, 25)+"<br>"
+					+u.getAimePas().substring(25, 50)+"<br>"
+					+u.getAimePas().substring(50, u.getAimePas().length()));
+		}
+		else if (u.getAimePas().length() <= 91){
+			textAimePas.setHTML("<b>N'aime pas : </b>"
+					+u.getAimePas().substring(0, 25)+"<br>"
+					+u.getAimePas().substring(25, 50)+"<br>"
+					+u.getAimePas().substring(50, 75)+"<br>"
+					+u.getAimePas().substring(75, u.getAimePas().length()));
 		}
 
+		add(textAimePas);
+		setWidgetPosition(textAimePas, 10, 280);
+		if (fromListUser){
+			HTML b = new HTML("<em>Appuyer sur \"échap\" pour fermer<em>");
+			add (b);
+			setWidgetPosition(b, 200, 370);
+		}
 	}
 }

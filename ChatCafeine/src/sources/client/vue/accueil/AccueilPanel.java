@@ -191,8 +191,8 @@ public class AccueilPanel extends VerticalPanel{
 
 		// Create TextBox
 		final TextBox login2Box = new TextBox();
-		final TextBox pass2Box = new TextBox();
-		final TextBox pass2VerifBox = new TextBox();
+		final PasswordTextBox pass2Box = new PasswordTextBox();
+		final PasswordTextBox pass2VerifBox = new PasswordTextBox();
 		final TextBox mailBox = new TextBox();
 		final TextBox mailVerifBox = new TextBox();
 		final RadioButton hRadio = new RadioButton("Sexe", "Homme");

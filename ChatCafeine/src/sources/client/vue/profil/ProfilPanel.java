@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -37,7 +39,7 @@ public class ProfilPanel extends AbsolutePanel{
 		configModifPan();
 		configSupprPan();
 	}
-	
+
 	private void configPanel() {
 		setWidth("100%");
 		setHeight(Core.HEIGHT+10+"px");
@@ -49,7 +51,7 @@ public class ProfilPanel extends AbsolutePanel{
 	private void configFichePan() {
 		// Wrap the contents in a DecoratorPanel
 		DecoratorPanel dec1Panel = new DecoratorPanel();
-		dec1Panel.setWidget(fichePan);
+		dec1Panel.setWidget(new FichePan(Core.userEnCours, false));
 		add(dec1Panel, 10, 10);
 	}
 	/**
@@ -70,9 +72,13 @@ public class ProfilPanel extends AbsolutePanel{
 		// mod age
 		HTML textAge = new HTML();
 		textAge.setHTML("Age : ");
-		final TextBox boxAge = new TextBox();
-		boxAge.setWidth("20px");
-		boxAge.setValue(Core.userEnCours.getAge());
+		final ListBox boxAge = new ListBox(false);
+		for (int i = 10; i <= 99; i++) {
+			boxAge.addItem(""+i+" ans");
+		}
+		boxAge.setSelectedIndex(Core.userEnCours.getAge()-10);
+		//final TextBox boxAge = new TextBox();
+		//boxAge.setWidth("20px");
 
 		modifPan.add(textAge);
 		modifPan.add(boxAge);
@@ -86,6 +92,7 @@ public class ProfilPanel extends AbsolutePanel{
 		final TextBox boxActivite = new TextBox();
 		boxActivite.setWidth("90px");
 		boxActivite.setValue(Core.userEnCours.getActivite());
+		boxActivite.setMaxLength(20);
 
 		modifPan.add(textActivite);
 		modifPan.add(boxActivite);
@@ -95,9 +102,10 @@ public class ProfilPanel extends AbsolutePanel{
 		//mod aime
 		HTML textAime = new HTML();
 		textAime.setHTML("Aime : ");
-		final TextArea boxAime = new TextArea();
+		final TextBox boxAime = new TextBox();
 		boxAime.setSize("500px", "60px");
 		boxAime.setValue(Core.userEnCours.getAime());
+		boxAime.setMaxLength(90);
 
 		modifPan.add(textAime);
 		modifPan.add(boxAime);
@@ -107,9 +115,10 @@ public class ProfilPanel extends AbsolutePanel{
 		//mod aime pas
 		HTML textAimePas = new HTML();
 		textAimePas.setHTML("N'aime pas : ");
-		final TextArea boxAimePas = new TextArea();
+		final TextBox boxAimePas = new TextBox();
 		boxAimePas.setSize("500px", "60px");
 		boxAimePas.setValue(Core.userEnCours.getAimePas());
+		boxAimePas.setMaxLength(90);
 
 		modifPan.add(textAimePas);
 		modifPan.add(boxAimePas);
@@ -122,37 +131,30 @@ public class ProfilPanel extends AbsolutePanel{
 					public void onClick(ClickEvent event) {
 						int age = 0;
 						//actions click mod
-						if(boxAge.getValue()!=""){
-							try {
-								age = Integer.parseInt(boxAge.getValue());
-								Core.userEnCours.setAge(boxAge.getValue());
-							}
-							catch (Exception e) {
-								age = 0;
-							}
+						age = boxAge.getSelectedIndex()+10;
+						Core.userEnCours.setAge(age);
 
-							if(boxActivite.getValue()!=""){
-								Core.userEnCours.setActivite(boxActivite.getValue());
-							}
-							if(boxAime.getValue()!=""){
-								Core.userEnCours.setAime(boxAime.getValue());
-							}
-							if(boxAimePas.getValue()!=""){
-								Core.userEnCours.setAimePas(boxAimePas.getValue());
-							}
-							fichePan.clear();
-							configFichePan();
-							ProfilService.Util.getInstance().modifInfos(Core.userEnCours.getIdInt(), 
-									boxAime.getValue(), boxAimePas.getValue(), age, boxActivite.getValue(), new AsyncCallback<Boolean>(){
-								@Override
-								public void onFailure(Throwable caught) {
-									Window.alert("Erreur : "+ caught.getMessage());
-								}
-								@Override
-								public void onSuccess(Boolean result) {
-								}
-							});				
+						if(boxActivite.getValue()!=""){
+							Core.userEnCours.setActivite(boxActivite.getValue());
 						}
+						if(boxAime.getValue()!=""){
+							Core.userEnCours.setAime(boxAime.getValue());
+						}
+						if(boxAimePas.getValue()!=""){
+							Core.userEnCours.setAimePas(boxAimePas.getValue());
+						}
+						fichePan.clear();
+						configFichePan();
+						ProfilService.Util.getInstance().modifInfos(Core.userEnCours.getIdInt(), 
+								boxAime.getValue(), boxAimePas.getValue(), age, boxActivite.getValue(), new AsyncCallback<Boolean>(){
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert("Erreur : "+ caught.getMessage());
+							}
+							@Override
+							public void onSuccess(Boolean result) {
+							}
+						});				
 					}
 
 				});
@@ -171,7 +173,7 @@ public class ProfilPanel extends AbsolutePanel{
 		// ancien pass
 		HTML textMdp = new HTML();
 		textMdp.setHTML("Ancien mot de passe : ");
-		final TextBox boxMdp = new TextBox();
+		final PasswordTextBox boxMdp = new PasswordTextBox();
 		boxMdp.setWidth("140px");
 
 		modifPan.add(textMdp);
@@ -182,7 +184,7 @@ public class ProfilPanel extends AbsolutePanel{
 		// nouveau pass
 		HTML textNewMdp = new HTML();
 		textNewMdp.setHTML("Nouveau mot de passe : ");
-		final TextBox boxNewMdp = new TextBox();
+		final PasswordTextBox boxNewMdp = new PasswordTextBox();
 		boxNewMdp.setWidth("140px");
 
 		modifPan.add(textNewMdp);
@@ -193,7 +195,7 @@ public class ProfilPanel extends AbsolutePanel{
 		// confirmer pass
 		HTML textConfMdp = new HTML();
 		textConfMdp.setHTML("Confirmer : ");
-		final TextBox boxConfMdp = new TextBox();
+		final PasswordTextBox boxConfMdp = new PasswordTextBox();
 		boxConfMdp.setWidth("140px");
 
 		modifPan.add(textConfMdp);
@@ -280,10 +282,10 @@ public class ProfilPanel extends AbsolutePanel{
 							@Override
 							public void onSuccess(Boolean result) {
 								if (result==null)
-									Window.alert("Erreur lors de la suppression dszsdfddu compte !");
+									Window.alert("Erreur lors de la suppression du compte !");
 								//
 								else{
-									
+
 								}
 							}
 						});

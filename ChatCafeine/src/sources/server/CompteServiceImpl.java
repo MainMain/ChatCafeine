@@ -1,11 +1,14 @@
 package sources.server;
 
 import java.sql.ResultSet;
+import java.util.Date;
 
 import sources.client.service.CompteService;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * @author : Johan
@@ -25,8 +28,11 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 			String email) { // Tu me retourne true si ca fonctionne, false sinon. C'est pas lors de l'inscription que j'identifie l'user, mais quand il se connecte.
 
 		ConBDD connexion=new ConBDD();
-		String requete="INSERT INTO Utilisateur (ID_user, ID_salle, Login, Pass, Age, Sexe, Email, Aime, AimePas, Activite, Droit, Avatar, NbBannissements, DateInscription, DateLastConnexion) " +
-		"VALUES (null,null,'"+loginUser+"'"+", '"+mdp+"'"+", '"+age+"'"+", '"+sexe+"'"+", '"+email+"'"+", null, null,'', 'utilisateur', null,0, null, null);";
+		DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		String date1 = format.format(new Date());
+		String requete="INSERT INTO Utilisateur (" +
+				"ID_user, Login, 			Pass, 			Age, 		Sexe,			 Email, 		Aime, 			AimePas, 		Activite, 	Droit, 		Avatar, NbBannissements, 	NbEjections, 		DateInscription, DateLastConnexion) " +
+		"VALUES (null,'"+loginUser+"'"+", '"+mdp+"'"+", '"+age+"'"+", '"+sexe+"'"+", '"+email+"'"+", 'Non Renseigné', 'Non Renseigné', 'Non Renseigné', 'utilisateur', null,		0, 					0,		'"+date1+"'"+", 	'"+date1+"'"+");";
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))

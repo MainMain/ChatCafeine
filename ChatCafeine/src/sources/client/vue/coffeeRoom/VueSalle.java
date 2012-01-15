@@ -77,7 +77,6 @@ public class VueSalle extends AbsolutePanel {
 						refresh();
 					}
 				});
-
 	}
 
 	/*
@@ -129,10 +128,15 @@ public class VueSalle extends AbsolutePanel {
 										new SiegeButton("images/siege2.png", pc.getX_last(), 
 												pc.getY_last(),false));
 						}
+						// SI LISTE UTILISATEUR A METTRE A JOUR
 						if (pc.getListeUtilisateurs() != null){
 							System.out.println("[Client - Vue] "+Core.userEnCours.getIdSalleEnCours()+
 							" : Liste des utilisateurs mise à jour !");
 							listUserPanel.maj(pc.getListeUtilisateurs());
+						}
+						// SI CAFE PRIS PAR UN MEMBRE
+						if (pc.isCafePris()){
+							
 						}
 					}
 				}
@@ -289,6 +293,7 @@ public class VueSalle extends AbsolutePanel {
 					int y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
 					Core.userEnCours.setPos_x(-1);
 					Core.userEnCours.setPox_y(-1);
+					Core.userEnCours.prendreCafe();
 					ChatBoxPanel.desactiverBoutonEnvoi();
 					SalleService.Util.getInstance().envoiMessageFromClient(
 							Core.userEnCours.getIdSalleEnCours(),
@@ -302,7 +307,7 @@ public class VueSalle extends AbsolutePanel {
 								}
 							});
 					SalleService.Util.getInstance().prendre1Cafe(Core.userEnCours.getIdSalleEnCours(),
-							x_last, y_last, new AsyncCallback<Boolean>() {
+							x_last, y_last, Core.userEnCours.getLogin(), new AsyncCallback<Boolean>() {
 						@Override
 						public void onFailure(Throwable caught) {
 						}

@@ -45,7 +45,7 @@ public class ListUserPanel extends VerticalPanel{
 			add(new loginHTML(u));
 			if (Core.userEnCours.getDroit().equals("moderateur") || 
 					Core.userEnCours.getDroit().equals("administrateur"))
-					add(new ejectBouton(u));	
+					if (u.getDroit().equals("utilisateur")) add(new ejectBouton(u));	
 			add(new HTML("<hr>"));
 		}
 	}

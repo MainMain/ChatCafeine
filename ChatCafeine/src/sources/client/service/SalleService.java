@@ -1,5 +1,6 @@
 package sources.client.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import sources.client.model.PaquetCom;
@@ -57,7 +58,7 @@ public interface SalleService extends RemoteService {
 	 */
 	int getCptSalle(int idSalle);
 	User[][] getMatriceUser(int idSalle, int cptVueSalle);
-	boolean prendre1Cafe(int idSalle, int x_last, int y_last);
+	boolean prendre1Cafe(int idSalle, int x_last, int y_last, String string);
 	/**
 	 * @param u
 	 * @param s
@@ -74,4 +75,6 @@ public interface SalleService extends RemoteService {
 	 * @param u
 	 */
 	void ejecter(int idSalle, User u);
+	
+	Date isBanned(int idSalle, int idUser);
 }

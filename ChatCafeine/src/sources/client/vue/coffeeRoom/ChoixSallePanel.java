@@ -3,12 +3,15 @@
  */
 package sources.client.vue.coffeeRoom;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import sources.client.model.Salle;
 import sources.client.service.SalleService;
+import sources.client.vue.Core;
 import sources.client.vue.outils.HeaderPanels;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Window;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -149,7 +152,24 @@ public class ChoixSallePanel extends AbsolutePanel{
 				@Override
 				public void onClick(ClickEvent event){
 					Salle a =  ((CarreChoixSalle)event.getSource()).salle;
-					CoffeeRoomPanel.getInstance().creerEcranInSalle(a);
+					// Vérifier si banni
+					SalleService.Util.getInstance().isBanned(a.getIdSalle(),
+							Core.userEnCours.getIdInt(), new AsyncCallback<Date>() {
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+								}
+
+								@Override
+								public void onSuccess(Date result) {
+									System.out.println("[Client] : Banni de la salle? "+salle.getIdSalle()+" - "
+											+Core.userEnCours.getIdInt()+" - "+ result);
+									if (result == null )CoffeeRoomPanel.getInstance().creerEcranInSalle(salle);
+									else com.google.gwt.user.client.Window.alert("Vous êtes banni" +
+											"de cette salle ! Date de fin : "+result);
+								}
+							});
+					
 				}
 			});
 		}

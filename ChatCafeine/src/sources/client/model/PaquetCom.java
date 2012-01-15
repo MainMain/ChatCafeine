@@ -33,11 +33,24 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 	private ArrayList<User> listeUtilisateurs = null;
 	public boolean siege_last;
 	
+	private boolean cafePris = false;
+	private String clientCafe = null;
+
+
+
 	private String userAEjecter = null;
 	
 
 	
 
+
+	public boolean isCafePris() {
+		return cafePris;
+	}
+
+	public void setCafePris(boolean cafePris) {
+		this.cafePris = cafePris;
+	}
 
 	public PaquetCom(){
 		idPaquet = cpt++;
@@ -159,6 +172,13 @@ public class PaquetCom implements Comparable<PaquetCom>, Serializable{
 		this.userAEjecter = userAEjecter;
 	}
 	
+	public String getClientCafe() {
+		return clientCafe;
+	}
+
+	public void setClientCafe(String clientCafe) {
+		this.clientCafe = clientCafe;
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
