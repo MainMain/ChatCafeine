@@ -91,27 +91,41 @@ public class VueSalle extends AbsolutePanel {
 			@Override
 			public void onSuccess(PaquetCom pc) {
 				if (pc != null){
-					// SI USER EJECTE
-					if (pc.getUserAEjecter() != null)
-						if (!pc.getUserAEjecter().equals(Core.userEnCours.getLogin())){
-							// Coder ici l'ejection
-							System.out.println("[Client] : Ejection demandé !");
-							SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
-									Core.userEnCours.getLogin()+" à été éjecté la salle", 
-									"Message automatique", new AsyncCallback<Void>() {
-								@Override
-								public void onSuccess(Void result) {
-									CoffeeRoomPanel.getInstance().creerEcranChoixSalle();
-									Core.userEnCours.sortirFromSalle();
-								}
-								@Override
-								public void onFailure(Throwable caught) {
-								}
-							});
-						}
 
 					if (pc.getIdSalleDestination() == Core.userEnCours.getIdSalleEnCours()){
 						cptVueSalle++;
+						System.out.println(">>> " +pc.getUserAEjecter());
+						if (pc.getUserAEjecter() != null){
+							System.out.println(">>> " +pc.getUserAEjecter());
+							// SI USER EJECTE
+							if (pc.getUserAEjecter().equals(Core.userEnCours.getLogin())){
+								// Coder ici l'ejection
+								System.out.println("[Client] : Ejection demandé !");
+								SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
+										Core.userEnCours.getLogin()+" à été éjecté la salle", 
+										"Message automatique", new AsyncCallback<Void>() {
+									@Override
+									public void onSuccess(Void result) {
+										CoffeeRoomPanel.getInstance().creerEcranChoixSalle();
+										Core.userEnCours.sortirFromSalle();
+										Window.alert("Vous avez été ejecté de la salle !");
+									}
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+								});
+								SalleService.Util.getInstance().sortie1User(Core.userEnCours.getIdSalleEnCours(),
+										Core.userEnCours, new AsyncCallback<Void>() {
+									@Override
+									public void onSuccess(Void result) {
+									}
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+								});
+							}
+						}
+
 						if (pc.getX_case() > -1 && pc.getY_case() > -1)
 							flextable.setWidget(pc.getX_case(), pc.getY_case(),
 									new SiegeButton("images/"+pc.getImgUser(), pc.getX_case(), 

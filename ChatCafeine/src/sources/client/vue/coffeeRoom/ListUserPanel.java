@@ -45,7 +45,8 @@ public class ListUserPanel extends VerticalPanel{
 			add(new loginHTML(u));
 			if (Core.userEnCours.getDroit().equals("moderateur") || 
 					Core.userEnCours.getDroit().equals("administrateur"))
-					if (u.getDroit().equals("utilisateur")) add(new ejectBouton(u));	
+					//if (u.getDroit().equals("utilisateur")) 
+						add(new ejectBouton(u));	
 			add(new HTML("<hr>"));
 		}
 	}
@@ -78,7 +79,6 @@ public class ListUserPanel extends VerticalPanel{
 								@Override
 								public void onFailure(Throwable caught) {
 									// TODO Auto-generated method stub
-									
 								}
 								@Override
 								public void onSuccess(Void result) {

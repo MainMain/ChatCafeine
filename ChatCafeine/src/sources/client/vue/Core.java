@@ -106,18 +106,22 @@ public class Core implements EntryPoint {
 	}
 	public static MenuBar createMenuBar(){
 		Command cmd = new Command() {
-			public void execute() {	Window.alert("You selected a menu item!"); }
+			public void execute() {	Window.alert("Ici s'affichera l'aide"); }
 		};
 		Command cmdDeco = new Command() {
 			public void execute() {	 
 				deconnexion();
 				}
 		};
+		Command cmd2 = new Command() {
+			public void execute() {	
+				Window.alert("IUT De Laval - Département Informatique - Projet tuteuré 2011"); 
+				}
+		};
 		MenuBar menu = new MenuBar();
 		//menu.addItem("Fichier", cmd);
-		menu.addItem("Application", cmd);
 		menu.addItem("Aide", cmd); // "FAQ", "Compatibilite", On peut mettre que F5 = rafraichissement de tout l'appli -> A ne pas utiliser
-		menu.addItem("A propos", cmd); // Créateurs (groupe5), copyright(iut Laval)
+		menu.addItem("A propos", cmd2); // Créateurs (groupe5), copyright(iut Laval)
 		if (userEnCours != null) menu.addItem("Se déconnecter", cmdDeco);
 		menu.setWidth("99%");
 		menu.addStyleName("menu");

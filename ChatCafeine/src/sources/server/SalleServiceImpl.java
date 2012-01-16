@@ -55,7 +55,6 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		}
 		System.out.println("[Serveur] : Envoi du paquet n° "+paquetTmpMessage.getIdPaquet());
 		return paquetTmpMessage;*/
-
 	}
 
 	@Override
@@ -71,15 +70,6 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		paquetTmpVue.setListeUtilisateurs(listeUtilisateurs.get(idSalle));
 		return paquetTmpVue;
 	}
-
-
-
-
-
-
-
-
-
 	/*
 	 * METHODES & ATTRIBUTS LIEES AU TCHAT
 	 */
@@ -119,20 +109,9 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 			return 0;
 		}
 	}
-
-
-
-
-
-
-
-
-
-
 	/*
 	 * METHODES & ATTRIBUTS LIEES A LA SALLE
 	 */
-	//********************************************************* METTRE DES HASHMAP !!!
 	private HashMap<Integer,User[][]> matriceUser = new HashMap<Integer, User[][]>();
 
 	private HashMap<Integer, ArrayList<User>> listeUtilisateurs = 
@@ -238,22 +217,9 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 		PaquetCom pc = new PaquetCom(); 							// On crée un nouveau paquet...
 		pc.setUserAEjecter(u.getLogin());
 		pc.setIdSalleDestination(idSalle);
+		System.out.println("[Serveur] : éjection prête à être lancée sur "+u.getLogin());
 		paquetTmpVue = pc;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	@Override
 	public boolean creerSalle(String nom, String theme, String description,
