@@ -158,6 +158,7 @@ public class ChoixSallePanel extends AbsolutePanel{
 								@Override
 								public void onFailure(Throwable caught) {
 									// TODO Auto-generated method stub
+									System.out.println("sa plante !");
 								}
 
 								@Override
