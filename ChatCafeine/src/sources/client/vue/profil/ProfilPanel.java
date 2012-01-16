@@ -285,7 +285,8 @@ public class ProfilPanel extends AbsolutePanel{
 									Window.alert("Erreur lors de la suppression du compte !");
 								//
 								else{
-
+									Window.alert("Votre compte a été supprimé !");
+									Core.deconnexion();
 								}
 							}
 						});

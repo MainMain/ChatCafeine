@@ -47,13 +47,14 @@ public class CompteServiceImpl extends RemoteServiceServlet implements CompteSer
 	@Override
 	public boolean desincription(int idUser) {
 		ConBDD connexion=new ConBDD();
-		String requete="DELETE FROM Utilisateur WHERE ID_user LIKE '"+idUser+"'";
+		String requete="DELETE FROM Utilisateur WHERE ID_user = '"+idUser+"'";
+		String requete2="DELETE FROM Bannir WHERE ID_user = '"+idUser+"'";
+		connexion.setData(requete2);
 		String resultat=connexion.setData(requete);
 		connexion.fermer();
 		if (resultat==null || resultat.equals("Error"))
 			return false;
 		if (resultat.equals("OK")){
-			Window.alert("Votre compte a été supprimé");
 			return true;
 		}
 		else return false;

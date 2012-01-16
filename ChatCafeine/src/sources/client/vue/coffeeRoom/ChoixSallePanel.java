@@ -175,6 +175,18 @@ public class ChoixSallePanel extends AbsolutePanel{
 									CoffeeRoomPanel.getInstance().creerEcranInSalle(salle);
 								else
 									com.google.gwt.user.client.Window.alert("Vous êtes banni" +
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+									System.out.println("sa plante !");
+								}
+
+								@Override
+								public void onSuccess(Date result) {
+									System.out.println("[Client] : Banni de la salle? "+salle.getIdSalle()+" - "
+											+Core.userEnCours.getIdInt()+" - "+ result);
+									if (result == null )CoffeeRoomPanel.getInstance().creerEcranInSalle(salle);
+									else com.google.gwt.user.client.Window.alert("Vous êtes banni" +
 											"de cette salle ! Date de fin : "+result);
 							}*/
 						}
