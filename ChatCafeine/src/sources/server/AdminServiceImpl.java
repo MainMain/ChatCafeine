@@ -35,7 +35,7 @@ public class AdminServiceImpl extends RemoteServiceServlet implements AdminServi
 			String requete = "SELECT * FROM Utilisateur";			
 			ResultSet result = connexion.getData(requete);			
 			while (result.next()){				
-				a.add(new User(result.getString("Login"), result.getInt("NbEjections"), result.getInt("NbBannissements"), result.getString("Droit")));			
+				a.add(new User(result.getString("Login"), result.getInt("NbEjections"), result.getInt("NbBannissements"), result.getString("Droit"), result.getString("DateLastConnexion")));			
 			}		
 		}catch (Exception e){			
 			System.out.println("Erreur lors de la récupération des utilisateurs !\n->"+e.getMessage());		

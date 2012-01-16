@@ -32,12 +32,13 @@ public class User implements Comparable<User>, Serializable {
 	/*
 	 * Constructeur 
 	 */
-	public User(String login, int nbEjections, int nbBannissements, String droit){
+	public User(String login, int nbEjections, int nbBannissements, String droit, String dateLastConenxion){
 		super();
 		this.login = login;
 		this.nbEjections = nbEjections;
 		this.nbBannissements = nbBannissements;
 		this.droit = droit;
+		this.dateLastConnexion = dateLastConenxion;
 	}
 
 	public User(){

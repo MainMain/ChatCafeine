@@ -30,7 +30,6 @@ import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.ActionCell.Delegate;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CompositeCell;
-import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
 import com.google.gwt.cell.client.NumberCell;
@@ -51,6 +50,8 @@ public class AdminPanel extends AbsolutePanel{
 	private SimplePanel listSallePan = new SimplePanel();
 	private SimplePanel addSallePan = new SimplePanel();
 	private List<String> options = new ArrayList<String>();
+	private List<String> changeDroit = new ArrayList<String>();
+	private Column<User, String>  droitColumn;
 
 	public AdminPanel(){
 		configPanel();
@@ -376,16 +377,18 @@ public class AdminPanel extends AbsolutePanel{
 		
 		// Create droit column.
 		SelectionCell dColumn = new SelectionCell(options);
-		Column<User, String>  droitColumn = new Column<User, String>(dColumn) {
-
+		droitColumn = new Column<User, String>(dColumn) {
+			
 			@Override
 			public String getValue(User object) {
 				return object.getDroit();
+				
 			}
+			
 		};
 		
 		table.addColumn(droitColumn, "Droit");
-	
+		
 		
 		// Create modifier column.
 		List<HasCell<User, ?>> cellsModif2Admin = new LinkedList<HasCell<User, ?>>();
@@ -413,6 +416,7 @@ public class AdminPanel extends AbsolutePanel{
 						}
 					}
 				});
+			
 			}
 		}));
 		
