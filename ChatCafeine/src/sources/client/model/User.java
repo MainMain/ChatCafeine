@@ -17,7 +17,7 @@ public class User implements Comparable<User>, Serializable {
 	private String login, mdp, email, genre, activite, droit, dateInscription,
 	dateLastConnexion, aime, aimePas, avatar;
 	int age;
-	private int compteurChat = 900, nbrCafe = 0;
+	private int compteurChat = 0, nbrCafe = 0;
 	private int idSalleEnCours;
 
 
@@ -207,6 +207,9 @@ public class User implements Comparable<User>, Serializable {
 
 	public int getCompteurChat(){
 		return compteurChat;
+	}
+	public void unMsgEnvoye(){
+		compteurChat-=1;
 	}
 	
 	public boolean prendreCafe(){

@@ -131,7 +131,7 @@ public class FichePan extends AbsolutePanel {
 		add(textAimePas);
 		setWidgetPosition(textAimePas, 10, 280);
 		if (fromListUser){
-			HTML b = new HTML("<em>Appuyer sur \"échap\" pour fermer<em>");
+			HTML b = new HTML("<em>Appuyer sur \"entrée\" pour fermer<em>");
 			add (b);
 			setWidgetPosition(b, 200, 370);
 		}

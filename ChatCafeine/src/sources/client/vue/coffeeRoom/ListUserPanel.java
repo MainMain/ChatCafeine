@@ -53,7 +53,7 @@ public class ListUserPanel extends VerticalPanel{
 	public class loginHTML extends HTML{
 		private User user;
 		public loginHTML(User u){
-			super(" - <u>"+u.getLogin()+"</u> - "+u.getNbrCafePris()+" café(s) pris");
+			super(" - <u>"+u.getLogin()+"</u>");
 			user = u;
 			addClickHandler(new ClickHandler() {
 				@Override

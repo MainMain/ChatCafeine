@@ -59,16 +59,20 @@ public class ChatBoxPanel extends AbsolutePanel{
 		bouton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(!zone2Text.getText().isEmpty()){
-					SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
-							zone2Text.getText(), Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
-						@Override
-						public void onFailure(Throwable caught) {
-						}
-						@Override
-						public void onSuccess(Void result) {
-							zone2Text.setText("");
-						}
-					});
+					System.out.println("[Client] : degré caféine : "+Core.userEnCours.getCompteurChat());
+					if (Core.userEnCours.getCompteurChat() > 0){
+						SalleService.Util.getInstance().envoiMessageFromClient(Core.userEnCours.getIdSalleEnCours(),
+								zone2Text.getText(), Core.userEnCours.getLogin(), new AsyncCallback<Void>(){
+							@Override
+							public void onFailure(Throwable caught) {
+							}
+							@Override
+							public void onSuccess(Void result) {
+								zone2Text.setText("");
+								Core.userEnCours.unMsgEnvoye();
+							}
+						});
+					}else Window.alert("Votre dose de caféine est trop basse pour pouvoir parler !");
 				}
 			}
 		});
@@ -94,7 +98,7 @@ public class ChatBoxPanel extends AbsolutePanel{
 
 		// MESSAGE D'ACCUEIL + LANCEMENT METHODE REFRESH
 		historique[99] = "Message automatique : <font color=\"#FF0000\"><em>Bienvenue "+Core.userEnCours.getLogin()+" ! N'oubliez pas de vous installer, ainsi que" +
-				"de prendre une place afin de pouvoir communiquer ! </em></font>";
+		"de prendre une place afin de pouvoir communiquer ! </em></font>";
 		if (!erreurRecup) refresh();
 	}
 

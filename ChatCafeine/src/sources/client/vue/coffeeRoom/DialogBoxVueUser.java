@@ -43,7 +43,7 @@ public class DialogBoxVueUser extends DialogBox{
         super.onPreviewNativeEvent(event);
         switch (event.getTypeInt()) {
             case Event.ONKEYDOWN:
-                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
                     hide();
                 }
                 break;

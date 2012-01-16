@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * @author : Johan
@@ -36,13 +38,13 @@ public class ChoixSallePanel extends AbsolutePanel{
 	private ArrayList<Salle> listeSalles;
 	FlexTable flextable;
 	FlowPanel flowpanel;
-	
+
 	public ChoixSallePanel(CoffeeRoomPanel coffeeRoomPanel){
 		setSize("100%", "100%");
 		VerticalPanel sallesPan = new VerticalPanel();
 		sallesPan.setSize("960px", "555px");
 		sallesPan.add(new HeaderPanels("Choix de la salle"));	
-		
+
 		ScrollPanel scrollPanel = new ScrollPanel();
 		scrollPanel.setSize("100%", "505px");
 		scrollPanel.setStyleName("choixSallePan");
@@ -52,13 +54,13 @@ public class ChoixSallePanel extends AbsolutePanel{
 		flextable.setCellSpacing(50);
 		scrollPanel.add(flextable);
 		sallesPan.add(scrollPanel);
-		
+
 		DecoratorPanel dec2Panel = new DecoratorPanel();
 		dec2Panel.setWidget(sallesPan);
 		add(dec2Panel, 10, 10);	
-		
+
 		listeSalles = new ArrayList<Salle>();
-		
+
 		// RECUPERER LES INSTANCES DES SALLES
 		SalleService.Util.getInstance().getToutesSalles(new AsyncCallback<ArrayList<Salle>>() {
 			@Override
@@ -72,11 +74,11 @@ public class ChoixSallePanel extends AbsolutePanel{
 				System.out.println("nok");
 			}
 		});
-		
+
 		creerPanelRechercheSalle();
 		creerPanelRechercheLogin();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -139,15 +141,15 @@ public class ChoixSallePanel extends AbsolutePanel{
 			if (i == 4) { j++; i = 0;}
 		}
 	}
-	
+
 	public class CarreChoixSalle extends Button{
 		public Salle salle;
-		
+
 		public CarreChoixSalle(String nomSalle, Salle s){
 			super("<h2>"+nomSalle+"</h2><br>Thème : "+s.getTheme()+"<br>Nb places max : "+s.getNbrPlaceMax());
 			this.salle = s;
 			setSize("150px", "160px");
-				setStyleName("boutonChoixSalle");
+			setStyleName("boutonChoixSalle");
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event){
@@ -155,21 +157,29 @@ public class ChoixSallePanel extends AbsolutePanel{
 					// Vérifier si banni
 					SalleService.Util.getInstance().isBanned(a.getIdSalle(),
 							Core.userEnCours.getIdInt(), new AsyncCallback<Date>() {
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-								}
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+						}
 
-								@Override
-								public void onSuccess(Date result) {
-									System.out.println("[Client] : Banni de la salle? "+salle.getIdSalle()+" - "
-											+Core.userEnCours.getIdInt()+" - "+ result);
-									if (result == null )CoffeeRoomPanel.getInstance().creerEcranInSalle(salle);
-									else com.google.gwt.user.client.Window.alert("Vous êtes banni" +
+						@Override
+						public void onSuccess(Date result) {
+							System.out.println("[Client] : Banni de la salle? "+salle.getIdSalle()+" - "
+									+Core.userEnCours.getIdInt()+" - "+ result);
+							if (result == null )
+								CoffeeRoomPanel.getInstance().creerEcranInSalle(salle);
+							/*else{
+								DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+								Date date1 = format.format(new Date());
+								if (result < date1)
+									CoffeeRoomPanel.getInstance().creerEcranInSalle(salle);
+								else
+									com.google.gwt.user.client.Window.alert("Vous êtes banni" +
 											"de cette salle ! Date de fin : "+result);
-								}
-							});
-					
+							}*/
+						}
+					});
+
 				}
 			});
 		}

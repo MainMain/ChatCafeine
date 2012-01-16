@@ -4,6 +4,7 @@ package sources.client.vue.coffeeRoom;
 
 import sources.client.model.Salle;
 import sources.client.vue.Core;
+import sources.client.vue.outils.HeaderPanels;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.*;
@@ -58,12 +59,12 @@ public class CoffeeRoomPanel extends AbsolutePanel{
 		// Nom & thème salle
 		DecoratorPanel dec2Panel = new DecoratorPanel();
 		VerticalPanel infosBox = new VerticalPanel();
-		infosBox.setStyleName("infosBox");
+		infosBox.setStyleName("tabApplication");
 		infosBox.setSize("360px", "50px");
 		infosBox.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		infosBox.add(new HTML("<b><font size=\"4\" color=\"yellow\">"+salleEnCours.getNom()+"</font><br></b>"));
-		infosBox.add(new HTML("<b><font size=\"2\" color=\"yellow\">Thème : "+salleEnCours.getTheme()+"</font><br></b>"));
-		infosBox.add(new HTML("<b><font color=\"yellow\"><em>Description : "+salleEnCours.getDescription()+"</em></font></b>"));
+		infosBox.add(new HTML("<b><font size=\"4\" color=\"white\">"+salleEnCours.getNom()+"</font><br></b>"));
+		infosBox.add(new HTML("<b><font size=\"2\" color=\"white\">Thème : "+salleEnCours.getTheme()+"</font><br></b>"));
+		infosBox.add(new HTML("<b><font color=\"white\"><em>Description : "+salleEnCours.getDescription()+"</em></font></b>"));
 		
 		dec2Panel.setWidget(infosBox);
 		add(dec2Panel, 900+10+10+10, 10);

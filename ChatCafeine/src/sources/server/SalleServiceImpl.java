@@ -316,7 +316,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 
 	@Override
 	public Date isBanned(int idSalle, int idUser) {
-		ConBDD connexion=new ConBDD();
+		/*ConBDD connexion=new ConBDD();
 		String requete="SELECT DateFin FROM Bannir WHERE ID_user LIKE '"+idUser+"' " +
 		"AND ID_salle LIKE '"+idSalle+"'";
 		ResultSet resultat = connexion.getData(requete);
@@ -332,7 +332,7 @@ public class SalleServiceImpl extends RemoteServiceServlet implements SalleServi
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		return null;
 	}
 

@@ -136,7 +136,7 @@ public class VueSalle extends AbsolutePanel {
 						}
 						// SI CAFE PRIS PAR UN MEMBRE
 						if (pc.isCafePris()){
-							
+
 						}
 					}
 				}
@@ -180,9 +180,10 @@ public class VueSalle extends AbsolutePanel {
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
+					System.out.println("Clic sur une place ! 1");
 					if (!occupee){
 						//System.out.println(occupee);
-
+						System.out.println("Clic sur une place ! 2");
 						x_last = Core.userEnCours.getPos_x();							// On sauvegarde les anciennes positions...
 						y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
 						Core.userEnCours.setPos_x(x_case);								// On lui attribut celles....
@@ -197,6 +198,7 @@ public class VueSalle extends AbsolutePanel {
 										}
 										@Override
 										public void onSuccess(Void result) {
+											System.out.println("Clic sur une place ! 3");
 										}
 									});
 						}
@@ -209,7 +211,8 @@ public class VueSalle extends AbsolutePanel {
 							}
 							@Override
 							public void onSuccess(Boolean result) {
-								Core.userEnCours.setTypeSiegeInstalle(false);	
+								Core.userEnCours.setTypeSiegeInstalle(false);
+								System.out.println("Clic sur une place ! 4");
 							}
 						});
 						Core.userEnCours.sinstaller();									// User noté comme installé
@@ -288,33 +291,35 @@ public class VueSalle extends AbsolutePanel {
 			addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					Core.userEnCours.quitterLaPlace();
-					int x_last = Core.userEnCours.getPos_x();							// On sauvegarde les anciennes positions...
-					int y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
-					Core.userEnCours.setPos_x(-1);
-					Core.userEnCours.setPox_y(-1);
-					Core.userEnCours.prendreCafe();
-					ChatBoxPanel.desactiverBoutonEnvoi();
-					SalleService.Util.getInstance().envoiMessageFromClient(
-							Core.userEnCours.getIdSalleEnCours(),
-							Core.userEnCours.getLogin()+" va prendre un café", 
-							"Message automatique", new AsyncCallback<Void>(){
-								@Override
-								public void onFailure(Throwable caught) {
-								}
-								@Override
-								public void onSuccess(Void result) {
-								}
-							});
-					SalleService.Util.getInstance().prendre1Cafe(Core.userEnCours.getIdSalleEnCours(),
-							x_last, y_last, Core.userEnCours.getLogin(), new AsyncCallback<Boolean>() {
-						@Override
-						public void onFailure(Throwable caught) {
-						}
-						@Override
-						public void onSuccess(Boolean result) {
-						}
-					});
+					if (Core.userEnCours.getCompteurChat() < 5){
+						Core.userEnCours.quitterLaPlace();
+						int x_last = Core.userEnCours.getPos_x();							// On sauvegarde les anciennes positions...
+						int y_last = Core.userEnCours.getPox_y();							/// ... De l'utilisateur
+						Core.userEnCours.setPos_x(-1);
+						Core.userEnCours.setPox_y(-1);
+						Core.userEnCours.prendreCafe();
+						ChatBoxPanel.desactiverBoutonEnvoi();
+						SalleService.Util.getInstance().envoiMessageFromClient(
+								Core.userEnCours.getIdSalleEnCours(),
+								Core.userEnCours.getLogin()+" va prendre un café", 
+								"Message automatique", new AsyncCallback<Void>(){
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+									@Override
+									public void onSuccess(Void result) {
+									}
+								});
+						SalleService.Util.getInstance().prendre1Cafe(Core.userEnCours.getIdSalleEnCours(),
+								x_last, y_last, Core.userEnCours.getLogin(), new AsyncCallback<Boolean>() {
+							@Override
+							public void onFailure(Throwable caught) {
+							}
+							@Override
+							public void onSuccess(Boolean result) {
+							}
+						});
+					}else Window.alert("Votre dose en caféine est encore trop élevée !");
 				}
 			});
 		}
