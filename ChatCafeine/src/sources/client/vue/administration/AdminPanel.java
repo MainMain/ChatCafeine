@@ -29,6 +29,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.ActionCell.Delegate;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CompositeCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
@@ -50,7 +51,6 @@ public class AdminPanel extends AbsolutePanel{
 	private SimplePanel listSallePan = new SimplePanel();
 	private SimplePanel addSallePan = new SimplePanel();
 	private List<String> options = new ArrayList<String>();
-	private List<String> changeDroit = new ArrayList<String>();
 	private Column<User, String>  droitColumn;
 
 	public AdminPanel(){
@@ -201,7 +201,7 @@ public class AdminPanel extends AbsolutePanel{
 
 		CompositeCell<Salle> principaleColumn = new CompositeCell<Salle>(cells);
 		Cell<Number> numberColumn = new NumberCell();
-		
+
 		table.addColumn(new TextColumn<Salle>() {
 
 			@Override
@@ -209,7 +209,7 @@ public class AdminPanel extends AbsolutePanel{
 				return object.getNom();
 			}
 		}, "Nom");
-		
+
 		// Create theme column.
 		table.addColumn(new TextColumn<Salle>() {
 
@@ -218,8 +218,8 @@ public class AdminPanel extends AbsolutePanel{
 				return object.getTheme();
 			}
 		}, "Theme");
-		
-		
+
+
 
 
 		// Create nb place max column.
@@ -371,74 +371,47 @@ public class AdminPanel extends AbsolutePanel{
 			}
 		},"nb Bannis");
 
+		options = new ArrayList<String>();
 		options.add("utilisateur");
 		options.add("moderateur");
 		options.add("administrateur");
-		
+
 		// Create droit column.
 		SelectionCell dColumn = new SelectionCell(options);
 		droitColumn = new Column<User, String>(dColumn) {
-			
+
 			@Override
 			public String getValue(User object) {
 				return object.getDroit();
-				
+
 			}
-			
+
+
+
 		};
-		
+
 		table.addColumn(droitColumn, "Droit");
-		
-		
-		// Create modifier column.
-		List<HasCell<User, ?>> cellsModif2Admin = new LinkedList<HasCell<User, ?>>();
-		cellsModif2Admin.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
+		droitColumn.setFieldUpdater(new FieldUpdater<User, String>() {
+			public void update(int index, User employee, String value) {
+				employee.setDroit(value);
+			}
+		});
 
-			// Passe l'utilisateur en administrateur
+		// Create update column.
+		List<HasCell<User, ?>> cellsModifUser = new LinkedList<HasCell<User, ?>>();
+		cellsModifUser.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
+
+			// Passe l'utilisateur en utilisateur
 			@Override
 			public void execute(User object) {
-				AdminService.Util.getInstance().majUser(object.getLogin(),"administrateur", new AsyncCallback<Boolean>(){
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Erreur : "+ caught.getMessage());
-					}
-					@Override
-					public void onSuccess(Boolean result) {
-						if (result==null)
-							Window.alert("Erreur lors de la suppression du compte !");
-						else{
-							Window.alert("Les droits de l'utilisateur ont ete modifies");
-							stackPanel.remove(presentationPan);
-							stackPanel.remove(listUserPan);
-							stackPanel.remove(listSallePan);
-							stackPanel.remove(addSallePan);
-							configPanel();
-						}
+				droitColumn.setFieldUpdater(new FieldUpdater<User, String>() {
+					public void update(int index, User employee, String value) {
+						employee.setDroit(value);
 					}
 				});
-			
-			}
-		}));
-		
-		CompositeCell<User> mColumn = new CompositeCell<User>(cellsModif2Admin);
-		Column<User, User>  modifColumn = new Column<User, User>(mColumn){
 
-			@Override
-			public User getValue(User object) {
-				return object;
-			}
-			
-		};
-		table.addColumn(modifColumn,"Passer en administrateur");
-		
-		// Create modifier column2.
-		List<HasCell<User, ?>> cellsModif2User = new LinkedList<HasCell<User, ?>>();
-		cellsModif2User.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
 
-			// Passe l'utilisateur en administrateur
-			@Override
-			public void execute(User object) {
-				AdminService.Util.getInstance().majUser(object.getLogin(),"utilisateur", new AsyncCallback<Boolean>(){
+				AdminService.Util.getInstance().majUser(object.getLogin(),object.getDroit(), new AsyncCallback<Boolean>(){
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Erreur : "+ caught.getMessage());
@@ -459,60 +432,18 @@ public class AdminPanel extends AbsolutePanel{
 				});
 			}
 		}));
-		
-		CompositeCell<User> mColumn2 = new CompositeCell<User>(cellsModif2User);
+
+		CompositeCell<User> mColumn2 = new CompositeCell<User>(cellsModifUser);
 		Column<User, User>  modifColumn2 = new Column<User, User>(mColumn2){
 
 			@Override
 			public User getValue(User object) {
 				return object;
 			}
-			
-		};
-		table.addColumn(modifColumn2,"Passer en utilisateur");
-		
-		
-		// Create modifier column3.
-		List<HasCell<User, ?>> cellsModif2Modo = new LinkedList<HasCell<User, ?>>();
-		cellsModif2Modo.add(new HasCellImpl("Mettre a jour", new Delegate<User>() {
 
-			// Passe l'utilisateur en administrateur
-			@Override
-			public void execute(User object) {
-				AdminService.Util.getInstance().majUser(object.getLogin(),"moderateur", new AsyncCallback<Boolean>(){
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Erreur : "+ caught.getMessage());
-					}
-					@Override
-					public void onSuccess(Boolean result) {
-						if (result==null)
-							Window.alert("Erreur lors de la suppression du compte !");
-						else{
-							Window.alert("Les droits de l'utilisateur ont ete modifies");
-							stackPanel.remove(presentationPan);
-							stackPanel.remove(listUserPan);
-							stackPanel.remove(listSallePan);
-							stackPanel.remove(addSallePan);
-							configPanel();
-						}
-					}
-				});
-			}
-		}));
-		
-		CompositeCell<User> mColumn3 = new CompositeCell<User>(cellsModif2Modo);
-		Column<User, User>  modifColumn3 = new Column<User, User>(mColumn3){
-
-			@Override
-			public User getValue(User object) {
-				return object;
-			}
-			
 		};
-		table.addColumn(modifColumn3,"Passer en moderateur");
-		
-		
+		table.addColumn(modifColumn2,"Modifier les droits d'acces");
+
 		// En format data aux cas ou on modifie :
 		/*DateCell dateLastColumn = new DateCell();
 Column<User, Date> dateColumn = new Column<User, Date>(dateLastColumn) {
